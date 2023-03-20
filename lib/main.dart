@@ -12,6 +12,7 @@ import 'package:room_finder_flutter/provider/chatProvider.dart';
 import 'package:room_finder_flutter/provider/home_provider.dart';
 import 'package:room_finder_flutter/provider/setting_provider.dart';
 import 'package:room_finder_flutter/screens/RFEmailSignInScreen.dart';
+import 'package:room_finder_flutter/screens/RFHomeScreen.dart';
 import 'package:room_finder_flutter/store/AppStore.dart';
 import 'package:room_finder_flutter/utils/AppTheme.dart';
 import 'package:room_finder_flutter/utils/RFConstant.dart';
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
         theme: AppThemeData.lightTheme,
         darkTheme: AppThemeData.darkTheme,
         themeMode: appStore.isDarkModeOn ? ThemeMode.dark : ThemeMode.light,
-        home: RFEmailSignInScreen(),
+        home: RFHomeScreen(),
       ),
     );
   }
