@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:room_finder_flutter/fragment/RFAccountFragment.dart';
 import 'package:room_finder_flutter/fragment/RFHomeFragment.dart';
-import 'package:room_finder_flutter/fragment/RFSearchFragment.dart';
 import 'package:room_finder_flutter/fragment/RFSettingsFragment.dart';
-
-import 'package:room_finder_flutter/screens/home_page.dart';
+import 'package:room_finder_flutter/fragment/inbox_fragment.dart';
 import 'package:room_finder_flutter/utils/RFColors.dart';
 import 'package:room_finder_flutter/utils/RFImages.dart';
 import 'package:room_finder_flutter/utils/RFWidget.dart';
+
+import '../fragment/discovery/map_fragment.dart';
 
 class RFHomeScreen extends StatefulWidget {
   @override
@@ -20,10 +20,10 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
 
   var _pages = [
     RFHomeFragment(),
-    RFSearchFragment(),
+    MapFragment(),
     RFSettingsFragment(),
     RFAccountFragment(),
-    HomePage(),
+    InboxFragment(),
   ];
 
   Widget _bottomTab() {
@@ -43,7 +43,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
         ),
         BottomNavigationBarItem(
           icon: rf_search.iconImage(),
-          label: 'Search',
+          label: 'Discovery',
           activeIcon: rf_search.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
@@ -58,7 +58,7 @@ class _RFHomeScreenState extends State<RFHomeScreen> {
           activeIcon: rf_person.iconImage(iconColor: rf_primaryColor),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat),
+          icon: Icon(Icons.message),
           label: 'Inbox',
           activeIcon: Icon(Icons.message),
         ),

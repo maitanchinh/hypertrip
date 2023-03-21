@@ -269,14 +269,6 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'travel',
-          style: TextStyle(color: ColorConstants.primaryColor),
-        ),
-        centerTitle: true,
-        actions: <Widget>[buildPopupMenu()],
-      ),
       body: SafeArea(
         child: WillPopScope(
           child: Stack(

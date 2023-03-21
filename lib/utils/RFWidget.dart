@@ -272,7 +272,7 @@ Widget placeHolderWidget(
     BoxFit? fit,
     AlignmentGeometry? alignment,
     double? radius}) {
-  return Image.asset('images/app/placeholder.jpg',
+  return Image.asset('images/roomFinding/placeholder.png',
           height: height,
           width: width,
           fit: fit ?? BoxFit.cover,
