@@ -1,4 +1,4 @@
-# room_finder_flutter
+# hypertrip
 
 A new Flutter project.
 
