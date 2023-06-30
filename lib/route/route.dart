@@ -2,11 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:hypertrip/features/public/page.dart' as Public;
+import 'package:hypertrip/features/root/view.dart';
 
 PageRoute? generateRoute(RouteSettings settings) {
   print(settings.arguments);
 
   switch (settings.name) {
+    /// Root
+    case RootPage.routeName:
+      return MaterialPageRoute(builder: (_) => const RootPage());
+
     /// Authentication
     // case LoginByEmailPage.routeName:
     //   return MaterialPageRoute(builder: (_) => const LoginByEmailPage());

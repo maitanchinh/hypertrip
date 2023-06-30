@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hypertrip/features/public/current_tour/view.dart';
+import 'package:hypertrip/features/root/view.dart';
 import 'package:hypertrip/route/route.dart';
 import 'package:hypertrip/theme/theme.dart';
 import 'package:hypertrip/utils/get_it.dart';
@@ -27,6 +28,6 @@ class App extends StatelessWidget {
         onGenerateRoute: generateRoute,
         title: "Hyper Trip",
         // routes: routes,
-        initialRoute: CurrentTourPage.routeName);
+        initialRoute: RootPage.routeName);
   }
 }

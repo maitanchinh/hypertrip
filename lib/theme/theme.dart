@@ -63,4 +63,7 @@ ThemeData themeData(BuildContext context) => ThemeData(
   cardTheme: CardTheme(
     shape: defaultCardShape,
   ),
+  /// ripple effect
+  splashColor: Colors.transparent,
+  highlightColor: Colors.transparent,
 );

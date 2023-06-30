@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubit.dart';
 
 class EmergencyPage extends StatelessWidget {
+  const EmergencyPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
