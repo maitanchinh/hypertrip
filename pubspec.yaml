@@ -25,7 +25,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
   nb_utils: ^5.0.8
   dio: ^5.2.1+1
   cached_network_image: ^3.2.3
@@ -44,15 +44,20 @@ dependencies:
   timeline_tile: ^2.0.0
   collection: ^1.17.0
   readmore: ^2.2.0
+  flutter_native_splash: ^2.2.19
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.2
   build_runner: ^2.3.3
   freezed: ^2.3.5
   json_serializable: ^6.6.2
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/logo.png
 
 flutter:
 
