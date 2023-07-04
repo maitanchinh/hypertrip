@@ -64,7 +64,6 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                             ),
                             icon: const Icon(Icons.airplanemode_active),
                             onPressed: () {
-                              print('pushed');
                               Navigator.pushNamed(
                                   context, TourDetailPage.routeName,
                                   arguments: {
@@ -77,7 +76,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                             ),
                           ),
                         ),
-                        Gap.gap8(),
+                        Gap.k8.height,
                         SizedBox(
                           width: 130,
                           child: ElevatedButton(

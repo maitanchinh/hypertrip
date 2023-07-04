@@ -17,7 +17,6 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
   void getCurrentTour() async {
     try {
       var group = await _groupRepo.getCurrentGroup();
-      print(group);
       if (group == null) {
         emit(LoadCurrentTourNotFoundState());
         return;
@@ -28,7 +27,7 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
 
       emit(LoadCurrentTourSuccessState(
           group: group, members: members, schedule: schedule));
-    } on Exception catch (e) {
+    } on Exception catch (_) {
       emit(LoadCurrentTourFailedState(message: msg_server_error));
     }
   }

@@ -23,7 +23,7 @@ class UserRepo {
         throw Exception(msg_login_token_invalid);
       }
 
-      await setValue(AppConstant.tokenKey, token);
+      await setValue(AppConstant.TOKEN_KEY, token);
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         throw Exception(msg_login_failed);
@@ -40,7 +40,7 @@ class UserRepo {
       profile = UserProfile.fromJson(res.data);
 
       return profile!;
-    } on DioException catch (e) {
+    } on DioException catch (_) {
       throw Exception(msg_server_error);
     }
   }

@@ -2,16 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:hypertrip/utils/constant.dart';
 
 final apiClient = Dio()
-  ..options.baseUrl = AppConstant.apiUrl
+  ..options.baseUrl = AppConstant.API_URL
   ..options.headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   }
   ..interceptors.addAll([
-    // LogInterceptor(
-    //   responseBody: true,
-    //   requestBody: true,
-    // ),
+    LogInterceptor(
+      responseBody: true,
+      // requestBody: true,
+    ),
     InterceptorsWrapper(
       // onError: (error, handler) {
       //   print(error);
@@ -35,7 +35,7 @@ final apiClient = Dio()
   ]);
 
 final publishApiClient = Dio()
-  ..options.baseUrl = AppConstant.publishApiUrl
+  ..options.baseUrl = AppConstant.PUBLIC_API_URL
   ..options.headers = {
     'Accept': 'application/json',
     // 'Authorization': 'fsq37qFTKrGLWiBZDd6Eexr+8xiKOhen6VB/vTmq42RlKSs=',

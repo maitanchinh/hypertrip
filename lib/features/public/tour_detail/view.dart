@@ -86,13 +86,13 @@ class TourDetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildHeader(state, context),
-                      Gap.sectionGap(),
+                      Gap.kSection.height,
                       const PText(label_description),
-                      Gap.gap8(),
+                      Gap.k8.height,
                       _buildDescription(state),
-                      Gap.sectionGap(),
+                      Gap.kSection.height,
                       _buildCarousel(state),
-                      Gap.sectionGap(),
+                      Gap.kSection.height,
                       Schedule(state: state)
                     ],
                   ),

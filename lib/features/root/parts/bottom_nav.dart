@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:hypertrip/theme/color.dart';
+part of '../view.dart';
 
 class BottomNav extends StatefulWidget {
   final void Function(int) onChange;
@@ -21,7 +20,7 @@ class _BottomNavState extends State<BottomNav> {
       currentIndex = index;
       widget.onChange(index);
     });
-  }
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +34,6 @@ class _BottomNavState extends State<BottomNav> {
         unselectedItemColor: AppColors.textGreyColor  ,
         selectedFontSize: 12,
         unselectedFontSize: 12,
-        // selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        // unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         elevation: 30,
         onTap: onTap,
         currentIndex: currentIndex,
@@ -47,6 +44,8 @@ class _BottomNavState extends State<BottomNav> {
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat"),
           BottomNavigationBarItem(
               icon: Icon(Icons.emergency), label: "Emergency"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.supervised_user_circle_sharp), label: "Account"),
         ],
       ),
     );

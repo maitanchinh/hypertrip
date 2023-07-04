@@ -8,6 +8,7 @@ import 'package:hypertrip/features/public/page.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';
+import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/card/card_section.dart';
 import 'package:hypertrip/widgets/image/image.dart';
@@ -21,8 +22,12 @@ import 'package:timeline_tile/timeline_tile.dart';
 import 'cubit.dart';
 
 part 'parts/custom_sliver_app_bar_delegate.dart';
+
 part 'parts/partner.dart';
+
 part 'parts/schedule.dart';
+
+part 'parts/app_bar.dart';
 
 class CurrentTourPage extends StatelessWidget {
   static const routeName = '/current-tour';
@@ -74,6 +79,7 @@ class CurrentTourPage extends StatelessWidget {
           var state = cubit.state as LoadCurrentTourSuccessState;
 
           return Scaffold(
+            appBar: _buildAppBar(),
             backgroundColor: AppColors.bgLightColor,
             body: RefreshIndicator(
               onRefresh: () async {

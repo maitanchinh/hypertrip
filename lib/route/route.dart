@@ -1,20 +1,26 @@
 // ignore_for_file: library_prefixes
 
 import 'package:flutter/material.dart';
+import 'package:hypertrip/features/loading/view.dart';
+import 'package:hypertrip/features/login_by_email/view.dart';
+import 'package:hypertrip/features/login_by_phone/view.dart';
 import 'package:hypertrip/features/public/page.dart' as Public;
 import 'package:hypertrip/features/root/view.dart';
 
 PageRoute? generateRoute(RouteSettings settings) {
-  print(settings.arguments);
-
   switch (settings.name) {
     /// Root
     case RootPage.routeName:
       return MaterialPageRoute(builder: (_) => const RootPage());
+    case LoadingPage.routeName:
+      return MaterialPageRoute(builder: (_) => const LoadingPage());
 
     /// Authentication
-    // case LoginByEmailPage.routeName:
-    //   return MaterialPageRoute(builder: (_) => const LoginByEmailPage());
+    case LoginByEmailPage.routeName:
+      return MaterialPageRoute(builder: (_) => const LoginByEmailPage());
+    case LoginByPhonePage.routeName:
+      return MaterialPageRoute(builder: (_) => const LoginByPhonePage());
+
     // case LoginByPhonePage.routeName:
     //   // test animation page transition
     //   return PageTransition(
