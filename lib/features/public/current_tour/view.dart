@@ -46,15 +46,10 @@ class CurrentTourPage extends StatelessWidget {
     final cubit = BlocProvider.of<CurrentTourCubit>(context);
 
     return Scaffold(
+      appBar: _buildAppBar(),
+      backgroundColor: AppColors.bgLightColor,
       body: BlocConsumer<CurrentTourCubit, CurrentTourState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (cubit.state is LoadingCurrentTourState) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
+        listener: (context, state) {
           if (cubit.state is LoadCurrentTourFailedState) {
             var errorMsg = (cubit.state as LoadCurrentTourFailedState).message;
             showCupertinoModalPopup(
@@ -64,7 +59,16 @@ class CurrentTourPage extends StatelessWidget {
                 content: errorMsg,
               ),
             );
+          }
+        },
+        builder: (context, state) {
+          if (cubit.state is LoadingCurrentTourState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
+          if (cubit.state is LoadCurrentTourFailedState) {
             return Center(
               child: commonCachedNetworkImage(Resource.imagesTourNotFound),
             );
@@ -78,36 +82,32 @@ class CurrentTourPage extends StatelessWidget {
 
           var state = cubit.state as LoadCurrentTourSuccessState;
 
-          return Scaffold(
-            appBar: _buildAppBar(),
-            backgroundColor: AppColors.bgLightColor,
-            body: RefreshIndicator(
-              onRefresh: () async {
-                cubit.refresh();
-              },
-              child: CustomScrollView(
-                slivers: [
-                  SliverPersistentHeader(
-                    delegate: CustomSliverAppBarDelegate(
-                      state: state,
-                      expandedHeight: 200,
-                    ),
-                    pinned: true,
+          return  RefreshIndicator(
+            onRefresh: () async {
+              cubit.refresh();
+            },
+            child: CustomScrollView(
+              slivers: [
+                SliverPersistentHeader(
+                  delegate: CustomSliverAppBarDelegate(
+                    state: state,
+                    expandedHeight: 200,
                   ),
-                  SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 50),
-                        Partner(state: state),
-                        const SizedBox(height: 16),
-                      ],
-                    ),
+                  pinned: true,
+                ),
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 50),
+                      Partner(state: state),
+                      const SizedBox(height: 16),
+                    ],
                   ),
-                  SliverToBoxAdapter(
-                    child: TrackingSchedule(state: state),
-                  )
-                ],
-              ),
+                ),
+                SliverToBoxAdapter(
+                  child: TrackingSchedule(state: state),
+                )
+              ],
             ),
           );
         },

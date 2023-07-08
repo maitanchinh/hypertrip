@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'cubit.dart';
+import 'state.dart';
 
-class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
-
+class ActivityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ChatCubit(),
+      create: (BuildContext context) => ActivityCubit(),
       child: Builder(builder: (context) => _buildPage(context)),
     );
   }
 
   Widget _buildPage(BuildContext context) {
-    final cubit = BlocProvider.of<ChatCubit>(context);
+    final cubit = BlocProvider.of<ActivityCubit>(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text('ChatPage')),
-    );
+    return Container();
   }
 }
+
+

@@ -11,7 +11,7 @@ final getIt = GetIt.instance;
 void initialGetIt() {
   /// base
   getIt.registerLazySingleton<Dio>(() => apiClient);
-  getIt.registerLazySingleton<Dio>(() => publishApiClient,
+  getIt.registerLazySingleton<Dio>(() => fourSquareApiClient,
       instanceName: 'publishApiClient');
   getIt.registerLazySingleton(() => Logger());
 

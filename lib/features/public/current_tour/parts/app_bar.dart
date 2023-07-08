@@ -18,7 +18,7 @@ AppBar _buildAppBar() {
     actions: [
       IconButton(
         onPressed: () {},
-        icon: const Icon(Icons.notifications),
+        icon: const Icon(Icons.notifications, color: Colors.white),
       ),
     ],
   );

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hypertrip/utils/constant.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 final apiClient = Dio()
   ..options.baseUrl = AppConstant.API_URL
@@ -18,9 +19,7 @@ final apiClient = Dio()
       //   return handler.next(error);
       // },
       onRequest: (request, handler) async {
-        // var token = getStringAsync(AppConstant.tokenKey);
-        var token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxNzUxYTljLWZjZDktNGZjYy05M2VkLTdhNDM0OWEzNGJjNyIsInJvbGUiOiJUb3VyR3VpZGUiLCJuYmYiOjE2ODY1MTE5MDAsImV4cCI6MTcxODA0NzkwMCwiaWF0IjoxNjg2NTExOTAwLCJpc3MiOiJUcmF2ZWxlckJFIiwiYXVkIjoiVHJhdmVsZXJCRSJ9.4HRZrtuelOJoziocu6MpDHYpobMXuFSZWYK0LF5W0DU";
+        var token = getStringAsync(AppConstant.TOKEN_KEY);
         if (token.isNotEmpty) {
           request.headers['Authorization'] = token;
         }
@@ -34,12 +33,12 @@ final apiClient = Dio()
     ),
   ]);
 
-final publishApiClient = Dio()
+final fourSquareApiClient = Dio()
   ..options.baseUrl = AppConstant.PUBLIC_API_URL
   ..options.headers = {
     'Accept': 'application/json',
     // 'Authorization': 'fsq37qFTKrGLWiBZDd6Eexr+8xiKOhen6VB/vTmq42RlKSs=',
-    'Authorization': 'fsq3qh6o+HDC6TCgGVeWucT3bZp1579crXXfJLM77vyTKQQ=',
+    'Authorization': AppConstant.FOUR_SQUARE_TOKEN,
     'Host': 'api.foursquare.com'
   }
   ..interceptors.addAll([
