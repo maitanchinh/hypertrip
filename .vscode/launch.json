@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "hypertrip",
+            "request": "attach",
+            "type": "dart",
+            "args": [
+                "--app-id=com.panee.hypertrip",
+            ]
+        },
+    ]
+}
