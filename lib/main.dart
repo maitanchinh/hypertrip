@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/features/login_by_email/view.dart';
 import 'package:hypertrip/features/root/view.dart';
 import 'package:hypertrip/route/route.dart';
 import 'package:hypertrip/theme/theme.dart';
+import 'package:hypertrip/utils/bloc_provider.dart';
+import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/get_it.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -28,13 +32,16 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return MaterialApp(
-      theme: themeData(context),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: generateRoute,
-      title: "Hyper Trip",
-      initialRoute: initialRoute,
+    return MultiBlocProvider(
+      providers: multiBlocProvider(),
+      child: MaterialApp(
+        builder: EasyLoading.init(),
+        theme: themeData(context),
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: generateRoute,
+        title: AppConstant.APP_NAME,
+        initialRoute: initialRoute,
+      ),
     );
   }
 }

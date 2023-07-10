@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
@@ -21,13 +20,10 @@ import 'package:timeline_tile/timeline_tile.dart';
 
 import 'cubit.dart';
 
-part 'parts/custom_sliver_app_bar_delegate.dart';
-
-part 'parts/partner.dart';
-
-part 'parts/schedule.dart';
-
 part 'parts/app_bar.dart';
+part 'parts/custom_sliver_app_bar_delegate.dart';
+part 'parts/partner.dart';
+part 'parts/schedule.dart';
 
 class CurrentTourPage extends StatelessWidget {
   static const routeName = '/current-tour';
@@ -52,13 +48,7 @@ class CurrentTourPage extends StatelessWidget {
         listener: (context, state) {
           if (cubit.state is LoadCurrentTourFailedState) {
             var errorMsg = (cubit.state as LoadCurrentTourFailedState).message;
-            showCupertinoModalPopup(
-              context: context,
-              builder: (context) => PErrorPopup(
-                title: msg_error,
-                content: errorMsg,
-              ),
-            );
+            showErrorPopup(context, content: errorMsg);
           }
         },
         builder: (context, state) {
@@ -82,7 +72,7 @@ class CurrentTourPage extends StatelessWidget {
 
           var state = cubit.state as LoadCurrentTourSuccessState;
 
-          return  RefreshIndicator(
+          return RefreshIndicator(
             onRefresh: () async {
               cubit.refresh();
             },

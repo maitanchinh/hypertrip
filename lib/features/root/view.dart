@@ -4,6 +4,7 @@ import 'package:hypertrip/features/public/chat/view.dart';
 import 'package:hypertrip/features/public/current_tour/view.dart';
 import 'package:hypertrip/features/public/emergency/view.dart';
 import 'package:hypertrip/features/public/nearby/view.dart';
+import 'package:hypertrip/features/tour_guide/activity/view.dart';
 import 'package:hypertrip/theme/color.dart';
 
 part 'parts/bottom_nav.dart';
@@ -24,7 +25,7 @@ class _RootPageState extends State<RootPage> {
     const CurrentTourPage(),
     const NearbyPage(),
     const ChatPage(),
-    const EmergencyPage(),
+    const ActivityPage(),
     const AccountPage(),
   ];
 

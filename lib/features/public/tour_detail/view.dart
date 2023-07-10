@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/features/public/tour_detail/state.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
-import 'package:hypertrip/theme/textStyle.dart';
+import 'package:hypertrip/theme/text_style.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/card/card_section.dart';
 import 'package:hypertrip/widgets/image/image.dart';
@@ -43,7 +42,12 @@ class TourDetailPage extends StatelessWidget {
 
     return Scaffold(
       body: BlocConsumer<TourDetailCubit, TourDetailState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (cubit.state is LoadTourDetailFailedState) {
+            var errorMsg = (cubit.state as LoadTourDetailFailedState).message;
+            showErrorPopup(context, content: errorMsg);
+          }
+        },
         builder: (context, state) {
           /// loading
           if (cubit.state is LoadingTourDetailState) {
@@ -54,15 +58,6 @@ class TourDetailPage extends StatelessWidget {
 
           /// failed
           if (cubit.state is LoadTourDetailFailedState) {
-            var errorMsg = (cubit.state as LoadTourDetailFailedState).message;
-            showCupertinoModalPopup(
-              context: context,
-              builder: (context) => PErrorPopup(
-                title: msg_error,
-                content: errorMsg,
-              ),
-            );
-
             return Center(
               child: commonCachedNetworkImage(Resource.imagesTourNotFound),
             );

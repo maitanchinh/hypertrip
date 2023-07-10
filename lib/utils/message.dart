@@ -7,6 +7,8 @@ const String label_description = 'Overview';
 const String label_carousel = 'Gallery';
 const String label_read_more = ' read more';
 const String label_read_less = ' read less';
+const String label_activity = 'Activity';
+const String label_search = 'Search';
 
 /// alert
 const String msg_error = 'Error';
@@ -23,3 +25,6 @@ const String msg_server_error = 'Server error';
 const String msg_login_token_invalid = 'Token is invalid';
 const String msg_login_bad_request = 'Login by Phone or Email';
 const String msg_login_failed = 'Login failed';
+
+/// exception
+const String msg_tour_group_not_found = 'Tour group not found';

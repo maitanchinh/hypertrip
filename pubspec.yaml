@@ -45,6 +45,8 @@ dependencies:
   readmore: ^2.2.0
   flutter_native_splash: ^2.2.19
   intl: ^0.18.1
+  flutter_easyloading: ^3.0.5
+  tuple: ^2.0.2
 
 dev_dependencies:
   flutter_test:

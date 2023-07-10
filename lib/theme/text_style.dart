@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+// text font size
+const double kTextSize = 16.0;
+const double kTextSizeSmall = 14.0;
+
 TextStyle moreTextStyle({
   int? size,
   Color? color,

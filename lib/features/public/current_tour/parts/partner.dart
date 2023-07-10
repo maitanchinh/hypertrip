@@ -18,9 +18,8 @@ class Partner extends StatelessWidget {
               crossAxisCount: 2,
               physics: const ClampingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              children: state.members!
-                  .map((member) => _buildMember(member))
-                  .toList()),
+              children:
+                  state.members.map((member) => _buildMember(member)).toList()),
         ),
       ),
     );

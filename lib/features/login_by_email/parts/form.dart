@@ -8,14 +8,14 @@ class Form extends StatefulWidget {
 }
 
 class _FormState extends State<Form> {
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
+  final TextEditingController _emailController =
+      TextEditingController(text: "guide@gmail.com");
+  final TextEditingController _passwordController =
+      TextEditingController(text: "123123");
 
   @override
   void initState() {
     super.initState();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
   }
 
   void _login() {
@@ -31,13 +31,7 @@ class _FormState extends State<Form> {
     }
 
     if (alertTitle != null) {
-      showCupertinoModalPopup(
-        context: context,
-        builder: (context) => PErrorPopup(
-          title: alertTitle!,
-          content: alertContent!,
-        ),
-      );
+      showErrorPopup(context, title: alertTitle, content: alertContent!);
       return;
     }
     cubit.loginByEmail(
@@ -94,12 +88,5 @@ class _FormState extends State<Form> {
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
   }
 }

@@ -43,7 +43,7 @@ class _BottomNavState extends State<BottomNav> {
           BottomNavigationBarItem(icon: Icon(Icons.near_me), label: "Nearby"),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.emergency), label: "Emergency"),
+              icon: Icon(Icons.emergency), label: "Activity"),
           BottomNavigationBarItem(
               icon: Icon(Icons.supervised_user_circle_sharp), label: "Account"),
         ],

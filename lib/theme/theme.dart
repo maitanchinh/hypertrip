@@ -22,48 +22,47 @@ final RoundedRectangleBorder defaultCardShape = RoundedRectangleBorder(
 
 /// Theme
 ThemeData themeData(BuildContext context) => ThemeData(
-  fontFamily: "Nunito",
-  textTheme: Theme.of(context).textTheme.apply(
-    fontSizeFactor: 1.1,
-    fontSizeDelta: 2.0,
-    bodyColor: AppColors.textGreyColor,
-    displayColor: AppColors.textGreyColor,
-  ),
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-    primary: AppColors.primaryColor,
-    secondary: AppColors.textGreyColor,
-  ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      padding: defaultButtonPadding,
-      minimumSize: defaultButtonSize,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(defaultButtonBorderRadius),
+      fontFamily: "Nunito",
+      textTheme: Theme.of(context).textTheme.apply(
+            bodyColor: AppColors.textGreyColor,
+            displayColor: AppColors.textGreyColor,
+          ),
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        primary: AppColors.primaryColor,
+        secondary: AppColors.textGreyColor,
       ),
-    ),
-  ),
-  outlinedButtonTheme: OutlinedButtonThemeData(
-    style: OutlinedButton.styleFrom(
-      padding: defaultButtonPadding,
-      minimumSize: defaultButtonSize,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(defaultButtonBorderRadius),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          padding: defaultButtonPadding,
+          minimumSize: defaultButtonSize,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(defaultButtonBorderRadius),
+          ),
+        ),
       ),
-    ),
-  ),
-  textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(
-      padding: defaultButtonPadding,
-      minimumSize: defaultButtonSize,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(defaultButtonBorderRadius),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          padding: defaultButtonPadding,
+          minimumSize: defaultButtonSize,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(defaultButtonBorderRadius),
+          ),
+        ),
       ),
-    ),
-  ),
-  cardTheme: CardTheme(
-    shape: defaultCardShape,
-  ),
-  /// ripple effect
-  splashColor: Colors.transparent,
-  highlightColor: Colors.transparent,
-);
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          padding: defaultButtonPadding,
+          minimumSize: defaultButtonSize,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(defaultButtonBorderRadius),
+          ),
+        ),
+      ),
+      cardTheme: CardTheme(
+        shape: defaultCardShape,
+      ),
+
+      /// ripple effect
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+    );

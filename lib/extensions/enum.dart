@@ -1,4 +1,4 @@
 extension EnumString on Enum {
   bool compareEnumAndString(String value) =>
-      toString().toLowerCase() == value.toLowerCase();
+      name.toLowerCase() == value.toLowerCase();
 }
