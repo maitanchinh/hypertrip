@@ -57,9 +57,21 @@ dev_dependencies:
   freezed: ^2.3.5
   json_serializable: ^6.6.2
 
+  # Assets generation
+  assets_gen: 1.5.0
+
 flutter_native_splash:
   color: "#ffffff"
   image: assets/images/logo.png
+
+assets_gen:
+  output: utils/app_assets.dart
+  class_name: AppAssets
+  enable: true
+  gen_package_path: false
+  ignore_resolution: false
+  omit_path_levels: 2
+  exclude:
 
 flutter:
 

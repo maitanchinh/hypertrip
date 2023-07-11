@@ -11,11 +11,9 @@ class UserRepo {
 
   UserRepo();
 
-  Future<void> login(
-      {required String username, required String password}) async {
+  Future<void> login({required String username, required String password}) async {
     try {
-      var res = await apiClient
-          .post('/auth', data: {'username': username, 'password': password});
+      var res = await apiClient.post('/auth', data: {'username': username, 'password': password});
 
       var token = res.data['token'] as String?;
 
@@ -41,6 +39,26 @@ class UserRepo {
 
       return profile!;
     } on DioException catch (_) {
+      throw Exception(msg_server_error);
+    }
+  }
+
+  Future<int> getTravelInfo(String id) async {
+    try {
+      final response = await apiClient.get('/users/$id/travel-info');
+      return response.data['tourCount'];
+    } catch (ex) {
+      return 0;
+    }
+  }
+
+  Future<dynamic> updatePassword(String newPass) async {
+    try {
+      final data = {'password': newPass};
+      var res = await apiClient.put('/users/self/password', data: data);
+
+      return res;
+    } on DioException catch (e) {
       throw Exception(msg_server_error);
     }
   }

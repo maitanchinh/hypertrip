@@ -9,6 +9,8 @@ class UserProfile {
   String? role;
   String? status;
   String? avatarUrl;
+  String firstContactNumber;
+  String secondContactNumber;
 
   UserProfile({
     this.id,
@@ -21,6 +23,8 @@ class UserProfile {
     this.role,
     this.status,
     this.avatarUrl,
+    this.firstContactNumber = '',
+    this.secondContactNumber = '',
   });
 
   UserProfile copyWith({
@@ -34,6 +38,8 @@ class UserProfile {
     String? role,
     String? status,
     String? avatarUrl,
+    String? firstContactNumber,
+    String? secondContactNumber,
   }) =>
       UserProfile(
         id: id ?? this.id,
@@ -46,6 +52,8 @@ class UserProfile {
         role: role ?? this.role,
         status: status ?? this.status,
         avatarUrl: avatarUrl ?? this.avatarUrl,
+        firstContactNumber: firstContactNumber ?? this.firstContactNumber,
+        secondContactNumber: secondContactNumber ?? this.secondContactNumber,
       );
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
@@ -59,6 +67,8 @@ class UserProfile {
         role: json["role"],
         status: json["status"],
         avatarUrl: json["avatarUrl"],
+        firstContactNumber: json["firstContactNumber"],
+        secondContactNumber: json["secondContactNumber"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,5 +82,10 @@ class UserProfile {
         "role": role,
         "status": status,
         "avatarUrl": avatarUrl,
+        "firstContactNumber": firstContactNumber,
+        "secondContactNumber": secondContactNumber,
       };
+
+  String get displayName =>
+      firstName != null && firstName!.isEmpty ? lastName ?? '' : firstName ?? lastName ?? '';
 }
