@@ -25,7 +25,7 @@ class NoDataWidget extends StatelessWidget {
         ),
         Text(
           content,
-          style: AppStyle.fontOpenSanBold.copyWith(color: AppColors.iconColor),
+          style: AppStyle.fontOpenSanBold.copyWith(color: AppColors.greyColor),
           textAlign: TextAlign.center,
         ),
       ],

@@ -19,7 +19,7 @@ class Information extends StatelessWidget {
           ),
           TextSpan(
             text: status,
-            style: AppStyle.fontOpenSanRegular.copyWith(fontSize: 16, color: AppColors.iconColor),
+            style: AppStyle.fontOpenSanRegular.copyWith(fontSize: 16, color: AppColors.greyColor),
           ),
         ]));
   }

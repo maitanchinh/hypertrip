@@ -1,6 +1,6 @@
 part of '../view.dart';
 
-AppBar _buildAppBar() {
+AppBar _buildAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: AppColors.primaryColor,
     title: Row(
@@ -17,7 +17,9 @@ AppBar _buildAppBar() {
     ),
     actions: [
       IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(NotificationScreen.routeName);
+        },
         icon: const Icon(Icons.notifications, color: Colors.white),
       ),
     ],

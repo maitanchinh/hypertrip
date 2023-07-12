@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hypertrip/domain/models/user/user_profile.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
+import 'package:hypertrip/features/login_by_email/view.dart';
 import 'package:hypertrip/features/public/account/parts/avatar.dart';
 import 'package:hypertrip/features/public/account/parts/information.dart';
 import 'package:hypertrip/features/public/account/parts/privacy_bottomsheet.dart';
 import 'package:hypertrip/features/public/account/parts/setting_item.dart';
 import 'package:hypertrip/features/public/account/profile_bloc.dart';
+import 'package:hypertrip/features/public/edit_profile/edit_profile_screen.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/message.dart';
+import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/app_widget.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -26,7 +30,7 @@ class AccountPage extends StatelessWidget {
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {},
         child: Scaffold(
-          // title: profileTitle,
+          appBar: const MainAppBar(title: profileTitle,implyLeading: false),
           body: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               print("state ${state.contacts.length}");
@@ -50,7 +54,7 @@ class AccountPage extends StatelessWidget {
                       child: Text(
                         state.userProfile.role ?? '',
                         style: AppStyle.fontOpenSanRegular
-                            .copyWith(fontSize: 16, color: AppColors.iconColor),
+                            .copyWith(fontSize: 16, color: AppColors.greyColor),
                       ),
                     ),
                     30.height,
@@ -66,7 +70,7 @@ class AccountPage extends StatelessWidget {
                     30.height,
                     SettingItem(
                       icon: AppAssets.icons_ic_setting_svg,
-                      iconColor: AppColors.primaryColor.withOpacity(0.2),
+                      greyColor: AppColors.primaryColor.withOpacity(0.2),
                       content: privacy,
                       callBack: () {
                         showModalBottomSheet(
@@ -82,21 +86,21 @@ class AccountPage extends StatelessWidget {
                     ),
                     SettingItem(
                       icon: AppAssets.icons_ic_user_svg,
-                      iconColor: AppColors.yellow_2Color.withOpacity(0.2),
+                      greyColor: AppColors.yellow_2Color.withOpacity(0.2),
                       content: editProfile,
                       callBack: () {
-                        // Navigator.of(context)
-                        //     .pushNamed(Routers.EDIT_PROFILE, arguments: state.userProfile)
-                        //     .then((value) {
-                        //   context.read<ProfileBloc>().add(UpdateProfile(value as UserProfile));
-                        // });
+                        Navigator.of(context)
+                            .pushNamed(EditProfileScreen.routeName, arguments: state.userProfile)
+                            .then((value) {
+                          context.read<ProfileBloc>().add(UpdateProfile(value as UserProfile));
+                        });
                       },
                     ),
                     60.height,
                     GestureDetector(
                       onTap: () {
-                        // Navigator.of(context).pushNamedAndRemoveUntil(
-                        //     Routers.LOGIN_BY_EMAIL, (route) => false); // remove all previous routes
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            LoginByEmailPage.routeName, (route) => false); // remove all previous routes
                       },
                       child: Container(
                         height: 40,

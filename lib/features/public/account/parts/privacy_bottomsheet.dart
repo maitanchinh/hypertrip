@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/domain/validations/login_validator.dart';
 import 'package:hypertrip/features/public/account/profile_bloc.dart';
 import 'package:hypertrip/theme/color.dart';
@@ -31,7 +33,7 @@ class _PrivacyBottomSheetState extends State<PrivacyBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: BlocProvider.of<ProfileBloc>(context)..add(const FetchProfile()),
+      value: ProfileBloc(GetIt.I.get<UserRepo>())..add(const FetchProfile()),
       child: BlocConsumer<ProfileBloc, ProfileState>(listener: (context, state) {
         if (state.pageCommand != null) {
           if (!state.setAutoValidateFormPass) {
@@ -82,7 +84,7 @@ class _PrivacyBottomSheetState extends State<PrivacyBottomSheet> {
                               Text(
                                 changePassword,
                                 style: AppStyle.fontOpenSanSemiBold.copyWith(
-                                  color: AppColors.iconColor,
+                                  color: AppColors.greyColor,
                                   fontSize: 16,
                                 ),
                               ),
@@ -119,13 +121,13 @@ class _PrivacyBottomSheetState extends State<PrivacyBottomSheet> {
                                   decoration: InputDecoration(
                                     labelText: currentPassword,
                                     labelStyle: AppStyle.fontOpenSanLight
-                                        .copyWith(color: AppColors.iconColor, fontSize: 16),
+                                        .copyWith(color: AppColors.greyColor, fontSize: 16),
                                     hintText: '********',
                                     focusedBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(color: AppColors.iconColor),
+                                      borderSide: BorderSide(color: AppColors.greyColor),
                                     ),
                                     enabledBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(color: AppColors.iconColor),
+                                      borderSide: BorderSide(color: AppColors.greyColor),
                                     ),
                                   ),
                                 ),
@@ -138,13 +140,13 @@ class _PrivacyBottomSheetState extends State<PrivacyBottomSheet> {
                                   decoration: InputDecoration(
                                     labelText: newPassword,
                                     labelStyle: AppStyle.fontOpenSanLight
-                                        .copyWith(color: AppColors.iconColor, fontSize: 16),
+                                        .copyWith(color: AppColors.greyColor, fontSize: 16),
                                     hintText: '********',
                                     focusedBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(color: AppColors.iconColor),
+                                      borderSide: BorderSide(color: AppColors.greyColor),
                                     ),
                                     enabledBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(color: AppColors.iconColor),
+                                      borderSide: BorderSide(color: AppColors.greyColor),
                                     ),
                                   ),
                                 ),
@@ -157,13 +159,13 @@ class _PrivacyBottomSheetState extends State<PrivacyBottomSheet> {
                                   decoration: InputDecoration(
                                     labelText: confirmPassword,
                                     labelStyle: AppStyle.fontOpenSanLight
-                                        .copyWith(color: AppColors.iconColor, fontSize: 16),
+                                        .copyWith(color: AppColors.greyColor, fontSize: 16),
                                     hintText: '********',
                                     focusedBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(color: AppColors.iconColor),
+                                      borderSide: BorderSide(color: AppColors.greyColor),
                                     ),
                                     enabledBorder: const UnderlineInputBorder(
-                                      borderSide: BorderSide(color: AppColors.iconColor),
+                                      borderSide: BorderSide(color: AppColors.greyColor),
                                     ),
                                   ),
                                 ),

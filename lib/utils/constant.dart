@@ -3,6 +3,9 @@
 class AppConstant {
   /// Keys
   static const String TOKEN_KEY = 'token';
+  static const String keyFcmToken = 'fcm_token';
+  static const String keyUnReadChat = 'unread_chat';
+  static const String keyCountNotify = 'count_notify';
 
   /// Values
   static const String APP_NAME = 'Hyper Trip';

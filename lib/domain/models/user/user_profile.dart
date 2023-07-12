@@ -1,3 +1,5 @@
+import 'package:chatview/chatview.dart';
+
 class UserProfile {
   String? id;
   String? phone;
@@ -11,6 +13,7 @@ class UserProfile {
   String? avatarUrl;
   String firstContactNumber;
   String secondContactNumber;
+  String? address;
 
   UserProfile({
     this.id,
@@ -25,6 +28,7 @@ class UserProfile {
     this.avatarUrl,
     this.firstContactNumber = '',
     this.secondContactNumber = '',
+    this.address,
   });
 
   UserProfile copyWith({
@@ -40,6 +44,7 @@ class UserProfile {
     String? avatarUrl,
     String? firstContactNumber,
     String? secondContactNumber,
+    String? address,
   }) =>
       UserProfile(
         id: id ?? this.id,
@@ -54,6 +59,7 @@ class UserProfile {
         avatarUrl: avatarUrl ?? this.avatarUrl,
         firstContactNumber: firstContactNumber ?? this.firstContactNumber,
         secondContactNumber: secondContactNumber ?? this.secondContactNumber,
+        address: address ?? this.address,
       );
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
@@ -67,8 +73,9 @@ class UserProfile {
         role: json["role"],
         status: json["status"],
         avatarUrl: json["avatarUrl"],
-        firstContactNumber: json["firstContactNumber"],
-        secondContactNumber: json["secondContactNumber"],
+        firstContactNumber: json["firstContactNumber"] ?? '',
+        secondContactNumber: json["secondContactNumber"] ?? '',
+        address: json["address"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -84,7 +91,15 @@ class UserProfile {
         "avatarUrl": avatarUrl,
         "firstContactNumber": firstContactNumber,
         "secondContactNumber": secondContactNumber,
+        "address": address,
       };
+
+  ChatUser toMember() {
+    return ChatUser(
+        id: id ?? '',
+        name: displayName,
+        profilePhoto: avatarUrl);
+  }
 
   String get displayName =>
       firstName != null && firstName!.isEmpty ? lastName ?? '' : firstName ?? lastName ?? '';

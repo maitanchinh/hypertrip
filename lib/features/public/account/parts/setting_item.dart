@@ -7,7 +7,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 class SettingItem extends StatelessWidget {
   final String icon;
-  final Color? iconColor;
+  final Color? greyColor;
   final String content;
   final VoidCallback? callBack;
 
@@ -15,7 +15,7 @@ class SettingItem extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.content,
-    this.iconColor,
+    this.greyColor,
     this.callBack,
   }) : super(key: key);
 
@@ -33,7 +33,7 @@ class SettingItem extends StatelessWidget {
                 Container(
                   width: 40,
                   height: 40,
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: iconColor),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: greyColor),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SvgPicture.asset(icon, fit: BoxFit.fitHeight),

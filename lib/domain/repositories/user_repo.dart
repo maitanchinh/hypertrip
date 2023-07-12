@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:hypertrip/domain/models/user/user_profile.dart';
 import 'package:hypertrip/utils/constant.dart';
@@ -60,6 +62,41 @@ class UserRepo {
       return res;
     } on DioException catch (e) {
       throw Exception(msg_server_error);
+    }
+  }
+
+  Future<UserProfile?> updateInfo(
+      String firstName, String lastName, String gender, String address, String urlAvatar) async {
+    try {
+      final formData = {
+        "bankName": "",
+        "bankNumber": "",
+        "firstName": firstName,
+        "lastName": lastName,
+        "gender": gender,
+        "address": address,
+        "avatarId": urlAvatar
+      };
+
+      var res = await apiClient.patch('/users/self/profile', data: formData);
+      profile = UserProfile.fromJson(res.data);
+      return profile;
+    } on DioException catch (e) {
+      return null;
+    }
+  }
+
+  Future<dynamic> attachmentsFile(File? pathAvatar) async {
+    try {
+      if (pathAvatar == null) return null;
+
+      FormData formData = FormData();
+      formData.files.add(MapEntry('file', await MultipartFile.fromFile(pathAvatar.path)));
+
+      var res = await apiClient.post('/attachments', data: formData);
+      return res.data;
+    } on DioException catch (e) {
+      return null;
     }
   }
 }

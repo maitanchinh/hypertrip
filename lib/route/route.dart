@@ -1,10 +1,18 @@
 // ignore_for_file: library_prefixes
 
 import 'package:flutter/material.dart';
+import 'package:hypertrip/domain/models/group/assign_group_response.dart';
+import 'package:hypertrip/domain/models/incidents/weather_forecast_day.dart';
+import 'package:hypertrip/domain/models/incidents/weather_response.dart';
+import 'package:hypertrip/domain/models/user/user_profile.dart';
 import 'package:hypertrip/features/loading/view.dart';
 import 'package:hypertrip/features/login_by_email/view.dart';
 import 'package:hypertrip/features/login_by_phone/view.dart';
+import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
+import 'package:hypertrip/features/public/edit_profile/edit_profile_screen.dart';
+import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
 import 'package:hypertrip/features/public/page.dart' as Public;
+import 'package:hypertrip/features/public/weather_detail/weather_detail_page.dart';
 import 'package:hypertrip/features/root/view.dart';
 
 PageRoute? generateRoute(RouteSettings settings) {
@@ -20,6 +28,17 @@ PageRoute? generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const LoginByEmailPage());
     case LoginByPhonePage.routeName:
       return MaterialPageRoute(builder: (_) => const LoginByPhonePage());
+    case WeatherDetailPage.routeName:
+      var arguments = settings.arguments;
+      List<WeatherForecastDay> forecastDay = (arguments as WeatherResponse).forecast.forecastDay;
+      String title = arguments.location.name;
+      return MaterialPageRoute(builder: (_) => WeatherDetailPage(forecastDay: forecastDay, title: title));
+    case EditProfileScreen.routeName:
+      return MaterialPageRoute(builder: (_) => EditProfileScreen(settings.arguments as UserProfile));
+    case NotificationScreen.routeName:
+      return MaterialPageRoute(builder: (_) => const NotificationScreen());
+    case ChatDetailPage.routeName:
+      return MaterialPageRoute(builder: (_) => ChatDetailPage(assignGroupResponse: settings.arguments as AssignGroupResponse));
 
     // case LoginByPhonePage.routeName:
     //   // test animation page transition

@@ -48,6 +48,27 @@ dependencies:
   flutter_easyloading: ^3.0.5
   tuple: ^2.0.2
 
+  # Image Picker
+  image_picker: ^0.8.6
+
+  flutter_local_notifications: ^14.1.1
+
+  flutter_html: ^3.0.0-beta.2
+
+  google_maps_flutter: ^2.2.4
+
+  # Firebase
+  firebase_messaging: ^14.6.4
+  firebase_core: ^2.14.0
+  cloud_firestore: ^4.8.2
+  firebase_auth: ^4.6.3
+
+
+  chatview:
+    git:
+      url: https://github.com/DokhaiTrinh/flutter_chatview.git
+
+  sliding_up_panel2: ^3.2.0+2
 dev_dependencies:
   flutter_test:
     sdk: flutter

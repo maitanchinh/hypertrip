@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/features/public/current_tour/state.dart';
+import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
 import 'package:hypertrip/features/public/page.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
@@ -42,7 +43,7 @@ class CurrentTourPage extends StatelessWidget {
     final cubit = BlocProvider.of<CurrentTourCubit>(context);
 
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       backgroundColor: AppColors.bgLightColor,
       body: BlocConsumer<CurrentTourCubit, CurrentTourState>(
         listener: (context, state) {

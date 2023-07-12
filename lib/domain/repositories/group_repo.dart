@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:hypertrip/domain/models/group/assign_group_response.dart';
 import 'package:hypertrip/domain/models/group/group.dart';
 import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/utils/get_it.dart';
@@ -47,6 +48,30 @@ class GroupRepo {
       //   ...rs
       // ];
     } on DioException catch (_) {
+      return [];
+    }
+  }
+
+  Future<AssignGroupResponse> getAllCurrentGroups(String id) async {
+    try {
+      final response = await apiClient.get('/travelers/${id}/current-group');
+      return response.data != null
+          ? AssignGroupResponse.fromJson(response.data)
+          : AssignGroupResponse();
+    } catch (ex) {
+      return AssignGroupResponse();
+    }
+  }
+
+  Future<List<AssignGroupResponse>> getAllJoinedGroups(String id) async {
+    try {
+      final response = await apiClient.get('/travelers/${id}/joined-group');
+      return response.data != null
+          ? (response.data as List<dynamic>)
+          .map((assignGroupResponse) => AssignGroupResponse.fromJson(assignGroupResponse))
+          .toList()
+          : [];
+    } catch (ex) {
       return [];
     }
   }
