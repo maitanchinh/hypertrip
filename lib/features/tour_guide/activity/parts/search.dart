@@ -8,9 +8,7 @@ final List<Tuple2<ActivityType, IconData>> activitiesTypeData = [
 ];
 
 class Search extends StatefulWidget {
-  final double fontSize;
-
-  const Search({super.key, this.fontSize = kTextSizeSmall});
+  const Search({super.key});
 
   @override
   State<Search> createState() => _SearchState();
@@ -40,7 +38,7 @@ class _SearchState extends State<Search> {
       builder: (context, state) {
         return SafeSpace(
           child: Container(
-            height: 40,
+            height: ActivityConfig.searchInputHeight,
             padding: const EdgeInsets.only(left: 16),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -54,13 +52,16 @@ class _SearchState extends State<Search> {
                   padding: const EdgeInsets.only(right: 4),
                   child: Icon(
                     Icons.search,
-                    size: widget.fontSize,
+                    size: Theme.of(context).textTheme.titleMedium!.fontSize,
                   ),
                 ),
                 //* Search input
                 Expanded(
                   child: TextField(
-                    style: TextStyle(fontSize: widget.fontSize),
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium!.fontSize,
+                    ),
                     decoration: const InputDecoration(
                       isDense: true,
                       hintText: "Search",
@@ -92,34 +93,12 @@ class _SearchState extends State<Search> {
                           color: Colors.white,
                         ),
                       ),
-                    ).onTap(
-                      () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return SafeArea(
-                              child: Wrap(
-                                children: [
-                                  ...activitiesTypeData.map(
-                                    (e) => ListTile(
-                                      title: Text(e.item1.label),
-                                      enabled: true,
-                                      leading: Icon(e.item2),
-                                      selected: e.item1.name == currentType,
-                                      onTap: () => {
-                                        cubit.setFilter(
-                                            filterType: e.item1.name),
-                                        Navigator.of(context).pop(),
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    );
+                    ).onTap(() {
+                      showSheetModal(
+                        context: context,
+                        builder: (context) => const FilterTypeModal(),
+                      );
+                    });
                   },
                 ),
               ],

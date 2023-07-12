@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,19 +18,20 @@ import 'package:hypertrip/features/tour_guide/activity/cubit.dart';
 import 'package:hypertrip/features/tour_guide/activity/state.dart';
 import 'package:hypertrip/r.dart';
 import 'package:hypertrip/theme/color.dart';
-import 'package:hypertrip/theme/text_style.dart';
 import 'package:hypertrip/utils/message.dart';
+import 'package:hypertrip/widgets/modals/show_sheet_modal.dart';
 import 'package:hypertrip/widgets/popup/p_error_popup.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:tuple/tuple.dart';
 
-part 'parts/attendance_form.dart';
+part 'parts/config.dart';
 part 'parts/create_new.dart';
 part 'parts/day_picker.dart';
 part 'parts/list_activity.dart';
+part 'parts/modals/filter_type_modal.dart';
+part 'parts/modals/select_type_to_create_activity_modal.dart';
 part 'parts/search.dart';
 
 class ActivityPage extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class AppColors {
   static const Color primaryColor = Color(0xFF4BB5D9);
@@ -15,6 +15,7 @@ class AppColors {
   static const Color lightGreenColor = Color(0xFFD6F5E4);
   static const Color redColor = Color(0xFFFCAB88);
 
-  static const Color bgLightColor = Color(0xFFF1F2F6);
+  // static const Color bgLightColor = Color(0xFFF1F2F6);
+  static const Color bgLightColor = CupertinoColors.systemGroupedBackground;
   static const Color boxShadowColor = Color(0xFFE8E8E8);
 }

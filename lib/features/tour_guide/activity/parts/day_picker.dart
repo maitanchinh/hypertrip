@@ -56,9 +56,9 @@ class _DayPickerState extends State<DayPicker> {
                 tabs: [
                   for (var i = 0; i < cubit.state.totalDays; i++)
                     Container(
+                      height: ActivityConfig.dayPickerBtnHeight,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16,
-                        vertical: 8,
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
@@ -66,7 +66,7 @@ class _DayPickerState extends State<DayPicker> {
                             ? AppColors.primaryColor
                             : AppColors.primaryColor.withOpacity(0.5),
                       ),
-                      child: Text("Day ${i + 1}"),
+                      child: Center(child: Text("Day ${i + 1}")),
                     ),
                 ],
               ),
