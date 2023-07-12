@@ -7,15 +7,36 @@ final List<Tuple2<ActivityType, IconData>> activitiesTypeData = [
   const Tuple2(ActivityType.Custom, Icons.check_circle_outline),
 ];
 
-class Search extends StatelessWidget {
+class Search extends StatefulWidget {
   final double fontSize;
 
   const Search({super.key, this.fontSize = kTextSizeSmall});
 
   @override
+  State<Search> createState() => _SearchState();
+}
+
+class _SearchState extends State<Search> {
+  Timer? _debounce;
+
+  _onSearchChanged(String text) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      context.read<ActivityCubit>().setFilter(filterText: text);
+    });
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<ActivityCubit, ActivityState>(
       listener: (context, state) {},
+      buildWhen: (previous, current) => current is ActivityFilterChangedState,
       builder: (context, state) {
         return SafeSpace(
           child: Container(
@@ -33,18 +54,19 @@ class Search extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4),
                   child: Icon(
                     Icons.search,
-                    size: fontSize,
+                    size: widget.fontSize,
                   ),
                 ),
                 //* Search input
                 Expanded(
                   child: TextField(
-                    style: TextStyle(fontSize: fontSize),
+                    style: TextStyle(fontSize: widget.fontSize),
                     decoration: const InputDecoration(
                       isDense: true,
                       hintText: "Search",
                       border: InputBorder.none,
                     ),
+                    onChanged: _onSearchChanged,
                   ),
                 ),
                 //* Type filter
@@ -80,12 +102,13 @@ class Search extends StatelessWidget {
                                 children: [
                                   ...activitiesTypeData.map(
                                     (e) => ListTile(
-                                      title: Text(e.item1.name),
+                                      title: Text(e.item1.label),
                                       enabled: true,
                                       leading: Icon(e.item2),
                                       selected: e.item1.name == currentType,
                                       onTap: () => {
-                                        cubit.changeActivityType(e.item1.name),
+                                        cubit.setFilter(
+                                            filterType: e.item1.name),
                                         Navigator.of(context).pop(),
                                       },
                                     ),

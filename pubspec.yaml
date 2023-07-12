@@ -47,6 +47,8 @@ dependencies:
   intl: ^0.18.1
   flutter_easyloading: ^3.0.5
   tuple: ^2.0.2
+  flutter_slidable: ^3.0.0
+  modal_bottom_sheet: ^3.0.0-pre
 
 dev_dependencies:
   flutter_test:
@@ -64,10 +66,10 @@ flutter_native_splash:
 flutter:
 
   uses-material-design: true
+
   assets:
     - assets/images/icons/
     - assets/images/
-    - assets/
 
   fonts:
     - family: Nunito
@@ -104,4 +106,3 @@ flutter:
           weight: 500
         - asset: fonts/Roboto-Bold.ttf
           weight: 700
-

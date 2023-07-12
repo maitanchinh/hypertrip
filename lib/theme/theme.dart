@@ -24,8 +24,8 @@ final RoundedRectangleBorder defaultCardShape = RoundedRectangleBorder(
 ThemeData themeData(BuildContext context) => ThemeData(
       fontFamily: "Nunito",
       textTheme: Theme.of(context).textTheme.apply(
-            bodyColor: AppColors.textGreyColor,
-            displayColor: AppColors.textGreyColor,
+            bodyColor: AppColors.textColor,
+            displayColor: AppColors.textColor,
           ),
       colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: AppColors.primaryColor,

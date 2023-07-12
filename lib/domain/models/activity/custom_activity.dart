@@ -1,47 +1,46 @@
-class AttendanceActivity {
+class CustomActivity {
   String? id;
   String? tourGroupId;
   String? title;
   int? dayNo;
-  DateTime? createdAt;
   String? note;
+  DateTime? createdAt;
 
-  AttendanceActivity({
+  CustomActivity({
     this.id,
     this.tourGroupId,
     this.title,
     this.dayNo,
-    this.createdAt,
     this.note,
+    this.createdAt,
   });
 
-  AttendanceActivity copyWith({
+  CustomActivity copyWith({
     String? id,
     String? tourGroupId,
     String? title,
     int? dayNo,
-    DateTime? createdAt,
     String? note,
+    DateTime? createdAt,
   }) =>
-      AttendanceActivity(
+      CustomActivity(
         id: id ?? this.id,
         tourGroupId: tourGroupId ?? this.tourGroupId,
         title: title ?? this.title,
         dayNo: dayNo ?? this.dayNo,
-        createdAt: createdAt ?? this.createdAt,
         note: note ?? this.note,
+        createdAt: createdAt ?? this.createdAt,
       );
 
-  factory AttendanceActivity.fromJson(Map<String, dynamic> json) =>
-      AttendanceActivity(
+  factory CustomActivity.fromJson(Map<String, dynamic> json) => CustomActivity(
         id: json["id"],
         tourGroupId: json["tourGroupId"],
         title: json["title"],
         dayNo: json["dayNo"],
+        note: json["note"],
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
-        note: json["note"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,7 +48,7 @@ class AttendanceActivity {
         "tourGroupId": tourGroupId,
         "title": title,
         "dayNo": dayNo,
-        "createdAt": createdAt?.toIso8601String(),
         "note": note,
+        "createdAt": createdAt?.toIso8601String(),
       };
 }
