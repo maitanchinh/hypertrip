@@ -64,6 +64,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             appBar: AppBar(
               elevation: 0,
               automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              iconTheme: const IconThemeData(color: Colors.black),
               flexibleSpace: SafeArea(
                 child: Container(
                   padding: const EdgeInsets.only(right: 16),
