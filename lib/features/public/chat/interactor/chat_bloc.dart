@@ -36,7 +36,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           result.add(await _travelerRepository.getAllCurrentGroups(event.userid!));
           result.addAll(await _travelerRepository.getAllJoinedGroups(event.userid!));
         }
-        result.sort((a, b) {
+        result.sort((b, a) {
           if (a.createdAt != null && b.createdAt != null) {
             return a.createdAt!.compareTo(b.createdAt!);
           } else if (a.createdAt == null && b.createdAt == null) {
@@ -60,8 +60,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     try {
       final lstAfterSearch = event.key.isNotEmpty
           ? _originList.where((assignGroupResponse) {
-              if (assignGroupResponse.groupName.toLowerCase().contains(event.key.toLowerCase()))
+              if (assignGroupResponse.groupName.toLowerCase().contains(event.key.toLowerCase())) {
                 return true;
+              }
 
               if ((assignGroupResponse.trip?.code!
                       .toLowerCase()

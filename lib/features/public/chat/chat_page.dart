@@ -8,6 +8,7 @@ import 'package:hypertrip/domain/repositories/group_repo.dart';
 import 'package:hypertrip/domain/repositories/tour_repo.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/features/public/chat/interactor/chat_bloc.dart';
+import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/base_page.dart';
 import 'package:hypertrip/utils/message.dart';

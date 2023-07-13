@@ -40,7 +40,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isAccepting = widget.assignGroupResponse.trip?.status == 'Accepting';
+    bool isAccepting = widget.assignGroupResponse.trip?.status == 'Ongoing';
 
     return BlocProvider(
       create: (BuildContext context) => ChatDetailBloc(

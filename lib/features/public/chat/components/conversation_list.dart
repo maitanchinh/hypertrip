@@ -7,9 +7,9 @@ class ConversationList extends StatelessWidget {
   const ConversationList({super.key, required this.data, required this.userID});
   @override
   Widget build(BuildContext context) {
-    bool isAccepting = data.trip?.status == 'Accepting';
+    bool isAccepting = data.trip?.status == 'Ongoing';
     return GestureDetector(
-      // onTap: () => Navigator.pushNamed(context, ChatDetailPage.routeName, arguments: data),
+      onTap: () => Navigator.pushNamed(context, ChatDetailPage.routeName, arguments: data),
       child: BlocBuilder<ChatBloc, ChatState>(
         bloc: context.read<ChatBloc>()..add(FetchLastedMessage(data.id)),
         builder: (context, state) {
@@ -18,10 +18,10 @@ class ConversationList extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.only(left: 8, right: 0, top: 10, bottom: 10),
               child: Row(
-                children: <Widget>[
+                children: [
                   Expanded(
                     child: Row(
-                      children: <Widget>[
+                      children: [
                         CircleAvatar(
                           radius: 28,
                           backgroundColor: Colors.white,
