@@ -33,7 +33,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         if (event.role == 'TourGuide') {
           result = (await _tourGuideRepository.getAllAssignedGroups(event.userid!));
         } else {
-          result.add(await _travelerRepository.getAllCurrentGroups(event.userid!));
           result.addAll(await _travelerRepository.getAllJoinedGroups(event.userid!));
         }
         result.sort((b, a) {

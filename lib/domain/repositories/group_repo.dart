@@ -54,7 +54,7 @@ class GroupRepo {
 
   Future<AssignGroupResponse> getAllCurrentGroups(String id) async {
     try {
-      final response = await apiClient.get('/travelers/${id}/current-group');
+      final response = await apiClient.get('/users/${id}/current-group');
       return response.data != null
           ? AssignGroupResponse.fromJson(response.data)
           : AssignGroupResponse();
@@ -65,7 +65,7 @@ class GroupRepo {
 
   Future<List<AssignGroupResponse>> getAllJoinedGroups(String id) async {
     try {
-      final response = await apiClient.get('/travelers/${id}/joined-group');
+      final response = await apiClient.get('/travelers/${id}/joined-groups');
       return response.data != null
           ? (response.data as List<dynamic>)
           .map((assignGroupResponse) => AssignGroupResponse.fromJson(assignGroupResponse))
