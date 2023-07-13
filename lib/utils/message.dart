@@ -9,6 +9,7 @@ const String label_read_more = ' read more';
 const String label_read_less = ' read less';
 const String label_activity = 'Activity';
 const String label_search = 'Search';
+const String label_create_new_activity = 'New activity';
 
 /// alert
 const String msg_error = 'Error';

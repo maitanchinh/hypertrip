@@ -9,10 +9,10 @@ final apiClient = Dio()
     'Accept': 'application/json',
   }
   ..interceptors.addAll([
-    LogInterceptor(
-      responseBody: true,
-      // requestBody: true,
-    ),
+    // LogInterceptor(
+    //   responseBody: false,
+    //   requestBody: true,
+    // ),
     InterceptorsWrapper(
       // onError: (error, handler) {
       //   print(error);
