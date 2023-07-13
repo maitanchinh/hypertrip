@@ -86,12 +86,12 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
       }
 
       final pathFile = await _userRepo.attachmentsFile(file);
-      if (pathFile.url.isEmpty) {
+      if (pathFile['url'].isEmpty) {
         toast(msg.notSendFile);
         return;
       }
 
-      message = pathFile.url;
+      message = pathFile['url'];
     }
 
     final result = await _firestoreRepository.saveMessage(
