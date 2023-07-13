@@ -20,7 +20,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   List<AssignGroupResponse> _originList = [];
 
   ChatBloc(this._tourGuideRepository, this._travelerRepository, this._firestoreRepository)
-      : super(ChatState(groupChat: [], error: '', status: PageState.loading)) {
+      : super(const ChatState(groupChat: [], error: '', status: PageState.loading)) {
     on<FetchGroupChat>(_fetchGroupChat);
     on<SearchGroupEvent>(_searchGroupEvent);
     on<FetchLastedMessage>(_fetchLastedMessage);

@@ -10,9 +10,10 @@ class ConversationList extends StatelessWidget {
     bool isAccepting = data.trip?.status == 'Ongoing';
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, ChatDetailPage.routeName, arguments: data),
-      child: BlocBuilder<ChatBloc, ChatState>(
-        bloc: context.read<ChatBloc>()..add(FetchLastedMessage(data.id)),
-        builder: (context, state) {
+      child: StreamBuilder<FirestoreMessage>(
+        stream: GetIt.I.get<FirestoreRepository>().fetchLastedMessage(data.id),
+        builder: (context, snapshot) {
+          final lastMsg = snapshot.data;
           return Opacity(
             opacity: isAccepting ? 1 : 0.5,
             child: Container(
@@ -93,9 +94,9 @@ class ConversationList extends StatelessWidget {
                                 const SizedBox(
                                   height: 6,
                                 ),
-                                if (state.message != null)
+                                if (lastMsg != null)
                                   Text(
-                                    state.message!.content,
+                                    lastMsg.content,
                                     style: TextStyle(
                                       fontSize: 13,
                                       color: Colors.grey.shade600,
