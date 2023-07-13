@@ -130,15 +130,15 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
 
   FutureOr<void> _statusMapEvent(StatusMapEvent event, Emitter<ChatDetailState> emit) async {
     bool permissionGeo = false;
-    if (!state.isPermissionGeolocation) {
+    // if (!state.isPermissionGeolocation) {
       permissionGeo = await _foursquareRepository.isPermissionGeolocation();
 
       final position = await _foursquareRepository.getCurrentLocation();
       emit(state.copyWith(
           isOpenMap: !event.isOpenMap, isPermissionGeolocation: permissionGeo, position: position));
-    } else {
-      emit(state.copyWith(isOpenMap: !event.isOpenMap));
-    }
+    // } else {
+    //   emit(state.copyWith(isOpenMap: !event.isOpenMap));
+    // }
   }
 
   FutureOr<void> _requestPermissionLocationEvent(

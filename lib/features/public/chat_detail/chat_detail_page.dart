@@ -51,7 +51,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
         GetIt.I.get<UserRepo>(),
       )
         ..add(GetMembersTourGroup(widget.assignGroupResponse.id, UserRepo.profile?.id ?? ''))
-        ..add(FetchMessageGroupChat(widget.assignGroupResponse.id)),
+        ..add(FetchMessageGroupChat(widget.assignGroupResponse.id))
+        ..add(const RequestPermissionLocationEvent()),
       child: BasePage(
         unFocusWhenTouchOutsideInput: true,
         child: BlocBuilder<ChatDetailBloc, ChatDetailState>(

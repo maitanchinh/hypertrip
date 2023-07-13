@@ -60,7 +60,7 @@ class _ShareMapState extends State<ShareMap> {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                          margin: const EdgeInsets.only(bottom: 10),
+                          margin: const EdgeInsets.only(bottom: 10,right: 56,left: 56),
                           decoration: const BoxDecoration(
                               color: Colors.black,
                               borderRadius: BorderRadius.all(Radius.circular(16))),
