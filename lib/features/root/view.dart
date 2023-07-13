@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hypertrip/features/public/account/view.dart';
 import 'package:hypertrip/features/public/chat/chat_page.dart';
 import 'package:hypertrip/features/public/current_tour/view.dart';
-import 'package:hypertrip/features/public/emergency/view.dart';
 import 'package:hypertrip/features/public/nearby/view.dart';
-import 'package:hypertrip/features/public/warning_incident/warning_incident_page.dart';
 import 'package:hypertrip/features/tour_guide/activity/view.dart';
 import 'package:hypertrip/theme/color.dart';
 
@@ -26,7 +24,7 @@ class _RootPageState extends State<RootPage> {
     const CurrentTourPage(),
     const NearbyPage(),
     const ChatPageScreen(),
-    const WarningIncidentPage(),
+    const ActivityPage(),
     const AccountPage(),
   ];
 

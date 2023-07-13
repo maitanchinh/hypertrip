@@ -6,10 +6,12 @@ import 'package:hypertrip/features/public/warning_incident/components/background
 import 'package:hypertrip/features/public/warning_incident/components/weather_day.dart';
 import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:hypertrip/features/public/weather_detail/weather_detail_page.dart';
+import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/app_widget.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class WarningIncidentPage extends StatefulWidget {
+  static const String routeName = '/warning-incident';
   const WarningIncidentPage({Key? key}) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class _WarningIncidentPageState extends State<WarningIncidentPage> {
       child: BlocBuilder<WarningIncidentBloc, WarningIncidentState>(
         builder: (context, state) {
           return Scaffold(
+            appBar: const MainAppBar(implyLeading: true, title: 'Weather'),
             body: PageView.builder(
               controller: _pageController,
               itemCount: state.dataWeatherTour.length,

@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:nb_utils/nb_utils.dart';
+
 class AppConstant {
   /// Keys
   static const String TOKEN_KEY = 'token';
@@ -18,4 +20,13 @@ class AppConstant {
   /// Token
   static const String FOUR_SQUARE_TOKEN =
       "fsq3qh6o+HDC6TCgGVeWucT3bZp1579crXXfJLM77vyTKQQ=";
+}
+
+
+Stream<int> watchCountNotify() async* {
+  while (true) {
+    final value = getIntAsync(AppConstant.keyCountNotify);
+    yield value;
+    await Future.delayed(const Duration(seconds: 1));
+  }
 }

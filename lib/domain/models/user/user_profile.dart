@@ -102,5 +102,5 @@ class UserProfile {
   }
 
   String get displayName =>
-      firstName != null && firstName!.isEmpty ? lastName ?? '' : firstName ?? lastName ?? '';
+      (firstName != null && firstName!.isNotEmpty) ? '$firstName${(lastName ?? '')}' : lastName ?? '';
 }

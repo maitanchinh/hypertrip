@@ -76,7 +76,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   FutureOr<void> _onSubmitUpdatePass(OnSubmitUpdatePass event, Emitter<ProfileState> emit) async {
-    emit(state.copyWith(setAutoValidateFormPass: true));
+    // emit(state.copyWith(setAutoValidateFormPass: true));
 
     if (state.formPassKey.currentState?.validate() ?? false) {
       await _userRepo.updatePassword(state.newPass);

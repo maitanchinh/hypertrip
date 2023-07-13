@@ -27,9 +27,8 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) =>
-          NotificationBloc(GetIt.I.get<NotificationRepo>(), GetIt.I.get<FirebaseMessagingManager>())
-            ..add(const FetchNotificationList())
-            ..add(const CountNotification()),
+          NotificationBloc(GetIt.I.get<NotificationRepo>())
+            ..add(const FetchNotificationList()),
       child: BlocListener<NotificationBloc, NotificationState>(
         listener: (BuildContext context, state) {
           if (state.pageCommand is PageCommandNavigatorPage) {

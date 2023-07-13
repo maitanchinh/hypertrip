@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/features/public/current_tour/state.dart';
@@ -8,6 +9,8 @@ import 'package:hypertrip/features/public/page.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';
+import 'package:hypertrip/utils/app_assets.dart';
+import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/card/card_section.dart';

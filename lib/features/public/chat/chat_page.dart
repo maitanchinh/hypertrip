@@ -1,29 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:hypertrip/domain/repositories/firestore_repository.dart';
-import 'package:hypertrip/domain/repositories/group_repo.dart';
-import 'package:hypertrip/domain/repositories/tour_repo.dart';
-import 'package:hypertrip/domain/repositories/user_repo.dart';
-import 'package:hypertrip/features/public/chat/interactor/chat_bloc.dart';
-import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
-import 'package:hypertrip/theme/color.dart';
-import 'package:hypertrip/utils/base_page.dart';
-import 'package:hypertrip/utils/message.dart';
-import 'package:hypertrip/widgets/app_bar.dart';
-import 'package:hypertrip/widgets/main_layout/main_layout.dart';
-import 'package:hypertrip/widgets/text_form_field_title.dart';
-import 'package:nb_utils/nb_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hypertrip/domain/models/group/assign_group_response.dart';
+import 'package:hypertrip/domain/repositories/firestore_repository.dart';
+import 'package:hypertrip/domain/repositories/group_repo.dart';
+import 'package:hypertrip/domain/repositories/tour_repo.dart';
+import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/features/public/chat/interactor/chat_bloc.dart';
 import 'package:hypertrip/theme/color.dart';
+import 'package:hypertrip/utils/base_page.dart';
 import 'package:hypertrip/utils/message.dart';
+import 'package:hypertrip/widgets/app_bar.dart';
+import 'package:hypertrip/widgets/text_form_field_title.dart';
 import 'package:nb_utils/nb_utils.dart';
-
 
 part '../chat/components/conversation_list.dart';
 class ChatPageScreen extends StatelessWidget {

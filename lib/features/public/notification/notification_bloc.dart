@@ -2,11 +2,8 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:hypertrip/domain/models/notification/firebase_message.dart';
 import 'package:hypertrip/domain/repositories/notification_repo.dart';
-import 'package:hypertrip/domain/repositories/user_repo.dart';
-import 'package:hypertrip/managers/firebase_messaging_manager.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/page_command.dart';
 import 'package:hypertrip/utils/page_states.dart';
@@ -17,16 +14,14 @@ part 'notification_state.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   final NotificationRepo _notificationRepo;
-  final FirebaseMessagingManager _firebaseMessagingManager;
 
-  NotificationBloc(this._notificationRepo, this._firebaseMessagingManager)
+  NotificationBloc(this._notificationRepo)
       : super(const NotificationState(
           error: '',
           status: PageState.loading,
           notifications: [],
         )) {
     on<FetchNotificationList>(_fetchNotificationList);
-    on<CountNotification>(_countNotification);
     on<ItemNotificationClick>(_itemNotificationClick);
     on<NotifyReadAll>(_notifyReadAll);
     on<OnClearPageCommand>(
@@ -39,9 +34,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
 
       emit(state.copyWith(notifications: response, status: PageState.success));
 
-      // TODO Demo Notify
-      final user = await GetIt.I.get<UserRepo>().getProfile();
-      _firebaseMessagingManager.registerTokenFCM(user.id ?? '');
     } catch (ex) {
       emit(state.copyWith(status: PageState.failure, error: ex.toString()));
     }
@@ -101,12 +93,5 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     } catch (ex) {
       emit(state.copyWith(status: PageState.failure, error: ex.toString()));
     }
-  }
-
-  FutureOr<void> _countNotification(
-      CountNotification event, Emitter<NotificationState> emit) async {
-    final result = await _notificationRepo.getCountNotify();
-
-    setValue(AppConstant.keyCountNotify, result);
   }
 }

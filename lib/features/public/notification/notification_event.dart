@@ -32,10 +32,3 @@ class NotifyReadAll extends NotificationEvent {
   @override
   List<Object> get props => [];
 }
-
-class CountNotification extends NotificationEvent {
-  const CountNotification();
-
-  @override
-  List<Object> get props => [];
-}

@@ -12,6 +12,7 @@ import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
 import 'package:hypertrip/features/public/edit_profile/edit_profile_screen.dart';
 import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
 import 'package:hypertrip/features/public/page.dart' as Public;
+import 'package:hypertrip/features/public/warning_incident/warning_incident_page.dart';
 import 'package:hypertrip/features/public/weather_detail/weather_detail_page.dart';
 import 'package:hypertrip/features/root/view.dart';
 
@@ -39,6 +40,8 @@ PageRoute? generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const NotificationScreen());
     case ChatDetailPage.routeName:
       return MaterialPageRoute(builder: (_) => ChatDetailPage(assignGroupResponse: settings.arguments as AssignGroupResponse));
+    case WarningIncidentPage.routeName:
+      return MaterialPageRoute(builder: (_) => const WarningIncidentPage());
 
     // case LoginByPhonePage.routeName:
     //   // test animation page transition
