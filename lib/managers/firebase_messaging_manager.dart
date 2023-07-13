@@ -95,14 +95,14 @@ class FirebaseMessagingManager {
   Future<void> _handleForegroundNotification(RemoteMessage message) async {
     // Xử lý khi app đang được bật
     // Update unread count
-    _handleNotificationActionFromRemoteMessage(message);
+    if(message.data.isNotEmpty) {
+      _handleNotificationActionFromRemoteMessage(message);
+
+      final value = getIntAsync(AppConstant.keyCountNotify);
+      setValue(AppConstant.keyCountNotify, value + 1);
+    }
 
     showNotification(message.notification?.title ?? '', message.notification?.body ?? '');
-
-    setValue(AppConstant.keyUnReadChat, true);
-
-    final value = getIntAsync(AppConstant.keyCountNotify);
-    setValue(AppConstant.keyCountNotify, value + 1);
   }
 
   /// When the user taps on a Notification with the Application close we have

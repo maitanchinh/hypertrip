@@ -9,7 +9,7 @@ import 'package:hypertrip/domain/repositories/foursquare_repo.dart';
 import 'package:hypertrip/domain/repositories/tour_repo.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/features/public/chat_detail/components/chat_list.dart';
-import 'package:hypertrip/features/public/chat_detail/components/member_list.dart';
+import 'package:hypertrip/features/public/chat_detail/components/member_item.dart';
 import 'package:hypertrip/features/public/chat_detail/components/share_map.dart';
 import 'package:hypertrip/features/public/chat_detail/interactor/chat_detail_bloc.dart';
 import 'package:hypertrip/managers/firebase_messaging_manager.dart';
@@ -19,6 +19,7 @@ import 'package:hypertrip/utils/base_page.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
+part '../chat_detail/components/member_list.dart';
 class ChatDetailPage extends StatefulWidget {
   static const routeName = '/chat-detail';
 
@@ -63,7 +64,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             appBar: AppBar(
               elevation: 0,
               automaticallyImplyLeading: false,
-              backgroundColor: Colors.white,
               flexibleSpace: SafeArea(
                 child: Container(
                   padding: const EdgeInsets.only(right: 16),
