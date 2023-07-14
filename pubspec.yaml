@@ -51,7 +51,8 @@ dependencies:
   google_maps_routes: ^1.1.2
   flutter_polyline_points: ^1.0.0
   flutter_expandable_fab: ^1.8.1
-
+  flutter_slidable: ^3.0.0
+  modal_bottom_sheet: ^3.0.0-pre
 
 dev_dependencies:
   flutter_test:
@@ -69,10 +70,10 @@ flutter_native_splash:
 flutter:
 
   uses-material-design: true
+
   assets:
     - assets/images/icons/
     - assets/images/
-    - assets/
 
   fonts:
     - family: Nunito
@@ -109,4 +110,3 @@ flutter:
           weight: 500
         - asset: fonts/Roboto-Bold.ttf
           weight: 700
-

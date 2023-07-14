@@ -7,19 +7,38 @@ final List<Tuple2<ActivityType, IconData>> activitiesTypeData = [
   const Tuple2(ActivityType.Custom, Icons.check_circle_outline),
 ];
 
-class Search extends StatelessWidget {
-  final double fontSize;
+class Search extends StatefulWidget {
+  const Search({super.key});
 
-  const Search({super.key, this.fontSize = kTextSizeSmall});
+  @override
+  State<Search> createState() => _SearchState();
+}
+
+class _SearchState extends State<Search> {
+  Timer? _debounce;
+
+  _onSearchChanged(String text) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      context.read<ActivityCubit>().setFilter(filterText: text);
+    });
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ActivityCubit, ActivityState>(
       listener: (context, state) {},
+      buildWhen: (previous, current) => current is ActivityFilterChangedState,
       builder: (context, state) {
         return SafeSpace(
           child: Container(
-            height: 40,
+            height: ActivityConfig.searchInputHeight,
             padding: const EdgeInsets.only(left: 16),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -33,18 +52,22 @@ class Search extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4),
                   child: Icon(
                     Icons.search,
-                    size: fontSize,
+                    size: Theme.of(context).textTheme.titleMedium!.fontSize,
                   ),
                 ),
                 //* Search input
                 Expanded(
                   child: TextField(
-                    style: TextStyle(fontSize: fontSize),
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium!.fontSize,
+                    ),
                     decoration: const InputDecoration(
                       isDense: true,
                       hintText: "Search",
                       border: InputBorder.none,
                     ),
+                    onChanged: _onSearchChanged,
                   ),
                 ),
                 //* Type filter
@@ -70,33 +93,12 @@ class Search extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                    ).onTap(
-                      () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return SafeArea(
-                              child: Wrap(
-                                children: [
-                                  ...activitiesTypeData.map(
-                                    (e) => ListTile(
-                                      title: Text(e.item1.name),
-                                      enabled: true,
-                                      leading: Icon(e.item2),
-                                      selected: e.item1.name == currentType,
-                                      onTap: () => {
-                                        cubit.changeActivityType(e.item1.name),
-                                        Navigator.of(context).pop(),
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    );
+                    ).onTap(() {
+                      showSheetModal(
+                        context: context,
+                        builder: (context) => const FilterTypeModal(),
+                      );
+                    });
                   },
                 ),
               ],
