@@ -47,6 +47,10 @@ dependencies:
   intl: ^0.18.1
   flutter_easyloading: ^3.0.5
   tuple: ^2.0.2
+  google_maps_flutter: ^2.2.4
+  google_maps_routes: ^1.1.2
+  flutter_polyline_points: ^1.0.0
+  flutter_expandable_fab: ^1.8.1
   flutter_slidable: ^3.0.0
   modal_bottom_sheet: ^3.0.0-pre
 

@@ -1,6 +1,17 @@
+import 'dart:async';
+import 'dart:ffi';
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_routes/google_maps_routes.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/features/public/current_tour/state.dart';
@@ -20,6 +31,7 @@ import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import 'cubit.dart';
@@ -28,6 +40,10 @@ part 'parts/app_bar.dart';
 part 'parts/custom_sliver_app_bar_delegate.dart';
 part 'parts/partner.dart';
 part 'parts/schedule.dart';
+
+part 'parts/map_screen.dart';
+
+part 'parts/location_tracking_component.dart';
 
 class CurrentTourPage extends StatelessWidget {
   static const routeName = '/current-tour';
@@ -44,10 +60,30 @@ class CurrentTourPage extends StatelessWidget {
 
   Widget _buildPage(BuildContext context) {
     final cubit = BlocProvider.of<CurrentTourCubit>(context);
-
     return Scaffold(
       appBar: _buildAppBar(context),
       backgroundColor: AppColors.bgLightColor,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        elevation: 0,
+        backgroundColor: AppColors.primaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MapScreen()),
+          );
+        },
+        label: PText(
+          'Map',
+          color: white,
+        ),
+        icon: SvgPicture.asset(
+          Resource.iconsMap,
+          width: 16,
+          color: white,
+        ),
+      ),
       body: BlocConsumer<CurrentTourCubit, CurrentTourState>(
         listener: (context, state) {
           if (cubit.state is LoadCurrentTourFailedState) {

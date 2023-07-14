@@ -99,7 +99,5 @@ class _FormState extends State<Form> {
   @override
   void dispose() {
     super.dispose();
-    _phoneController.dispose();
-    _passwordController.dispose();
   }
 }
