@@ -51,7 +51,7 @@ class _WarningIncidentPageState extends State<WarningIncidentPage> {
               },
               itemBuilder: (context, index) {
                 final weatherResponse = state.dataWeatherTour[index];
-                return AppWidget(
+                return LoadableWidget(
                   failureOnPress: () {},
                   errorText: '',
                   status: state.pageState,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BasePage extends StatelessWidget {
+class BaseWidget extends StatelessWidget {
   //   /// When screen has [TextField] or [TextFormField]
   //   /// Default is false
   //   ///
@@ -13,7 +13,7 @@ class BasePage extends StatelessWidget {
   //   /// {@macro flutter.widgets.ProxyWidget.child}
   final Widget child;
 
-  const BasePage({
+  const BaseWidget({
     Key? key,
     required this.child,
     this.unFocusWhenTouchOutsideInput = false,

@@ -10,6 +10,7 @@ import 'package:hypertrip/domain/repositories/tour_repo.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/domain/repositories/warning_incident_repository.dart';
 import 'package:hypertrip/managers/firebase_messaging_manager.dart';
+import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/dio.dart';
 import 'package:logger/logger.dart';
 
@@ -34,12 +35,7 @@ void initialGetIt() {
 
 void _registerManager() async {
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyAPZiYIlR-ztOa6maus6urUhs1Z-6spyj4",
-      appId: "1:712635131057:android:7b999176bb6fe22101ae90",
-      messagingSenderId: "712635131057",
-      projectId: "travel-378415",
-    ),
+    options: AppConstant.firebaseOption,
   );
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;

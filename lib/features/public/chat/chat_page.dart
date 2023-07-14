@@ -27,7 +27,7 @@ class ChatPageScreen extends StatelessWidget {
       create: (BuildContext context) => ChatBloc(GetIt.I.get<TourRepo>(),
           GetIt.I.get<GroupRepo>(), GetIt.I.get<FirestoreRepository>())
         ..add(FetchGroupChat(UserRepo.profile?.id ?? '', UserRepo.profile?.role ?? 'Traveler')),
-      child: BasePage(
+      child: BaseWidget(
         unFocusWhenTouchOutsideInput: true,
         child: Scaffold(
           appBar: const MainAppBar(title: contentChat),

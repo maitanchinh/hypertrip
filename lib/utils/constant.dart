@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class AppConstant {
@@ -20,13 +21,12 @@ class AppConstant {
   /// Token
   static const String FOUR_SQUARE_TOKEN =
       "fsq3qh6o+HDC6TCgGVeWucT3bZp1579crXXfJLM77vyTKQQ=";
-}
 
 
-Stream<int> watchCountNotify() async* {
-  while (true) {
-    final value = getIntAsync(AppConstant.keyCountNotify);
-    yield value;
-    await Future.delayed(const Duration(seconds: 1));
-  }
+  static const firebaseOption = FirebaseOptions(
+  apiKey: "AIzaSyAPZiYIlR-ztOa6maus6urUhs1Z-6spyj4",
+  appId: "1:712635131057:android:7b999176bb6fe22101ae90",
+  messagingSenderId: "712635131057",
+  projectId: "travel-378415",
+  );
 }

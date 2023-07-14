@@ -21,6 +21,7 @@ import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';
 import 'package:hypertrip/utils/app_assets.dart';
+import 'package:hypertrip/utils/app_shared.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/message.dart';

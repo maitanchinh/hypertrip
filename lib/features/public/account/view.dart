@@ -34,7 +34,7 @@ class AccountPage extends StatelessWidget {
           body: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               print("state ${state.contacts.length}");
-              return AppWidget(
+              return LoadableWidget(
                 status: state.status,
                 errorText: state.error,
                 failureOnPress: () => context.read<ProfileBloc>().add(const FetchProfile()),

@@ -62,7 +62,7 @@ class NotificationScreen extends StatelessWidget {
                 )
               ],
             ),
-            body: AppWidget(
+            body: LoadableWidget(
               status: state.status,
               errorText: state.error,
               failureOnPress: () =>

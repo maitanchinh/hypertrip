@@ -54,7 +54,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
         ..add(GetMembersTourGroup(widget.assignGroupResponse.id, UserRepo.profile?.id ?? ''))
         ..add(FetchMessageGroupChat(widget.assignGroupResponse.id))
         ..add(const RequestPermissionLocationEvent()),
-      child: BasePage(
+      child: BaseWidget(
         unFocusWhenTouchOutsideInput: true,
         child: BlocBuilder<ChatDetailBloc, ChatDetailState>(
           builder: (context, state) => Scaffold(
