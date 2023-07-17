@@ -1,3 +1,5 @@
+import 'package:chatview/chatview.dart';
+
 class UserProfile {
   String? id;
   String? phone;
@@ -9,6 +11,9 @@ class UserProfile {
   String? role;
   String? status;
   String? avatarUrl;
+  String firstContactNumber;
+  String secondContactNumber;
+  String? address;
 
   UserProfile({
     this.id,
@@ -21,6 +26,9 @@ class UserProfile {
     this.role,
     this.status,
     this.avatarUrl,
+    this.firstContactNumber = '',
+    this.secondContactNumber = '',
+    this.address,
   });
 
   UserProfile copyWith({
@@ -34,6 +42,9 @@ class UserProfile {
     String? role,
     String? status,
     String? avatarUrl,
+    String? firstContactNumber,
+    String? secondContactNumber,
+    String? address,
   }) =>
       UserProfile(
         id: id ?? this.id,
@@ -46,6 +57,9 @@ class UserProfile {
         role: role ?? this.role,
         status: status ?? this.status,
         avatarUrl: avatarUrl ?? this.avatarUrl,
+        firstContactNumber: firstContactNumber ?? this.firstContactNumber,
+        secondContactNumber: secondContactNumber ?? this.secondContactNumber,
+        address: address ?? this.address,
       );
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
@@ -59,6 +73,9 @@ class UserProfile {
         role: json["role"],
         status: json["status"],
         avatarUrl: json["avatarUrl"],
+        firstContactNumber: json["firstContactNumber"] ?? '',
+        secondContactNumber: json["secondContactNumber"] ?? '',
+        address: json["address"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,5 +89,18 @@ class UserProfile {
         "role": role,
         "status": status,
         "avatarUrl": avatarUrl,
+        "firstContactNumber": firstContactNumber,
+        "secondContactNumber": secondContactNumber,
+        "address": address,
       };
+
+  ChatUser toMember() {
+    return ChatUser(
+        id: id ?? '',
+        name: displayName,
+        profilePhoto: avatarUrl);
+  }
+
+  String get displayName =>
+      (firstName != null && firstName!.isNotEmpty) ? '$firstName${(lastName ?? '')}' : lastName ?? '';
 }
