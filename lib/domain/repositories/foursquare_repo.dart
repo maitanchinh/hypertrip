@@ -33,4 +33,45 @@ class FoursquareRepo {
       throw Exception(msg_server_error);
     }
   }
+
+  Future<bool> isPermissionGeolocation() async {
+    bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (isLocationServiceEnabled) {
+      LocationPermission permission = await Geolocator.checkPermission();
+      return (permission != LocationPermission.denied) &&
+          (permission != LocationPermission.deniedForever);
+    }
+    return false;
+  }
+
+  Future<bool> requestPermission() async {
+    bool isPermission = true;
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse && permission != LocationPermission.always) {
+        isPermission = false;
+      }
+      isPermission = true;
+    } else if (permission == LocationPermission.deniedForever) isPermission = false;
+
+    return isPermission;
+  }
+
+  Future<Position?> getCurrentLocation() async {
+    try {
+      // Kiểm tra quyền truy cập vị trí
+      final permission = await isPermissionGeolocation();
+      if (!permission) null;
+
+      // Lấy vị trí hiện tại
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      return position;
+    } catch (e) {
+      return null;
+    }
+  }
 }

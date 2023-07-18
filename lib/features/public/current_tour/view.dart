@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,10 +15,14 @@ import 'package:google_maps_routes/google_maps_routes.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/features/public/current_tour/state.dart';
+import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
 import 'package:hypertrip/features/public/page.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';
+import 'package:hypertrip/utils/app_assets.dart';
+import 'package:hypertrip/utils/app_shared.dart';
+import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/button/action_button.dart';
@@ -59,7 +64,7 @@ class CurrentTourPage extends StatelessWidget {
     final cubit = BlocProvider.of<CurrentTourCubit>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       backgroundColor: AppColors.bgLightColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(

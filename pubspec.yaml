@@ -52,8 +52,28 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   url_launcher: ^6.1.10
   flutter_expandable_fab: ^1.8.1
+  flutter_slidable: ^3.0.0
+  modal_bottom_sheet: ^3.0.0-pre
+
+  # Image Picker
+  image_picker: ^0.8.6
+
+  flutter_local_notifications: ^14.1.1
+
+  flutter_html: ^3.0.0-beta.2
+
+  # Firebase
+  firebase_messaging: ^14.6.4
+  firebase_core: ^2.14.0
+  cloud_firestore: ^4.8.2
+  firebase_auth: ^4.6.3
 
 
+  chatview:
+    git:
+      url: https://github.com/DokhaiTrinh/flutter_chatview.git
+
+  sliding_up_panel2: ^3.2.0+2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -63,17 +83,29 @@ dev_dependencies:
   freezed: ^2.3.5
   json_serializable: ^6.6.2
 
+  # Assets generation
+  assets_gen: 1.5.0
+
 flutter_native_splash:
   color: "#ffffff"
   image: assets/images/logo.png
 
+assets_gen:
+  output: utils/app_assets.dart
+  class_name: AppAssets
+  enable: true
+  gen_package_path: false
+  ignore_resolution: false
+  omit_path_levels: 2
+  exclude:
+
 flutter:
 
   uses-material-design: true
+
   assets:
     - assets/images/icons/
     - assets/images/
-    - assets/
 
   fonts:
     - family: Nunito
@@ -110,4 +142,3 @@ flutter:
           weight: 500
         - asset: fonts/Roboto-Bold.ttf
           weight: 700
-
