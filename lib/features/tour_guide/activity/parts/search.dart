@@ -1,12 +1,5 @@
 part of '../view.dart';
 
-final List<Tuple2<ActivityType, IconData>> activitiesTypeData = [
-  const Tuple2(ActivityType.All, Icons.filter_list),
-  const Tuple2(ActivityType.Attendance, Icons.check_circle_outline),
-  const Tuple2(ActivityType.CheckIn, Icons.check_circle_outline),
-  const Tuple2(ActivityType.Custom, Icons.check_circle_outline),
-];
-
 class Search extends StatefulWidget {
   const Search({super.key});
 
@@ -88,13 +81,13 @@ class _SearchState extends State<Search> {
                       child: Center(
                         child: Icon(
                           activitiesTypeData
-                              .firstWhere((e) => e.item1.name == currentType)
-                              .item2,
+                              .firstWhere((e) => e.type == currentType)
+                              .icon,
                           color: Colors.white,
                         ),
                       ),
                     ).onTap(() {
-                      showSheetModal(
+                      showCupertinoModalPopup(
                         context: context,
                         builder: (context) => const FilterTypeModal(),
                       );

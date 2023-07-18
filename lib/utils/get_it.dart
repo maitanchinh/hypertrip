@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hypertrip/domain/repositories/activity_repo.dart';
 import 'package:hypertrip/domain/repositories/foursquare_repo.dart';
 import 'package:hypertrip/domain/repositories/group_repo.dart';
 import 'package:hypertrip/domain/repositories/tour_repo.dart';
@@ -20,4 +21,5 @@ void initialGetIt() {
   getIt.registerLazySingleton(() => GroupRepo());
   getIt.registerLazySingleton(() => FoursquareRepo());
   getIt.registerLazySingleton(() => TourRepo());
+  getIt.registerLazySingleton(() => ActivityRepo());
 }

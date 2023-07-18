@@ -10,7 +10,7 @@ final apiClient = Dio()
   }
   ..interceptors.addAll([
     // LogInterceptor(
-    //   responseBody: false,
+    //   responseBody: true,
     //   requestBody: true,
     // ),
     InterceptorsWrapper(
