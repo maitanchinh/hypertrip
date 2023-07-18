@@ -3,8 +3,8 @@ part of '../view.dart';
 AppBar _buildAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: AppColors.primaryColor,
-    title: const Row(
-      children: [
+    title: Row(
+      children: const [
         Text(
           AppConstant.APP_NAME,
           style: TextStyle(
@@ -20,7 +20,10 @@ AppBar _buildAppBar(BuildContext context) {
         onPressed: () {
           Navigator.of(context).pushNamed(WarningIncidentPage.routeName);
         },
-        icon: SvgPicture.asset(AppAssets.icons_ic_cloud_solid_svg,color: Colors.white,),
+        icon: SvgPicture.asset(
+          AppAssets.icons_ic_cloud_solid_svg,
+          color: Colors.white,
+        ),
       ),
       Stack(
         children: [
