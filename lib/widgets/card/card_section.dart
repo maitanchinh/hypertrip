@@ -19,6 +19,7 @@ class CardSection extends StatelessWidget {
         : null;
 
     return Card(
+      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

@@ -18,13 +18,15 @@ Widget _buildHeader(LoadTourDetailSuccessState state, BuildContext context) {
     child: Stack(
       children: [
         /// image
-        commonCachedNetworkImage(
-          state.tour.thumbnailUrl,
-          fit: BoxFit.cover,
-          height: 300,
-          radius: 20,
-          width: double.infinity,
-        ),
+        ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: FadeInImage.assetNetwork(
+              placeholder: Resource.imagesPlaceholder,
+              image: state.tour.thumbnailUrl.toString(),
+              fit: BoxFit.cover,
+              height: 300,
+              width: double.infinity,
+            )),
 
         /// dark overlay
         Align(
@@ -56,21 +58,11 @@ Widget _buildHeader(LoadTourDetailSuccessState state, BuildContext context) {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    // radius: 17,
-                    backgroundColor: Colors.black.withOpacity(0.5),
-                    child: Center(
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
+                  ActionButton(
+                    icon: Resource.iconsAngleLeft,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   )
                 ],
               ),

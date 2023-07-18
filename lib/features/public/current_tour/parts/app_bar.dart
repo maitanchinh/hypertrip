@@ -2,24 +2,38 @@ part of '../view.dart';
 
 AppBar _buildAppBar() {
   return AppBar(
-    backgroundColor: AppColors.primaryColor,
-    title: Row(
-      children: const [
-        Text(
-          AppConstant.APP_NAME,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    ),
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    // title: const Row(
+    //   children: [
+    //     Text(
+    //       AppConstant.APP_NAME,
+    //       style: TextStyle(
+    //         color: Colors.white,
+    //         fontSize: 20,
+    //         fontWeight: FontWeight.bold,
+    //       ),
+    //     ),
+    //   ],
+    // ),
     actions: [
-      IconButton(
+      ActionButton(
+        icon: Resource.iconsCloud,
         onPressed: () {},
-        icon: const Icon(Icons.notifications, color: Colors.white),
       ),
+      Gap.k16.width,
+      ActionButton(
+        icon: Resource.iconsInfo,
+        onPressed: () {},
+      ),
+      Gap.k16.width,
+      Padding(
+        padding: EdgeInsets.only(right: 16.0),
+        child: ActionButton(
+          icon: Resource.iconsBell,
+          onPressed: () {},
+        ),
+      )
     ],
   );
 }
