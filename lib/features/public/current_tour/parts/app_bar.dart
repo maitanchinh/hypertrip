@@ -18,9 +18,16 @@ AppBar _buildAppBar(BuildContext context) {
     actions: [
       IconButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(WarningIncidentPage.routeName);
+          final cubit = BlocProvider.of<CurrentTourCubit>(context);
+          List<LocationTour> locationTour = [];
+          if(cubit.state is LoadCurrentTourSuccessState) {
+            locationTour = (cubit.state as LoadCurrentTourSuccessState).schedule
+                .map((e) => LocationTour(lat: e.latitude ?? 0.0, lng: e.longitude ?? 0.0)).toList();
+          }
+          if(locationTour.isEmpty)return;
+          Navigator.of(context).pushNamed(WarningIncidentPage.routeName, arguments: locationTour);
         },
-        icon: SvgPicture.asset(AppAssets.icons_ic_cloud_solid_svg,color: Colors.white,),
+        icon: SvgPicture.asset(AppAssets.icons_ic_cloud_solid_svg, color: Colors.white,),
       ),
       Stack(
         children: [

@@ -12,7 +12,10 @@ import 'package:nb_utils/nb_utils.dart';
 
 class WarningIncidentPage extends StatefulWidget {
   static const String routeName = '/warning-incident';
-  const WarningIncidentPage({Key? key}) : super(key: key);
+
+  final List<LocationTour> currentTour;
+
+  const WarningIncidentPage({Key? key, this.currentTour = const []}) : super(key: key);
 
   @override
   State<WarningIncidentPage> createState() => _WarningIncidentPageState();
@@ -37,7 +40,7 @@ class _WarningIncidentPageState extends State<WarningIncidentPage> {
     return BlocProvider(
       create: (BuildContext context) =>
           WarningIncidentBloc(GetIt.I.get<WarningIncidentRepository>())
-            ..add(const FetchAllLocationTour()),
+            ..add(FetchAllLocationTour(widget.currentTour)),
       child: BlocBuilder<WarningIncidentBloc, WarningIncidentState>(
         builder: (context, state) {
           return Scaffold(
@@ -45,7 +48,6 @@ class _WarningIncidentPageState extends State<WarningIncidentPage> {
             body: PageView.builder(
               controller: _pageController,
               itemCount: state.dataWeatherTour.length,
-              reverse: true,
               onPageChanged: (value) {
                 context.read<WarningIncidentBloc>().add(FetchDataWeather(value));
               },

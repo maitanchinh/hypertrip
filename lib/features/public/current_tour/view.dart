@@ -17,6 +17,7 @@ import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/features/public/current_tour/state.dart';
 import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
 import 'package:hypertrip/features/public/page.dart';
+import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';

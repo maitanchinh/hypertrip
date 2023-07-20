@@ -79,49 +79,18 @@ class WarningIncidentBloc extends Bloc<WarningIncidentEvent, WarningIncidentStat
 
   FutureOr<void> _fetchAllLocationTour(
       FetchAllLocationTour event, Emitter<WarningIncidentState> emit) {
-    // Lấy danh sách vị trí trong tour
-    final List<LocationTour> locationTour = [
-      LocationTour(lat: 10.762622, lng: 106.660172),
-      LocationTour(lat: 10.502307, lng: 107.169205),
-      LocationTour(lat: 12.24507, lng: 109.19432),
-      LocationTour(lat: 13.759660, lng: 109.206123),
-      LocationTour(lat: 15.12047, lng: 108.79232),
-    ];
 
-    final Map<int, WeatherResponse> dataWeatherTour = {
-      0: WeatherResponse(
+    final Map<int, WeatherResponse> dataWeatherTour = {};
+    for (int i = 0; i < event.currentTour.length; i++) {
+      dataWeatherTour[i] = WeatherResponse(
         location: WeatherLocation(),
         alerts: WeatherAlerts(),
         current: WeatherCurrent(),
         forecast: WeatherForecast(),
-      ),
-      1: WeatherResponse(
-        location: WeatherLocation(),
-        alerts: WeatherAlerts(),
-        current: WeatherCurrent(),
-        forecast: WeatherForecast(),
-      ),
-      2: WeatherResponse(
-        location: WeatherLocation(),
-        alerts: WeatherAlerts(),
-        current: WeatherCurrent(),
-        forecast: WeatherForecast(),
-      ),
-      3: WeatherResponse(
-        location: WeatherLocation(),
-        alerts: WeatherAlerts(),
-        current: WeatherCurrent(),
-        forecast: WeatherForecast(),
-      ),
-      4: WeatherResponse(
-        location: WeatherLocation(),
-        alerts: WeatherAlerts(),
-        current: WeatherCurrent(),
-        forecast: WeatherForecast(),
-      ),
-    };
+      );
+    }
 
-    emit(state.copyWith(dataWeatherTour: dataWeatherTour, locationTour: locationTour));
+    emit(state.copyWith(dataWeatherTour: dataWeatherTour, locationTour: event.currentTour));
 
     add(const FetchDataWeather(0));
     add(const FetchDataEarthQuakes());
