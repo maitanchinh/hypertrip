@@ -8,7 +8,6 @@ class Trip {
   int? infantPrice;
   DateTime? startTime;
   DateTime? endTime;
-  String? status;
   String? tourId;
   Tour? tour;
 
@@ -20,7 +19,6 @@ class Trip {
     this.infantPrice,
     this.startTime,
     this.endTime,
-    this.status,
     this.tourId,
     this.tour,
   });
@@ -33,7 +31,6 @@ class Trip {
     int? infantPrice,
     DateTime? startTime,
     DateTime? endTime,
-    String? status,
     String? tourId,
     Tour? tour,
   }) =>
@@ -45,7 +42,6 @@ class Trip {
         infantPrice: infantPrice ?? this.infantPrice,
         startTime: startTime ?? this.startTime,
         endTime: endTime ?? this.endTime,
-        status: status ?? this.status,
         tourId: tourId ?? this.tourId,
         tour: tour ?? this.tour,
       );
@@ -61,7 +57,6 @@ class Trip {
             : DateTime.parse(json["startTime"]),
         endTime:
             json["endTime"] == null ? null : DateTime.parse(json["endTime"]),
-        status: json["status"],
         tourId: json["tourId"],
         tour: json["tour"] == null ? null : Tour.fromJson(json["tour"]),
       );
@@ -74,7 +69,6 @@ class Trip {
         "infantPrice": infantPrice,
         "startTime": startTime?.toIso8601String(),
         "endTime": endTime?.toIso8601String(),
-        "status": status,
         "tourId": tourId,
         "tour": tour?.toJson(),
       };

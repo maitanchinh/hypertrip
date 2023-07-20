@@ -7,7 +7,7 @@ class ConversationList extends StatelessWidget {
   const ConversationList({super.key, required this.data, required this.userID});
   @override
   Widget build(BuildContext context) {
-    bool isAccepting = data.trip?.status == 'Ongoing';
+    bool isAccepting = data.status == 'Ongoing';
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, ChatDetailPage.routeName, arguments: data),
       child: StreamBuilder<FirestoreMessage>(
