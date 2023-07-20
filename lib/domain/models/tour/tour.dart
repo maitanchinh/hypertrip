@@ -2,7 +2,7 @@ import 'package:hypertrip/domain/models/schedule/slot.dart';
 
 class Tour {
   List<Slot>? schedules;
-  List<dynamic>? carousel;
+  List<Carousel>? carousel;
   String? id;
   String? title;
   String? departure;
@@ -33,7 +33,7 @@ class Tour {
 
   Tour copyWith({
     List<Slot>? schedules,
-    List<dynamic>? carousel,
+    List<Carousel>? carousel,
     String? id,
     String? title,
     String? departure,
@@ -68,7 +68,8 @@ class Tour {
             : List<Slot>.from(json["schedules"]!.map((x) => Slot.fromJson(x))),
         carousel: json["carousel"] == null
             ? []
-            : List<dynamic>.from(json["carousel"]!.map((x) => x)),
+            : List<Carousel>.from(
+                json["carousel"]!.map((x) => Carousel.fromJson(x))),
         id: json["id"],
         title: json["title"],
         departure: json["departure"],
@@ -100,4 +101,26 @@ class Tour {
         "type": type,
         "status": status,
       };
+}
+
+class Carousel {
+  String? id;
+  String? contentType;
+  String? url;
+
+  Carousel({this.id, this.contentType, this.url});
+
+  Carousel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    contentType = json['contentType'];
+    url = json['url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['contentType'] = this.contentType;
+    data['url'] = this.url;
+    return data;
+  }
 }

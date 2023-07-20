@@ -20,7 +20,7 @@ class _BottomNavState extends State<BottomNav> {
       currentIndex = index;
       widget.onChange(index);
     });
-   }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +31,74 @@ class _BottomNavState extends State<BottomNav> {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         selectedItemColor: AppColors.primaryColor,
-        unselectedItemColor: AppColors.textGreyColor  ,
+        unselectedItemColor: AppColors.textGreyColor,
         selectedFontSize: 12,
         unselectedFontSize: 12,
         elevation: 30,
         onTap: onTap,
         currentIndex: currentIndex,
         type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.near_me), label: "Nearby"),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chat"),
+        items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.emergency), label: "Activity"),
+              icon: SvgPicture.asset(
+                Resource.iconsHome,
+                height: 20,
+                color: AppColors.textGreyColor,
+              ),
+              activeIcon: SvgPicture.asset(
+                Resource.iconsHome,
+                height: 20,
+                color: AppColors.primaryColor,
+              ),
+              label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle_sharp), label: "Account"),
+              icon: SvgPicture.asset(
+                Resource.iconsLocationArrow,
+                height: 20,
+                color: AppColors.textGreyColor,
+              ),
+              activeIcon: SvgPicture.asset(
+                Resource.iconsLocationArrow,
+                height: 20,
+                color: AppColors.primaryColor,
+              ),
+              label: "Nearby"),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                Resource.iconsMessage,
+                height: 20,
+                color: AppColors.textGreyColor,
+              ),
+              activeIcon: SvgPicture.asset(
+                Resource.iconsMessage,
+                height: 20,
+                color: AppColors.primaryColor,
+              ),
+              label: "Chat"),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                Resource.iconsPersionWalking,
+                height: 20,
+                color: AppColors.textGreyColor,
+              ),
+              activeIcon: SvgPicture.asset(
+                Resource.iconsPersionWalking,
+                height: 20,
+                color: AppColors.primaryColor,
+              ),
+              label: "Activity"),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                Resource.iconsUser,
+                height: 20,
+                color: AppColors.textGreyColor,
+              ),
+              activeIcon: SvgPicture.asset(
+                Resource.iconsUser,
+                height: 20,
+                color: AppColors.primaryColor,
+              ),
+              label: "Account"),
         ],
       ),
     );

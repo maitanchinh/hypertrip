@@ -25,6 +25,7 @@ import 'package:hypertrip/utils/app_shared.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/message.dart';
+import 'package:hypertrip/widgets/button/action_button.dart';
 import 'package:hypertrip/widgets/card/card_section.dart';
 import 'package:hypertrip/widgets/image/image.dart';
 import 'package:hypertrip/widgets/popup/p_error_popup.dart';
@@ -62,13 +63,14 @@ class CurrentTourPage extends StatelessWidget {
   Widget _buildPage(BuildContext context) {
     final cubit = BlocProvider.of<CurrentTourCubit>(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: _buildAppBar(context),
       backgroundColor: AppColors.bgLightColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         elevation: 0,
         backgroundColor: AppColors.primaryColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: defaultButtonRoundedShape,
         onPressed: () {
           Navigator.push(
             context,
@@ -81,7 +83,7 @@ class CurrentTourPage extends StatelessWidget {
         ),
         icon: SvgPicture.asset(
           Resource.iconsMap,
-          width: 16,
+          width: 20,
           color: white,
         ),
       ),
@@ -101,13 +103,13 @@ class CurrentTourPage extends StatelessWidget {
 
           if (cubit.state is LoadCurrentTourFailedState) {
             return Center(
-              child: commonCachedNetworkImage(Resource.imagesTourNotFound),
+              child: Image.asset(Resource.imagesTourNotFound),
             );
           }
 
           if (cubit.state is LoadCurrentTourNotFoundState) {
             return Center(
-              child: commonCachedNetworkImage(Resource.imagesTourNotFound),
+              child: Image.asset(Resource.imagesTourNotFound),
             );
           }
 
@@ -122,7 +124,7 @@ class CurrentTourPage extends StatelessWidget {
                 SliverPersistentHeader(
                   delegate: CustomSliverAppBarDelegate(
                     state: state,
-                    expandedHeight: 200,
+                    expandedHeight: 300,
                   ),
                   pinned: true,
                 ),

@@ -43,8 +43,8 @@ class _TrackingScheduleState extends State<TrackingSchedule>
                     ),
                 ],
               ),
-              Container(
-                height: 600,
+              SizedBox(
+                height: 500,
                 child: TabBarView(
                   children: [
                     ...days.map(
