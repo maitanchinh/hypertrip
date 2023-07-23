@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/domain/models/nearby/nearby_place.dart';
-import 'package:hypertrip/domain/models/nearby/nearby_place_tip.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:hypertrip/features/public/nearby/cubit.dart';
 import 'package:hypertrip/features/public/nearby/state.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
-import 'package:hypertrip/widgets/image/image.dart';
+import 'package:hypertrip/widgets/button/action_button.dart';
 import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:intl/intl.dart';
+
+import '../../../widgets/image/image.dart';
 
 part 'parts/detail_component.dart';
 
@@ -20,6 +22,8 @@ part 'parts/detail_screen.dart';
 part 'parts/nearby_place.dart';
 
 part 'parts/place.dart';
+
+part 'parts/place_photo.dart';
 
 class NearbyPage extends StatefulWidget {
   static const routeName = '/nearby';
@@ -111,7 +115,7 @@ class _NearbyPageState extends State<NearbyPage> {
                           _resetChildState();
                         },
                         child: SvgPicture.asset(
-                          Resource.iconsCurrentLocation,
+                          Resource.iconsLocationArrow,
                           width: 24,
                           color: AppColors.primaryColor,
                         ),
@@ -133,6 +137,8 @@ class _NearbyPageState extends State<NearbyPage> {
   }
 
   SizedBox _category(BuildContext context) {
+    final cubit = BlocProvider.of<NearbyPlaceCubit>(context);
+
     return SizedBox(
       height: 68,
       width: context.width(),
@@ -152,7 +158,7 @@ class _NearbyPageState extends State<NearbyPage> {
                       color: Color(0xFFD7E8F9),
                       shape: BoxShape.circle,
                     ),
-                    child: Center(child: catIcons[index]),
+                    child: Transform.scale(scale: 0.7, child: catIcons[index]),
                   ).onTap(() {
                     setState(() {
                       if (catNames[index] != 'All') {
@@ -161,13 +167,15 @@ class _NearbyPageState extends State<NearbyPage> {
                       } else {
                         query = '';
                       }
-                      _resetChild = true;
+                      // _resetChild = true;
                     });
-                    _resetChildState();
+                    // _resetChildState();
+                    cubit.getNearbyPlace(query);
                   }),
                   8.height,
-                  PSmallText(
+                  PText(
                     catNames[index],
+                    size: 12,
                   )
                 ],
               ),

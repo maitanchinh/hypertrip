@@ -44,15 +44,14 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          leading: Transform.scale(
-            scale: 0.5,
-            child: SvgPicture.asset(
-              Resource.iconsAngleLeft,
-              color: AppColors.textColor,
-            ).onTap(() {
-              Navigator.pop(context);
-              setState(() {});
-            }),
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: ActionButton(
+              icon: Resource.iconsAngleLeft,
+              onPressed: () {
+                finish(context);
+              },
+            ),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,

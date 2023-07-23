@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/features/public/account/view.dart';
 import 'package:hypertrip/features/public/chat/chat_page.dart';
 import 'package:hypertrip/features/public/current_tour/view.dart';
 import 'package:hypertrip/features/public/nearby/view.dart';
 import 'package:hypertrip/features/tour_guide/activity/view.dart';
 import 'package:hypertrip/theme/color.dart';
+import 'package:nb_utils/nb_utils.dart';
+
+import '../../generated/resource.dart';
 
 part 'parts/bottom_nav.dart';
 

@@ -28,8 +28,8 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   int _currentLocationIndex = -1;
   MapsRoutes route = MapsRoutes();
   DistanceCalculator distanceCalculator = DistanceCalculator();
-  // String googleApiKey = 'AIzaSyBbahrYaUhtSGNxXS-1fUsUsZ--e8jTYqg';
-  String googleApiKey = '';
+  String googleApiKey = 'AIzaSyBbahrYaUhtSGNxXS-1fUsUsZ--e8jTYqg';
+  // String googleApiKey = '';
 
   @override
   void initState() {
@@ -91,6 +91,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
 
   void _moveCamera() {
     final currentLocation = widget.slots[_currentLocationIndex];
+    getPolypoints();
     _mapController.animateCamera(
       CameraUpdate.newLatLngZoom(
         LatLng(currentLocation.latitude as double,
@@ -102,7 +103,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
 
   void _moveCameraToCurrentLocation() {
     setState(() {
-      _currentLocationIndex = 0;
+      _currentLocationIndex = -1;
     });
     _mapController.animateCamera(
       CameraUpdate.newLatLngZoom(
@@ -158,7 +159,8 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
       double? lat = position.latitude;
       double? lng = position.longitude;
       if (lat != null && lng != null) {
-        Uint8List canvas = await getBytesFromCanvas(index + 1);
+        Uint8List canvas =
+            await getBytesFromCanvas(index + 1, _currentLocationIndex == index);
         setState(() {
           LatLng latLng = LatLng(lat.toDouble(), lng.toDouble());
           _markers.add(Marker(
@@ -177,20 +179,21 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
         .then((icon) => currentLocationIcon = icon);
   }
 
-  Future<Uint8List> getBytesFromCanvas(int number) async {
+  Future<Uint8List> getBytesFromCanvas(int number, bool isCurrent) async {
     final PictureRecorder pictureRecorder = PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
 
     // Set the circle color and size
-    final circlePaint = Paint()..color = Colors.blue;
-    const circleRadius = 40.0;
+    final circlePaint = Paint()
+      ..color = isCurrent ? AppColors.secondaryColor : AppColors.primaryColor;
+    final circleRadius = isCurrent ? 60.0 : 40.0;
 
     // Set the number color and size
     final numberTextSpan = TextSpan(
       text: number.toString(),
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.white,
-        fontSize: 30.0,
+        fontSize: isCurrent ? 50.0 : 30.0,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -207,21 +210,21 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
 
     // Set the point color and size
     final pointPaint = Paint()
-      ..color = Colors.blue
+      ..color = isCurrent ? AppColors.secondaryColor : AppColors.primaryColor
       ..strokeWidth = 8.0
       ..strokeCap = StrokeCap.round;
-    const pointStart = Offset(
+    final pointStart = Offset(
       circleRadius,
-      circleRadius + 15.0,
+      circleRadius + 40.0,
     );
-    const pointEnd = Offset(
+    final pointEnd = Offset(
       circleRadius,
-      circleRadius + 60.0,
+      isCurrent ? circleRadius + 120 : circleRadius + 60.0,
     );
 
     // Draw the circle, number, and point on the canvas
     canvas.drawCircle(
-      const Offset(circleRadius, circleRadius),
+      Offset(circleRadius, circleRadius),
       circleRadius,
       circlePaint,
     );
@@ -274,7 +277,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
                       // onPressed: () {},
                       backgroundColor: AppColors.primaryColor,
                       child: SvgPicture.asset(
-                        Resource.iconsLocationCrosshairs,
+                        Resource.iconsLocationArrow,
                         width: 18,
                         color: white,
                       ),
