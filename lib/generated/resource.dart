@@ -46,6 +46,8 @@ class Resource {
   static const String iconsWeb = 'assets/images/icons/web.svg';
   static const String iconsRoute = 'assets/images/icons/route.svg';
   static const String iconsShare = 'assets/images/icons/share.svg';
+  static const String iconsArrowRotate = 'assets/images/icons/arrow-rotate.svg';
+  static const String iconsUsers = 'assets/images/icons/users.svg';
 
   //Image
   static const String imagesAvatarPlaceholder =

@@ -1,4 +1,3 @@
-
 part of '../chat_detail_page.dart';
 
 class MemberList extends StatelessWidget {
@@ -11,7 +10,11 @@ class MemberList extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           child: Container(
-            color: Colors.white,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    bottomLeft: Radius.circular(16))),
             height: MediaQuery.of(context).size.height,
             margin: const EdgeInsets.only(left: 100),
             child: Column(
@@ -20,14 +23,15 @@ class MemberList extends StatelessWidget {
                 20.height,
                 Align(
                   alignment: Alignment.topCenter,
-                  child: Text(
-                    "Danh sách thành viên",
-                    style: boldTextStyle(size: 24),
+                  child: PText(
+                    'Members',
                   ),
                 ),
                 Expanded(
                   child: ListView(
-                    children: members.map((member) => MemberItem(data: member)).toList(),
+                    children: members
+                        .map((member) => MemberItem(data: member))
+                        .toList(),
                   ),
                 )
               ],

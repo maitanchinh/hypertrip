@@ -31,15 +31,21 @@ PageRoute? generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const LoginByPhonePage());
     case WeatherDetailPage.routeName:
       var arguments = settings.arguments;
-      List<WeatherForecastDay> forecastDay = (arguments as WeatherResponse).forecast.forecastDay;
+      List<WeatherForecastDay> forecastDay =
+          (arguments as WeatherResponse).forecast.forecastDay;
       String title = arguments.location.name;
-      return MaterialPageRoute(builder: (_) => WeatherDetailPage(forecastDay: forecastDay, title: title));
+      return MaterialPageRoute(
+          builder: (_) =>
+              WeatherDetailPage(forecastDay: forecastDay, title: title));
     case EditProfileScreen.routeName:
-      return MaterialPageRoute(builder: (_) => EditProfileScreen(settings.arguments as UserProfile));
+      return MaterialPageRoute(
+          builder: (_) => EditProfileScreen(settings.arguments as UserProfile));
     case NotificationScreen.routeName:
       return MaterialPageRoute(builder: (_) => const NotificationScreen());
     case ChatDetailPage.routeName:
-      return MaterialPageRoute(builder: (_) => ChatDetailPage(assignGroupResponse: settings.arguments as AssignGroupResponse));
+      return MaterialPageRoute(
+          builder: (_) => ChatDetailPage(
+              assignGroupResponse: settings.arguments as AssignGroupResponse));
     case WarningIncidentPage.routeName:
       return MaterialPageRoute(builder: (_) => const WarningIncidentPage());
 

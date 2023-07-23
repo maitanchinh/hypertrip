@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatview/chatview.dart';
 import 'package:flutter/material.dart';
 import 'package:hypertrip/theme/color.dart';
+import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class MemberItem extends StatelessWidget {
@@ -75,9 +76,9 @@ class MemberItem extends StatelessWidget {
             ),
           ),
           16.width,
-          Text(
+          PSmallText(
             data.name,
-            style: TextStyle(fontSize: 16, color: Colors.black),
+            color: AppColors.textColor,
           ),
         ],
       ),

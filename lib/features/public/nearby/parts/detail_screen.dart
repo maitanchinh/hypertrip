@@ -89,6 +89,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       finish(context);
                     }),
               ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: ActionButton(
+                      icon: Resource.iconsShare,
+                      onPressed: () {
+                        finish(context);
+                      }),
+                ),
+              ],
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(47),
@@ -97,7 +107,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               backgroundColor: AppColors.primaryColor,
               pinned: true,
               elevation: 2,
-              expandedHeight: 250,
+              expandedHeight: 240,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.parallax,
                 titlePadding: const EdgeInsets.all(10),
@@ -155,11 +165,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ];
         },
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              DetailComponent(place: widget.place),
-            ],
-          ),
+          child: DetailComponent(place: widget.place),
         ),
       ),
     );
