@@ -71,8 +71,8 @@ AppBar _buildAppBar(BuildContext context) {
         ],
       ),
     ],
-    title: const Row(
-      children: [
+    title: Row(
+      children: const [
         Text(
           AppConstant.APP_NAME,
           style: TextStyle(

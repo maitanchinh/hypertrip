@@ -82,7 +82,7 @@ Widget _buildActivity(BuildContext context, Activity activity) {
 
   if (ActivityType.Attendance.compareWithString(type)) {
     return _buildAttendanceActivity(
-        context, AttendanceActivity.fromJson(activity.data), config);
+        context, AttendanceActivityModel.fromJson(activity.data), config);
   }
   if (ActivityType.CheckIn.compareWithString(type)) {
     return _buildCheckInActivity(
@@ -97,7 +97,7 @@ Widget _buildActivity(BuildContext context, Activity activity) {
 }
 
 Widget _buildAttendanceActivity(
-    BuildContext context, AttendanceActivity activity, config) {
+    BuildContext context, AttendanceActivityModel activity, config) {
   return Container(
     color: Colors.white,
     width: double.infinity,

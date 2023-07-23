@@ -1,3 +1,4 @@
+import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/activity/activity.dart';
 
 //* ActivityState
@@ -5,17 +6,19 @@ class ActivityState {
   int totalDays = 0;
   List<Activity> activities = [];
   String filterText = "";
-  String filterType = "All";
+  ActivityType filterType = ActivityType.All;
   int selectedDay = 0;
   List<Activity> filteredActivities = [];
+  String? tourGroupId;
 
   ActivityState copyWith({
     int? totalDays,
     List<Activity>? activities,
     String? filterText,
-    String? filterType,
+    ActivityType? filterType,
     int? selectedDay,
     List<Activity>? filteredActivities,
+    String? tourGroupId,
   }) {
     return ActivityState()
       ..totalDays = totalDays ?? this.totalDays
@@ -23,7 +26,8 @@ class ActivityState {
       ..filterText = filterText ?? this.filterText
       ..filterType = filterType ?? this.filterType
       ..selectedDay = selectedDay ?? this.selectedDay
-      ..filteredActivities = filteredActivities ?? this.filteredActivities;
+      ..filteredActivities = filteredActivities ?? this.filteredActivities
+      ..tourGroupId = tourGroupId ?? this.tourGroupId;
   }
 }
 
@@ -34,10 +38,12 @@ class ActivitySuccessState extends ActivityState {
     required List<Activity> activities,
     required List<Activity> filteredActivities,
     required int totalDays,
+    required String tourGroupId,
   }) {
     this.activities = activities;
     this.filteredActivities = filteredActivities;
     this.totalDays = totalDays;
+    this.tourGroupId = tourGroupId;
   }
 }
 

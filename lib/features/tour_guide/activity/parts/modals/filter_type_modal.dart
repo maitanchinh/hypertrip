@@ -21,12 +21,12 @@ class _FilterTypeModalState extends State<FilterTypeModal> {
         children: <Widget>[
           ...activitiesTypeData.map(
             (e) => ListTile(
-              title: Text(e.item1.label),
+              title: Text(e.label),
               enabled: true,
-              leading: Icon(e.item2),
-              selected: e.item1.name == currentType,
+              leading: Icon(e.icon),
+              selected: e.type == currentType,
               onTap: () => {
-                cubit.setFilter(filterType: e.item1.name),
+                cubit.setFilter(filterType: e.type),
                 Navigator.of(context).pop(),
               },
             ),

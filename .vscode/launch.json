@@ -12,7 +12,7 @@
             "request": "attach",
             "type": "dart",
             "args": [
-                "--app-id=com.panee.hypertrip",
+                "--app-id=io.example.app.dev",
             ]
         },
     ]
