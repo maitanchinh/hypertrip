@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class PTextFormField extends StatefulWidget {
-  final String label;
-  final TextEditingController controller;
+  final String? label;
+  final TextEditingController? controller;
   final bool obscureText;
   final FormFieldValidator<String>? validator;
   final TextInputType keyboardType;
 
   const PTextFormField({
     Key? key,
-    required this.label,
-    required this.controller,
-    required this.obscureText,
-    required this.validator,
-    required this.keyboardType,
+    this.label,
+    this.controller,
+    this.obscureText = false,
+    this.validator,
+    this.keyboardType = TextInputType.text,
   }) : super(key: key);
 
   @override
@@ -33,7 +33,7 @@ class _TextField2State extends State<PTextFormField> {
   void dispose() {
     super.dispose();
     _focusNode.dispose();
-    widget.controller.dispose();
+    widget.controller?.dispose();
   }
 
   @override

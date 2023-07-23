@@ -1,4 +1,4 @@
-class AttendanceActivity {
+class AttendanceActivityModel {
   String? id;
   String? tourGroupId;
   String? title;
@@ -6,7 +6,7 @@ class AttendanceActivity {
   DateTime? createdAt;
   String? note;
 
-  AttendanceActivity({
+  AttendanceActivityModel({
     this.id,
     this.tourGroupId,
     this.title,
@@ -15,7 +15,7 @@ class AttendanceActivity {
     this.note,
   });
 
-  AttendanceActivity copyWith({
+  AttendanceActivityModel copyWith({
     String? id,
     String? tourGroupId,
     String? title,
@@ -23,7 +23,7 @@ class AttendanceActivity {
     DateTime? createdAt,
     String? note,
   }) =>
-      AttendanceActivity(
+      AttendanceActivityModel(
         id: id ?? this.id,
         tourGroupId: tourGroupId ?? this.tourGroupId,
         title: title ?? this.title,
@@ -32,8 +32,8 @@ class AttendanceActivity {
         note: note ?? this.note,
       );
 
-  factory AttendanceActivity.fromJson(Map<String, dynamic> json) =>
-      AttendanceActivity(
+  factory AttendanceActivityModel.fromJson(Map<String, dynamic> json) =>
+      AttendanceActivityModel(
         id: json["id"],
         tourGroupId: json["tourGroupId"],
         title: json["title"],

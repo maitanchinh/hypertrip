@@ -16,22 +16,23 @@ import 'package:hypertrip/features/public/current_tour/cubit.dart';
 import 'package:hypertrip/features/public/current_tour/state.dart';
 import 'package:hypertrip/features/tour_guide/activity/cubit.dart';
 import 'package:hypertrip/features/tour_guide/activity/state.dart';
+import 'package:hypertrip/features/tour_guide/attendance_activity/view.dart';
 import 'package:hypertrip/r.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/message.dart';
-import 'package:hypertrip/widgets/modals/show_sheet_modal.dart';
+import 'package:hypertrip/widgets/modals/show_bottom_sheet.dart';
 import 'package:hypertrip/widgets/popup/p_error_popup.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:tuple/tuple.dart';
 
-part 'parts/config.dart';
+import 'common/activity_data.dart';
+import 'common/config.dart';
+
 part 'parts/create_new.dart';
 part 'parts/day_picker.dart';
 part 'parts/list_activity.dart';
 part 'parts/modals/filter_type_modal.dart';
-part 'parts/modals/select_type_to_create_activity_modal.dart';
 part 'parts/search.dart';
 
 class ActivityPage extends StatefulWidget {

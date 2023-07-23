@@ -32,7 +32,7 @@ AppBar _buildAppBar(BuildContext context) {
       Stack(
         children: [
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
+            padding: const EdgeInsets.only(right: 16.0),
             child: ActionButton(
               icon: Resource.iconsBell,
               onPressed: () {
@@ -70,8 +70,8 @@ AppBar _buildAppBar(BuildContext context) {
         ],
       ),
     ],
-    title: const Row(
-      children: [
+    title: Row(
+      children: const [
         Text(
           AppConstant.APP_NAME,
           style: TextStyle(
