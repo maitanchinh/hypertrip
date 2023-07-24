@@ -22,8 +22,7 @@ final getIt = GetIt.instance;
 void initialGetIt() {
   /// base
   getIt.registerLazySingleton<Dio>(() => apiClient);
-  getIt.registerLazySingleton<Dio>(() => fourSquareApiClient,
-      instanceName: 'publishApiClient');
+  getIt.registerLazySingleton<Dio>(() => fourSquareApiClient, instanceName: 'publishApiClient');
   getIt.registerLazySingleton(() => Logger());
 
   /// repositories
@@ -40,10 +39,8 @@ void initialGetIt() {
 
 void _registerManager() async {
   await Firebase.initializeApp(
-      name: 'hypertrip',
-      options: (Platform.isIOS || Platform.isMacOS)
-          ? DefaultFirebaseOptions.ios
-          : DefaultFirebaseOptions.android);
+    options: Platform.isIOS ? DefaultFirebaseOptions.ios : DefaultFirebaseOptions.android,
+  );
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   // Setup firebase listener for permission changes
@@ -58,7 +55,7 @@ void _registerManager() async {
     } else {}
   });
 
-  getIt.registerFactory(() =>
-      FirebaseMessagingManager(getIt<NotificationRepo>())..setupFirebaseFCM());
+  getIt.registerFactory(
+      () => FirebaseMessagingManager(getIt<NotificationRepo>())..setupFirebaseFCM());
   getIt.registerFactory(() => FirestoreRepository());
 }

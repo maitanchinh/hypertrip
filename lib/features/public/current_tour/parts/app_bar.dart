@@ -27,6 +27,9 @@ AppBar _buildAppBar(BuildContext context) {
                 .map((e) => LocationTour(lat: e.latitude ?? 0.0, lng: e.longitude ?? 0.0)).toList();
           }
           if(locationTour.isEmpty)return;
+          // Remove LocationTour objects with lat and lng equal to 0.0
+          locationTour.removeWhere((tour) => tour.lat == 0.0 && tour.lng == 0.0);
+
           Navigator.of(context).pushNamed(WarningIncidentPage.routeName, arguments: locationTour);
         },
       ),
