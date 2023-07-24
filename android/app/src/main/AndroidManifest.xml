@@ -1,21 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.panee.hypertrip">
+    package="io.example.app.dev">
     <uses-permission android:name="android.permission.INTERNET" />
     <!--Camera-->
     <uses-permission android:name="android.permission.CAMERA" />
-    <!--Storage Access-->
+    <!--Storage
+    Access-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32"/>
+        android:maxSdkVersion="32" />
     <!--Location-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-   <application
+    <application
         android:label="hypertrip"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-       <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyAPZiYIlR-ztOa6maus6urUhs1Z-6spyj4"/>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAPZiYIlR-ztOa6maus6urUhs1Z-6spyj4" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -29,12 +30,12 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"
+            />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
