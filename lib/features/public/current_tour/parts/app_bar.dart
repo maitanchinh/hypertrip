@@ -32,7 +32,7 @@ AppBar _buildAppBar(BuildContext context) {
       Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: EdgeInsets.only(right: 16.0, top: 8),
             child: ActionButton(
               icon: Resource.iconsBell,
               onPressed: () {
@@ -47,19 +47,20 @@ AppBar _buildAppBar(BuildContext context) {
                 if (value > 0) {
                   value = value > 99 ? 99 : value;
                   return Positioned(
-                    right: 5,
-                    top: 5,
+                    right: 20,
+                    top: 14,
                     child: Container(
-                      width: 20,
-                      height: 20,
+                      width: 14,
+                      height: 14,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.red,
+                        color: AppColors.secondaryColor,
                       ),
                       child: Center(
-                        child: Text('$value',
-                            style: AppStyle.fontOpenSanRegular.copyWith(
-                                fontSize: 14, color: AppColors.textColor)),
+                        child: PSmallText(
+                          '$value',
+                          color: white,
+                        ),
                       ),
                     ),
                   );

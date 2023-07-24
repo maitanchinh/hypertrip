@@ -8,7 +8,8 @@ import 'package:hypertrip/domain/models/chat/firestore_message.dart';
 class FirestoreRepository {
   final FirebaseFirestore _db;
 
-  FirestoreRepository() : _db = FirebaseFirestore.instanceFor(app: Firebase.app());
+  FirestoreRepository()
+      : _db = FirebaseFirestore.instanceFor(app: Firebase.app());
 
   final String COLLECTION_GROUP = 'groups';
   final String COLLECTION_MESSAGES = 'messages';
@@ -47,15 +48,17 @@ class FirestoreRepository {
   }
 
   /// Send message lên Firestore
-  Future<FirestoreMessage?> saveMessage(String uid, MessageType type, String messageText,
-      DateTime sentAt, String currentGroupId) async {
+  Future<FirestoreMessage?> saveMessage(String uid, MessageType type,
+      String messageText, DateTime sentAt, String currentGroupId) async {
     if (messageText.trim().isNotEmpty) {
-      final data =
-          FirestoreMessage(senderId: uid, type: type, content: messageText, timestamp: sentAt);
+      final data = FirestoreMessage(
+          senderId: uid, type: type, content: messageText, timestamp: sentAt);
 
       try {
-        CollectionReference messageCollection =
-            _db.collection(COLLECTION_GROUP).doc(currentGroupId).collection(COLLECTION_MESSAGES);
+        CollectionReference messageCollection = _db
+            .collection(COLLECTION_GROUP)
+            .doc(currentGroupId)
+            .collection(COLLECTION_MESSAGES);
 
         DocumentReference docRef = await messageCollection.add(data.toJson());
 
