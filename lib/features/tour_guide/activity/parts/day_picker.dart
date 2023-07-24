@@ -36,7 +36,6 @@ class _DayPickerState extends State<DayPicker> {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = BlocProvider.of<ActivityCubit>(context);
-        debugPrint("totalDays: ${cubit.state.totalDays}");
 
         return DefaultTabController(
           length: cubit.state.totalDays,

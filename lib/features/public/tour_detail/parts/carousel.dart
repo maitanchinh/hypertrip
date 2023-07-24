@@ -1,13 +1,13 @@
 part of '../view.dart';
 
-Widget _buildCarousel(LoadTourDetailSuccessState state) {
+Widget _buildCarousel(Tour tour) {
   //TODO: implement carousel
   const maxItem = 4;
-  // var length = state.tour.carousel?.length ?? 0;
-  const length = 7;
+  var length = tour.carousel!.length;
+  // const length = 7;
 
-  const hasLastOverLay = length > maxItem;
-  const moreItem = length - maxItem + 1;
+  final hasLastOverLay = length > maxItem;
+  final moreItem = length - maxItem + 1;
 
   return GridView.builder(
     physics: const NeverScrollableScrollPhysics(),
@@ -22,20 +22,31 @@ Widget _buildCarousel(LoadTourDetailSuccessState state) {
     // itemCount: itemCount,
     itemBuilder: (context, index) {
       var isLast = index == maxItem - 1;
-
       return Stack(
         fit: StackFit.expand,
         children: [
-          Container(
-            child: commonCachedNetworkImage(
-              state.tour.thumbnailUrl,
-              fit: BoxFit.cover,
-            ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Photo(
+                            carousels: tour.carousel,
+                            currentPhotoIndex: index,
+                          )));
+            },
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: FadeInImage.assetNetwork(
+                  placeholder: Resource.imagesPlaceholder,
+                  image: tour.carousel![index].url.toString(),
+                  fit: BoxFit.cover,
+                )),
           ),
 
           /// last item overlay
           ...?((hasLastOverLay && isLast)
-              ? [_buildOverlay('+$moreItem')]
+              ? [IgnorePointer(child: _buildOverlay('+$moreItem'))]
               : null)
         ],
       );
@@ -44,14 +55,18 @@ Widget _buildCarousel(LoadTourDetailSuccessState state) {
 }
 
 Widget _buildOverlay(String text) {
-  return Container(
-    color: Colors.black.withOpacity(0.3),
-    child: Center(
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 16,
-          color: Colors.white.withOpacity(0.9),
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(16),
+    child: Container(
+      // decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: black.withOpacity(opacity)),
+      color: Colors.black.withOpacity(0.3),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.white.withOpacity(0.9),
+          ),
         ),
       ),
     ),

@@ -2,6 +2,7 @@
 class Resource {
   Resource._();
 
+  //Icon
   static const String iconsAddSquare = 'assets/images/icons/add-square.svg';
   static const String iconsAll = 'assets/images/icons/all.svg';
   static const String iconsAngleLeft = 'assets/images/icons/angle-left.svg';
@@ -19,8 +20,7 @@ class Resource {
   static const String iconsMap = 'assets/images/icons/map.svg';
   static const String iconsMinus = 'assets/images/icons/minus.svg';
   static const String iconsNightlife = 'assets/images/icons/nightlife.svg';
-  static const String iconsNotification =
-      'assets/images/icons/notification.svg';
+  static const String iconsBell = 'assets/images/icons/bell.svg';
   static const String iconsPizza = 'assets/images/icons/pizza.svg';
   static const String iconsPlus = 'assets/images/icons/plus.svg';
   static const String iconsSearch = 'assets/images/icons/search.svg';
@@ -29,6 +29,25 @@ class Resource {
   static const String iconsStar = 'assets/images/icons/star.svg';
   static const String iconsLocationCrosshairs =
       'assets/images/icons/location-crosshairs.svg';
+  static const String iconsPlane = 'assets/images/icons/plane.svg';
+  static const String iconsClipboardUser =
+      'assets/images/icons/clipboard-user.svg';
+  static const String iconsInfo = 'assets/images/icons/info.svg';
+  static const String iconsCloud = 'assets/images/icons/cloud.svg';
+  static const String iconsHome = 'assets/images/icons/home.svg';
+  static const String iconsMessage = 'assets/images/icons/message.svg';
+  static const String iconsUser = 'assets/images/icons/user.svg';
+  static const String iconsPersionWalking =
+      'assets/images/icons/person-walking.svg';
+  static const String iconsLocationArrow =
+      'assets/images/icons/location-arrow.svg';
+  static const String iconsXmark = 'assets/images/icons/xmark.svg';
+  static const String iconsPhone = 'assets/images/icons/phone.svg';
+  static const String iconsWeb = 'assets/images/icons/web.svg';
+  static const String iconsRoute = 'assets/images/icons/route.svg';
+  static const String iconsShare = 'assets/images/icons/share.svg';
+
+  //Image
   static const String imagesAvatarPlaceholder =
       'assets/images/avatar_placeholder.png';
   static const String imagesLogo = 'assets/images/logo.png';

@@ -21,9 +21,19 @@ Widget _buildCreateNew(BuildContext context) {
             height: ActivityConfig.btnHeight,
             child: TextButton(
               onPressed: () {
-                showSheetModal(
+                final items = activitiesTypeData
+                    .where((element) => element.type != ActivityType.All);
+                showCupertinoModalPopup(
                   context: context,
-                  builder: (context) => const SelectTypeToCreateActivityModal(),
+                  builder: (context) => CupertinoActionSheet(
+                    title: const Text("Select new activity type"),
+                    actions: items
+                        .map((e) => CupertinoActionSheetAction(
+                              onPressed: () => _action(context, type: e.type),
+                              child: Text(e.label),
+                            ))
+                        .toList(),
+                  ),
                 );
               },
               style: TextButton.styleFrom(
@@ -58,3 +68,17 @@ Widget _buildCreateNew(BuildContext context) {
     ],
   );
 }
+
+void _action(BuildContext context, {required ActivityType type}) {
+  Navigator.of(context).pop();
+  if (type == ActivityType.All) return;
+  if (type == ActivityType.Attendance) return _onCreateAttendance(context);
+  if (type == ActivityType.CheckIn) return _onCreateCheckIn(context);
+}
+
+void _onCreateAttendance(BuildContext context) {
+  showAppModalBottomSheet(
+      context: context, builder: (context) => const AttendanceActivity());
+}
+
+void _onCreateCheckIn(BuildContext context) {}

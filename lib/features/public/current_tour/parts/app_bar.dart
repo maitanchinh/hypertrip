@@ -2,21 +2,23 @@ part of '../view.dart';
 
 AppBar _buildAppBar(BuildContext context) {
   return AppBar(
-    backgroundColor: AppColors.primaryColor,
-    title: const Row(
-      children: [
-        Text(
-          AppConstant.APP_NAME,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    ),
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    // title: const Row(
+    //   children: [
+    //     Text(
+    //       AppConstant.APP_NAME,
+    //       style: TextStyle(
+    //         color: Colors.white,
+    //         fontSize: 20,
+    //         fontWeight: FontWeight.bold,
+    //       ),
+    //     ),
+    //   ],
+    // ),
     actions: [
-      IconButton(
+      ActionButton(
+        icon: Resource.iconsCloud,
         onPressed: () {
           final cubit = BlocProvider.of<CurrentTourCubit>(context);
           List<LocationTour> locationTour = [];
@@ -27,15 +29,23 @@ AppBar _buildAppBar(BuildContext context) {
           if(locationTour.isEmpty)return;
           Navigator.of(context).pushNamed(WarningIncidentPage.routeName, arguments: locationTour);
         },
-        icon: SvgPicture.asset(AppAssets.icons_ic_cloud_solid_svg, color: Colors.white,),
       ),
+      Gap.k16.width,
+      ActionButton(
+        icon: Resource.iconsInfo,
+        onPressed: () {},
+      ),
+      Gap.k16.width,
       Stack(
         children: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(NotificationScreen.routeName);
-            },
-            icon: const Icon(Icons.notifications, color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: ActionButton(
+              icon: Resource.iconsBell,
+              onPressed: () {
+                Navigator.of(context).pushNamed(NotificationScreen.routeName);
+              },
+            ),
           ),
           StreamBuilder<int>(
               stream: watchCountNotify(),
@@ -67,5 +77,17 @@ AppBar _buildAppBar(BuildContext context) {
         ],
       ),
     ],
+    title: Row(
+      children: const [
+        Text(
+          AppConstant.APP_NAME,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    ),
   );
 }

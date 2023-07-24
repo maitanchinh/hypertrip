@@ -60,15 +60,15 @@ class _NearbyPlaceState extends State<NearbyPlace> {
             itemCount: state.nearbyPlace!.results!.length,
             itemBuilder: (BuildContext context, int index) {
               try {
-                if (state.nearbyPlace!.results![index].categories != null &&
-                    state.nearbyPlace!.results![index].categories!.isNotEmpty) {
-                  NearbyResults results = state.nearbyPlace!.results![index];
+                // if (state.nearbyPlace!.results![index].categories != null &&
+                //     state.nearbyPlace!.results![index].categories!.isNotEmpty) {
+                NearbyResults results = state.nearbyPlace!.results![index];
 
-                  return Place(
-                    place: results,
-                    photoIndex: 0,
-                  );
-                }
+                return Place(
+                  place: results,
+                  photoIndex: 0,
+                );
+                // }
               } catch (e) {
                 print(e.toString());
               }

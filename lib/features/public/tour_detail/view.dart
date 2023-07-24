@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/features/public/tour_detail/state.dart';
 import 'package:hypertrip/generated/resource.dart';
@@ -13,15 +14,19 @@ import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
-import 'package:readmore/readmore.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:readmore/readmore.dart' as Readmore;
 import 'package:timeline_tile/timeline_tile.dart';
 
+import '../../../domain/models/tour/tour.dart';
+import '../../../widgets/button/action_button.dart';
 import 'cubit.dart';
 
 part 'parts/carousel.dart';
 part 'parts/description.dart';
 part 'parts/header.dart';
 part 'parts/schedule.dart';
+part 'parts/photo.dart';
 
 class TourDetailPage extends StatelessWidget {
   static const routeName = '/tour-detail';
@@ -59,14 +64,14 @@ class TourDetailPage extends StatelessWidget {
           /// failed
           if (cubit.state is LoadTourDetailFailedState) {
             return Center(
-              child: commonCachedNetworkImage(Resource.imagesTourNotFound),
+              child: Image.asset(Resource.imagesTourNotFound),
             );
           }
 
           /// not found
           if (cubit.state is LoadTourDetailNotFoundState) {
             return Center(
-              child: commonCachedNetworkImage(Resource.imagesTourNotFound),
+              child: Image.asset(Resource.imagesTourNotFound),
             );
           }
 
@@ -86,8 +91,10 @@ class TourDetailPage extends StatelessWidget {
                       Gap.k8.height,
                       _buildDescription(state),
                       Gap.kSection.height,
-                      _buildCarousel(state),
+                      _buildCarousel(state.tour),
                       Gap.kSection.height,
+                      const PText(label_schedule),
+                      Gap.k8.height,
                       Schedule(state: state)
                     ],
                   ),

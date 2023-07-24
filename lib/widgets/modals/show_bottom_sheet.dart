@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hypertrip/theme/color.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-Future<T?> showSheetModal<T>({
+Future<T?> showAppModalBottomSheet<T>({
   required BuildContext context,
   required WidgetBuilder builder,
-  Color backgroundColor = Colors.transparent,
-  double? elevation,
-  ShapeBorder? shape,
-  Clip? clipBehavior,
-  Color barrierColor = const Color.fromRGBO(0, 0, 0, 0.5),
   bool bounce = true,
   bool expand = false,
-  AnimationController? secondAnimation,
+  bool enableDrag = true,
+  Radius topRadius = const Radius.circular(12),
+  BoxShadow? shadow,
+  double? elevation,
+  Clip? clipBehavior,
+  Color barrierColor = const Color.fromRGBO(0, 0, 0, 0.5),
+  Duration? duration,
+  ShapeBorder? shape,
+  bool? isDismissible,
   Curve? animationCurve,
   bool useRootNavigator = false,
-  bool isDismissible = true,
-  bool enableDrag = false,
-  Widget? topControl,
-  Duration? duration,
+  Color? backgroundColor = AppColors.bgLightColor,
   RouteSettings? settings,
-  SystemUiOverlayStyle? overlayStyle,
   double? closeProgressThreshold,
+  Color? transitionBackgroundColor,
+  Curve? previousRouteAnimationCurve,
+  SystemUiOverlayStyle? overlayStyle,
+  AnimationController? secondAnimation,
 }) {
-  return showBarModalBottomSheet<T>(
+  return showCupertinoModalBottomSheet(
     context: context,
     builder: builder,
     backgroundColor: backgroundColor,
@@ -31,16 +35,19 @@ Future<T?> showSheetModal<T>({
     shape: shape,
     clipBehavior: clipBehavior,
     barrierColor: barrierColor,
-    bounce: bounce,
     expand: expand,
     secondAnimation: secondAnimation,
     animationCurve: animationCurve,
+    previousRouteAnimationCurve: previousRouteAnimationCurve,
     useRootNavigator: useRootNavigator,
+    bounce: bounce,
     isDismissible: isDismissible,
     enableDrag: enableDrag,
-    topControl: topControl,
+    topRadius: topRadius,
     duration: duration,
     settings: settings,
+    transitionBackgroundColor: transitionBackgroundColor,
+    shadow: shadow,
     overlayStyle: overlayStyle,
     closeProgressThreshold: closeProgressThreshold,
   );

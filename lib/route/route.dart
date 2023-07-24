@@ -16,12 +16,13 @@ import 'package:hypertrip/features/public/warning_incident/interactor/warning_in
 import 'package:hypertrip/features/public/warning_incident/warning_incident_page.dart';
 import 'package:hypertrip/features/public/weather_detail/weather_detail_page.dart';
 import 'package:hypertrip/features/root/view.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 PageRoute? generateRoute(RouteSettings settings) {
   switch (settings.name) {
     /// Root
     case RootPage.routeName:
-      return MaterialPageRoute(builder: (_) => const RootPage());
+      return MaterialWithModalsPageRoute(builder: (_) => const RootPage());
     case LoadingPage.routeName:
       return MaterialPageRoute(builder: (_) => const LoadingPage());
 
