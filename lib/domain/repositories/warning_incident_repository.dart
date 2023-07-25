@@ -1,24 +1,32 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:hypertrip/domain/models/incidents/earth_quakes_response.dart';
+import 'package:hypertrip/domain/models/incidents/weather_alert.dart';
 import 'package:hypertrip/domain/models/incidents/weather_alerts.dart';
 import 'package:hypertrip/domain/models/incidents/weather_current.dart';
 import 'package:hypertrip/domain/models/incidents/weather_forecast.dart';
 import 'package:hypertrip/domain/models/incidents/weather_location.dart';
 import 'package:hypertrip/domain/models/incidents/weather_response.dart';
+import 'package:hypertrip/utils/constant.dart';
+import 'package:hypertrip/utils/message.dart';
 
 class WarningIncidentRepository {
-  String weatherKey = 'fba32bf22570466094285146232806';
   String weatherApi = 'https://api.weatherapi.com/v1/forecast.json';
 
   String earthQuakesApi = 'https://earthquake.usgs.gov/fdsnws/event/1/query';
 
+  final Dio _apiClient = GetIt.I.get<Dio>();
+
+  WarningIncidentRepository();
+
   FutureOr<WeatherResponse> fetchDataWeather(
       {int days = 3, double lat = 10.762622, double lng = 106.660172}) async {
-    final response = await http
-        .get(Uri.parse('$weatherApi?key=$weatherKey&q=$lat,$lng&days=$days&aqi=no&alerts=yes'));
+    final response = await http.get(Uri.parse(
+        '$weatherApi?key=${AppConstant.weatherKey}&q=$lat,$lng&days=$days&aqi=no&alerts=yes'));
 
     if (response.statusCode == 200) {
       return response.body.isNotEmpty
@@ -27,7 +35,7 @@ class WarningIncidentRepository {
               location: WeatherLocation(),
               alerts: WeatherAlerts(),
               current: WeatherCurrent(),
-        forecast: WeatherForecast(),
+              forecast: WeatherForecast(),
             );
     } else {
       print('Mã phản hồi: ${response.statusCode}');
@@ -57,6 +65,18 @@ class WarningIncidentRepository {
     } else {
       print('Mã phản hồi: ${response.statusCode}');
       return EarthquakesResponse();
+    }
+  }
+
+  Future<List<WeatherAlert>> getAlertTrip(String tripId) async {
+    try {
+      var response = await _apiClient.get('/trips/$tripId/weather-alerts');
+
+      return (response.data as List<dynamic>)
+          .map((assignGroup) => WeatherAlert.fromJson(assignGroup))
+          .toList();
+    } on DioException catch (e) {
+      throw Exception(msg_server_error);
     }
   }
 }

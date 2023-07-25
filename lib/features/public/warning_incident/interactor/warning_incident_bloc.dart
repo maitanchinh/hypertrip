@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/domain/models/incidents/earth_quakes_response.dart';
+import 'package:hypertrip/domain/models/incidents/weather_alert.dart';
 import 'package:hypertrip/domain/models/incidents/weather_alerts.dart';
 import 'package:hypertrip/domain/models/incidents/weather_current.dart';
 import 'package:hypertrip/domain/models/incidents/weather_forecast.dart';
@@ -25,6 +26,7 @@ class WarningIncidentBloc extends Bloc<WarningIncidentEvent, WarningIncidentStat
           locationTour: [],
         )) {
     on<FetchAllLocationTour>(_fetchAllLocationTour);
+    on<FetchAllAlert>(_fetchAllAlert);
     on<FetchDataWeather>(_fetchDataWeather);
     on<FetchDataEarthQuakes>(_fetchDataEarthQuakes);
   }
@@ -79,52 +81,26 @@ class WarningIncidentBloc extends Bloc<WarningIncidentEvent, WarningIncidentStat
 
   FutureOr<void> _fetchAllLocationTour(
       FetchAllLocationTour event, Emitter<WarningIncidentState> emit) {
-    // Lấy danh sách vị trí trong tour
-    final List<LocationTour> locationTour = [
-      LocationTour(lat: 10.762622, lng: 106.660172),
-      LocationTour(lat: 10.502307, lng: 107.169205),
-      LocationTour(lat: 12.24507, lng: 109.19432),
-      LocationTour(lat: 13.759660, lng: 109.206123),
-      LocationTour(lat: 15.12047, lng: 108.79232),
-    ];
 
-    final Map<int, WeatherResponse> dataWeatherTour = {
-      0: WeatherResponse(
+    final Map<int, WeatherResponse> dataWeatherTour = {};
+    for (int i = 0; i < event.currentTour.length; i++) {
+      dataWeatherTour[i] = WeatherResponse(
         location: WeatherLocation(),
         alerts: WeatherAlerts(),
         current: WeatherCurrent(),
         forecast: WeatherForecast(),
-      ),
-      1: WeatherResponse(
-        location: WeatherLocation(),
-        alerts: WeatherAlerts(),
-        current: WeatherCurrent(),
-        forecast: WeatherForecast(),
-      ),
-      2: WeatherResponse(
-        location: WeatherLocation(),
-        alerts: WeatherAlerts(),
-        current: WeatherCurrent(),
-        forecast: WeatherForecast(),
-      ),
-      3: WeatherResponse(
-        location: WeatherLocation(),
-        alerts: WeatherAlerts(),
-        current: WeatherCurrent(),
-        forecast: WeatherForecast(),
-      ),
-      4: WeatherResponse(
-        location: WeatherLocation(),
-        alerts: WeatherAlerts(),
-        current: WeatherCurrent(),
-        forecast: WeatherForecast(),
-      ),
-    };
+      );
+    }
 
-    emit(state.copyWith(dataWeatherTour: dataWeatherTour, locationTour: locationTour));
+    emit(state.copyWith(dataWeatherTour: dataWeatherTour, locationTour: event.currentTour));
 
     add(const FetchDataWeather(0));
     add(const FetchDataEarthQuakes());
+  }
+
+  FutureOr<void> _fetchAllAlert(FetchAllAlert event, Emitter<WarningIncidentState> emit) async {
+    final results = await _warningIncidentRepository.getAlertTrip(event.tripId);
+    emit(state.copyWith(alerts: results));
   }
 }
 

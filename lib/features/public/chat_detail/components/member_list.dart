@@ -6,6 +6,22 @@ class MemberList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Create a temporary list to store the IDs that have appeared
+    List<String> uniqueIds = [];
+
+    // Create a new list to store unique members (no duplicate IDs)
+    List<ChatUser> uniqueMembers = [];
+
+    // Loop through each member in the original list
+    for (var member in members) {
+      // Check if the ID of the member has appeared before
+      if (!uniqueIds.contains(member.id)) {
+        // If the ID has not appeared, add it to the temporary list and add the member to the new list
+        uniqueIds.add(member.id);
+        uniqueMembers.add(member);
+      }
+    }
+
     return BlocBuilder<ChatDetailBloc, ChatDetailState>(
       builder: (context, state) {
         return SafeArea(
@@ -29,9 +45,7 @@ class MemberList extends StatelessWidget {
                 ),
                 Expanded(
                   child: ListView(
-                    children: members
-                        .map((member) => MemberItem(data: member))
-                        .toList(),
+                    children: uniqueMembers.map((member) => MemberItem(data: member)).toList(),
                   ),
                 )
               ],

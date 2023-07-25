@@ -13,46 +13,48 @@ import 'package:nb_utils/nb_utils.dart';
 
 class BackgroundAvatar extends StatelessWidget {
   final WeatherResponse? weatherResponse;
+
   const BackgroundAvatar({Key? key, this.weatherResponse}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WarningIncidentBloc, WarningIncidentState>(
       builder: (context, state) {
-        return Stack(
+        return Column(
           children: [
-            ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                child: Image.asset(AppAssets.image_background_weather_png)),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 16, top: 32),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Address(address: weatherResponse?.location.name ?? ''),
-                      TimeAddress(time: weatherResponse?.location.localtime ?? ''),
-                    ],
+            Container(
+              decoration: const BoxDecoration(color: Colors.white,borderRadius: BorderRadius.all(Radius.circular(16))),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0, right: 16, top: 32),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Address(address: weatherResponse?.location.name ?? ''),
+                        TimeAddress(time: weatherResponse?.location.localtime ?? ''),
+                      ],
+                    ),
                   ),
-                ),
-                20.height,
-                Termp(
-                    temp: weatherResponse?.current.tempC.toInt() ?? 0,
-                    conditionText: weatherResponse?.current.condition?.text ?? ''),
-                25.height,
-                ItemWind(
-                  hPa: weatherResponse?.current.pressureMb.toInt() ?? 0,
-                  humidity: weatherResponse?.current.humidity ?? 0,
-                  windKph: weatherResponse?.current.windKph ?? 0.0,
-                ),
-                25.height,
-                ChartTemp(
-                    weatherForecastDay: weatherResponse!.forecast.forecastDay.isNotEmpty
-                        ? weatherResponse!.forecast.forecastDay.first
-                        : WeatherForecastDay()),
-              ],
+                  10.height,
+                  Termp(
+                      temp: weatherResponse?.current.tempC.toInt() ?? 0,
+                      conditionText: weatherResponse?.current.condition?.text ?? ''),
+                  25.height,
+                  ItemWind(
+                    hPa: weatherResponse?.current.pressureMb.toInt() ?? 0,
+                    humidity: weatherResponse?.current.humidity ?? 0,
+                    windKph: weatherResponse?.current.windKph ?? 0.0,
+                  ),
+                  25.height,
+                ],
+              ),
             ),
+            25.height,
+            ChartTemp(
+                weatherForecastDay: weatherResponse!.forecast.forecastDay.isNotEmpty
+                    ? weatherResponse!.forecast.forecastDay.first
+                    : WeatherForecastDay()),
           ],
         );
       },

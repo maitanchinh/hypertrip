@@ -14,10 +14,9 @@ class ChartTemp extends StatelessWidget {
   Widget build(BuildContext context) {
     List<double> averages = averagesTemp();
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.3),
-            borderRadius: const BorderRadius.all(Radius.circular(16))),
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(16))),
         child: Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16, top: 16),
           child: Column(

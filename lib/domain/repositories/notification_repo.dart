@@ -1,18 +1,19 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:hypertrip/domain/models/notification/firebase_message.dart';
 
 class NotificationRepo {
-  final Dio _apiClient;
+  final Dio _apiClient = GetIt.I.get<Dio>();
 
-  NotificationRepo(this._apiClient);
+  NotificationRepo();
 
   /// Add token FCM
   Future<dynamic> addTokenFCMApi(String tokenFCM, String uID) async {
-    final response =
-        await _apiClient.post('/fcm-tokens', data: jsonEncode({'token': tokenFCM, 'userId': uID}));
+    final response = await _apiClient.post('/fcm-tokens',
+        data: jsonEncode({'token': tokenFCM, 'userId': uID}));
     return response;
   }
 
@@ -23,7 +24,8 @@ class NotificationRepo {
   }
 
   Future<dynamic> sendNotify(String token, Map message, Map data) async {
-    final response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+    final response = await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
         headers: {
           "Content-Type": "application/json",
           "Authorization":
@@ -37,7 +39,9 @@ class NotificationRepo {
   Future<List<FirebaseMessage>> fetchNotificationList() async {
     final response = await _apiClient.get('/notifications');
     return response.data != null
-        ? response.data.map<FirebaseMessage>((json) => FirebaseMessage.fromJson(json)).toList()
+        ? response.data
+            .map<FirebaseMessage>((json) => FirebaseMessage.fromJson(json))
+            .toList()
         : [];
   }
 

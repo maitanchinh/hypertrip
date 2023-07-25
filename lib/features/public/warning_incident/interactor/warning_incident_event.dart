@@ -5,10 +5,19 @@ abstract class WarningIncidentEvent extends Equatable {
 }
 
 class FetchAllLocationTour extends WarningIncidentEvent {
-  const FetchAllLocationTour();
+  final List<LocationTour> currentTour;
+  const FetchAllLocationTour(this.currentTour);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [currentTour];
+}
+
+class FetchAllAlert extends WarningIncidentEvent {
+  final String tripId;
+  const FetchAllAlert(this.tripId);
+
+  @override
+  List<Object> get props => [tripId];
 }
 
 class FetchDataWeather extends WarningIncidentEvent {
