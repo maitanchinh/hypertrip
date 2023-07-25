@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/domain/models/incidents/earth_quakes_response.dart';
+import 'package:hypertrip/domain/models/incidents/weather_alert.dart';
 import 'package:hypertrip/domain/models/incidents/weather_alerts.dart';
 import 'package:hypertrip/domain/models/incidents/weather_current.dart';
 import 'package:hypertrip/domain/models/incidents/weather_forecast.dart';
@@ -25,6 +26,7 @@ class WarningIncidentBloc extends Bloc<WarningIncidentEvent, WarningIncidentStat
           locationTour: [],
         )) {
     on<FetchAllLocationTour>(_fetchAllLocationTour);
+    on<FetchAllAlert>(_fetchAllAlert);
     on<FetchDataWeather>(_fetchDataWeather);
     on<FetchDataEarthQuakes>(_fetchDataEarthQuakes);
   }
@@ -94,6 +96,11 @@ class WarningIncidentBloc extends Bloc<WarningIncidentEvent, WarningIncidentStat
 
     add(const FetchDataWeather(0));
     add(const FetchDataEarthQuakes());
+  }
+
+  FutureOr<void> _fetchAllAlert(FetchAllAlert event, Emitter<WarningIncidentState> emit) async {
+    final results = await _warningIncidentRepository.getAlertTrip(event.tripId);
+    emit(state.copyWith(alerts: results));
   }
 }
 

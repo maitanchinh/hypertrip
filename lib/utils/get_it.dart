@@ -33,7 +33,7 @@ void initialGetIt() {
   getIt.registerLazySingleton(() => ActivityRepo());
 
   getIt.registerLazySingleton(() => NotificationRepo(getIt<Dio>()));
-  getIt.registerLazySingleton(() => WarningIncidentRepository());
+  getIt.registerLazySingleton(() => WarningIncidentRepository(getIt<Dio>()));
   _registerManager();
 }
 

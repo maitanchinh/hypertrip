@@ -12,6 +12,14 @@ class FetchAllLocationTour extends WarningIncidentEvent {
   List<Object> get props => [currentTour];
 }
 
+class FetchAllAlert extends WarningIncidentEvent {
+  final String tripId;
+  const FetchAllAlert(this.tripId);
+
+  @override
+  List<Object> get props => [tripId];
+}
+
 class FetchDataWeather extends WarningIncidentEvent {
   final int index;
   const FetchDataWeather(this.index);

@@ -12,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_routes/google_maps_routes.dart';
+import 'package:hypertrip/domain/models/incidents/warning_argument.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/features/public/current_tour/state.dart';

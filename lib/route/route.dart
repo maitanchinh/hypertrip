@@ -2,12 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:hypertrip/domain/models/group/assign_group_response.dart';
+import 'package:hypertrip/domain/models/incidents/warning_argument.dart';
+import 'package:hypertrip/domain/models/incidents/weather_alert.dart';
 import 'package:hypertrip/domain/models/incidents/weather_forecast_day.dart';
 import 'package:hypertrip/domain/models/incidents/weather_response.dart';
 import 'package:hypertrip/domain/models/user/user_profile.dart';
 import 'package:hypertrip/features/loading/view.dart';
 import 'package:hypertrip/features/login_by_email/view.dart';
 import 'package:hypertrip/features/login_by_phone/view.dart';
+import 'package:hypertrip/features/public/alert_detail/alert_detail.dart';
 import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
 import 'package:hypertrip/features/public/edit_profile/edit_profile_screen.dart';
 import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
@@ -43,7 +46,9 @@ PageRoute? generateRoute(RouteSettings settings) {
     case ChatDetailPage.routeName:
       return MaterialPageRoute(builder: (_) => ChatDetailPage(assignGroupResponse: settings.arguments as AssignGroupResponse));
     case WarningIncidentPage.routeName:
-      return MaterialPageRoute(builder: (_) => WarningIncidentPage(currentTour: settings.arguments as List<LocationTour>,));
+      return MaterialPageRoute(builder: (_) => WarningIncidentPage(args: settings.arguments as WarningArgument,));
+    case AlertDetail.routeName:
+      return MaterialPageRoute(builder: (_) => AlertDetail(alert: settings.arguments as WeatherAlert));
 
     // case LoginByPhonePage.routeName:
     //   // test animation page transition

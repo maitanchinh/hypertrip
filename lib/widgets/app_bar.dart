@@ -9,9 +9,17 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final bool implyLeading;
   final VoidCallback? onTap;
+  final Color? backgroundColor;
 
-  const MainAppBar(
-      {super.key, this.title = '', this.titleStyle, this.actions, this.implyLeading = false,this.onTap,});
+  const MainAppBar({
+    super.key,
+    this.title = '',
+    this.titleStyle,
+    this.actions,
+    this.implyLeading = false,
+    this.onTap,
+    this.backgroundColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +44,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         style: titleStyle ?? AppStyle.fontOpenSanSemiBold.copyWith(color: Colors.black),
       ),
       elevation: 0,
-      backgroundColor: AppColors.bgLightColor,
+      backgroundColor: backgroundColor ?? AppColors.bgLightColor,
       actions: actions != null && actions!.isNotEmpty
           ? List.generate(
               actions!.length,
