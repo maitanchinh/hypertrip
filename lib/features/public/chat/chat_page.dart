@@ -21,6 +21,8 @@ import 'package:hypertrip/widgets/text_form_field_title.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../generated/resource.dart';
+import '../../../widgets/text/p_small_text.dart';
+import '../../../widgets/text/p_text.dart';
 
 part '../chat/components/conversation_list.dart';
 
@@ -120,7 +122,7 @@ class ChatPageScreen extends StatelessWidget {
                           },
                         ),
                       ],
-                    ).paddingOnly(left: 16, top: 8, right: 16),
+                    ),
                   );
                 },
               ),
