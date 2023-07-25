@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hypertrip/theme/color.dart';
 
 class PTextFormField extends StatefulWidget {
   final String? label;
@@ -6,6 +7,7 @@ class PTextFormField extends StatefulWidget {
   final bool obscureText;
   final FormFieldValidator<String>? validator;
   final TextInputType keyboardType;
+  final ValueChanged<String>? onChange;
 
   const PTextFormField({
     Key? key,
@@ -14,6 +16,7 @@ class PTextFormField extends StatefulWidget {
     this.obscureText = false,
     this.validator,
     this.keyboardType = TextInputType.text,
+    this.onChange,
   }) : super(key: key);
 
   @override
@@ -21,46 +24,45 @@ class PTextFormField extends StatefulWidget {
 }
 
 class _TextField2State extends State<PTextFormField> {
-  late FocusNode _focusNode;
+  late FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _focusNode.dispose();
     widget.controller?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Color borderColor = _focusNode.hasFocus
-        ? Theme.of(context).colorScheme.primary
-        : Colors.grey.shade500;
-
+    Color borderColor =
+        _focusNode.hasFocus ? AppColors.primaryColor : Colors.grey.shade500;
+    print(_focusNode);
     return Row(
       children: [
         Expanded(
           child: Container(
             margin: const EdgeInsets.only(bottom: 15),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              color: _focusNode.hasFocus
+                  ? AppColors.primaryColor.withOpacity(0.2)
+                  : AppColors.primaryColor.withOpacity(0.1),
               // border by focusNode
-              border: Border.all(
-                color: borderColor,
-              ),
             ),
             child: TextFormField(
+              onChanged: widget.onChange,
               controller: widget.controller,
               focusNode: _focusNode,
               obscureText: widget.obscureText,
               keyboardType: widget.keyboardType,
+              validator: widget.validator,
               decoration: InputDecoration(
+                focusColor: AppColors.primaryColor.withOpacity(0.2),
                 isDense: true,
                 labelText: widget.label,
                 contentPadding: const EdgeInsets.only(

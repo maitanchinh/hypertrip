@@ -10,7 +10,7 @@ class MemberList extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16),
@@ -21,7 +21,7 @@ class MemberList extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 20.height,
-                Align(
+                const Align(
                   alignment: Alignment.topCenter,
                   child: PText(
                     'Members',

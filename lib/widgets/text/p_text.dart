@@ -7,6 +7,7 @@ class PText extends StatelessWidget {
   final double size;
   final TextOverflow overflow;
   final int? maxLines;
+  final FontWeight? weight;
 
   const PText(
     this.text, {
@@ -15,6 +16,7 @@ class PText extends StatelessWidget {
     this.size = 18,
     this.overflow = TextOverflow.ellipsis,
     this.maxLines = 1,
+    this.weight,
   });
 
   @override
@@ -27,7 +29,7 @@ class PText extends StatelessWidget {
         fontFamily: 'Roboto',
         color: color,
         fontSize: size,
-        fontWeight: FontWeight.w500,
+        fontWeight: weight ?? FontWeight.w500,
       ),
     );
   }

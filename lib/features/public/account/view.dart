@@ -17,7 +17,11 @@ import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/app_widget.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import '../../../widgets/text/p_text.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -30,31 +34,31 @@ class AccountPage extends StatelessWidget {
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {},
         child: Scaffold(
-          appBar: const MainAppBar(title: profileTitle,implyLeading: false),
+          appBar: const MainAppBar(title: profileTitle, implyLeading: false),
           body: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
-              print("state ${state.contacts.length}");
               return LoadableWidget(
                 status: state.status,
                 errorText: state.error,
-                failureOnPress: () => context.read<ProfileBloc>().add(const FetchProfile()),
+                failureOnPress: () =>
+                    context.read<ProfileBloc>().add(const FetchProfile()),
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   children: [
                     AvatarProfile(url: state.userProfile.avatarUrl ?? ''),
                     20.height,
                     Center(
-                      child: Text(
+                      child: PText(
                         state.userProfile.displayName,
-                        style: AppStyle.fontOpenSanBold
-                            .copyWith(fontSize: 24, color: AppColors.textColor),
+                        size: 24,
                       ),
                     ),
+                    Gap.k8.height,
                     Center(
-                      child: Text(
+                      child: PText(
                         state.userProfile.role ?? '',
-                        style: AppStyle.fontOpenSanRegular
-                            .copyWith(fontSize: 16, color: AppColors.greyColor),
+                        weight: FontWeight.normal,
+                        color: AppColors.greyColor,
                       ),
                     ),
                     30.height,
@@ -71,12 +75,14 @@ class AccountPage extends StatelessWidget {
                     SettingItem(
                       icon: AppAssets.icons_ic_setting_svg,
                       greyColor: AppColors.primaryColor.withOpacity(0.2),
+                      iconColor: AppColors.primaryColor,
                       content: privacy,
                       callBack: () {
-                        showModalBottomSheet(
-                          isScrollControlled: true,
+                        showCupertinoModalBottomSheet(
+                          // isScrollControlled: true,
                           context: context,
-                          useSafeArea: true,
+                          // useSafeArea: true,
+                          expand: true,
                           backgroundColor: Colors.transparent,
                           builder: (BuildContext context) {
                             return const PrivacyBottomSheet();
@@ -87,12 +93,16 @@ class AccountPage extends StatelessWidget {
                     SettingItem(
                       icon: AppAssets.icons_ic_user_svg,
                       greyColor: AppColors.yellow_2Color.withOpacity(0.2),
+                      iconColor: AppColors.secondaryColor,
                       content: editProfile,
                       callBack: () {
                         Navigator.of(context)
-                            .pushNamed(EditProfileScreen.routeName, arguments: state.userProfile)
+                            .pushNamed(EditProfileScreen.routeName,
+                                arguments: state.userProfile)
                             .then((value) {
-                          context.read<ProfileBloc>().add(UpdateProfile(value as UserProfile));
+                          context
+                              .read<ProfileBloc>()
+                              .add(UpdateProfile(value as UserProfile));
                         });
                       },
                     ),
@@ -100,7 +110,8 @@ class AccountPage extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamedAndRemoveUntil(
-                            LoginByEmailPage.routeName, (route) => false); // remove all previous routes
+                            LoginByEmailPage.routeName,
+                            (route) => false); // remove all previous routes
                       },
                       child: Container(
                         height: 40,
@@ -108,17 +119,27 @@ class AccountPage extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(horizontal: 100),
                         decoration: BoxDecoration(
                             color: AppColors.primaryColor.withOpacity(0.2),
-                            borderRadius: const BorderRadius.all(Radius.circular(16))),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16))),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(AppAssets.icons_ic_sign_out_svg),
+                            SizedBox(
+                              width: 24,
+                              child: Transform.scale(
+                                scale: 0.8,
+                                child: SvgPicture.asset(
+                                  AppAssets.icons_ic_sign_out_svg,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                            ),
                             5.width,
-                            Text(
+                            PText(
                               signOut,
-                              style: AppStyle.fontOpenSanSemiBold
-                                  .copyWith(color: AppColors.primaryColor, fontSize: 16),
+                              color: AppColors.primaryColor,
+                              size: 16,
                             )
                           ],
                         ),

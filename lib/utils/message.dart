@@ -18,7 +18,8 @@ const String msg_alert_email_empty_content = 'Enter your email to continue';
 const String msg_alert_phone_empty_title = 'Phone is required';
 const String msg_alert_phone_empty_content = 'Enter your phone to continue';
 const String msg_alert_password_empty_title = 'Password is required';
-const String msg_alert_password_empty_content = 'Enter your password to continue';
+const String msg_alert_password_empty_content =
+    'Enter your password to continue';
 
 /// login
 const String msg_server_error = 'Server error';
@@ -54,6 +55,8 @@ const String gender = 'Gender';
 const String firstName = 'First Name';
 const String lastName = 'Last Name';
 const String photoUpload = 'Photo Upload +';
+const String address = 'Address';
+const String urgentMsg = 'Urgent Message';
 
 const String takePicture = 'Take Picture';
 

@@ -95,12 +95,10 @@ class UserProfile {
       };
 
   ChatUser toMember() {
-    return ChatUser(
-        id: id ?? '',
-        name: displayName,
-        profilePhoto: avatarUrl);
+    return ChatUser(id: id ?? '', name: displayName, profilePhoto: avatarUrl);
   }
 
-  String get displayName =>
-      (firstName != null && firstName!.isNotEmpty) ? '$firstName${(lastName ?? '')}' : lastName ?? '';
+  String get displayName => (firstName != null && firstName!.isNotEmpty)
+      ? '$firstName ${(lastName ?? '')}'
+      : lastName ?? '';
 }

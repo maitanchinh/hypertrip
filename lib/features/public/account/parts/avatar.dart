@@ -85,7 +85,7 @@ class AvatarProfile extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: AppColors.secondaryColor.withOpacity(0.4),
+                  color: AppColors.primaryColor.withOpacity(0.4),
                   width: 1,
                 ),
               ),
@@ -102,7 +102,7 @@ class AvatarProfile extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: AppColors.secondaryColor.withOpacity(0.6),
+                  color: AppColors.primaryColor.withOpacity(0.6),
                   width: 2,
                 ),
               ),
@@ -119,7 +119,7 @@ class AvatarProfile extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: AppColors.secondaryColor.withOpacity(0.8),
+                  color: AppColors.primaryColor.withOpacity(0.8),
                   width: 3,
                 ),
               ),
