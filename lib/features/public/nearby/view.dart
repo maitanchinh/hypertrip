@@ -14,6 +14,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:intl/intl.dart';
 
 import '../../../widgets/image/image.dart';
+import '../../../widgets/safe_space.dart';
 
 part 'parts/detail_component.dart';
 
@@ -24,6 +25,8 @@ part 'parts/nearby_place.dart';
 part 'parts/place.dart';
 
 part 'parts/place_photo.dart';
+
+part 'parts/carousel.dart';
 
 class NearbyPage extends StatefulWidget {
   static const routeName = '/nearby';
@@ -115,7 +118,7 @@ class _NearbyPageState extends State<NearbyPage> {
                           _resetChildState();
                         },
                         child: SvgPicture.asset(
-                          Resource.iconsLocationArrow,
+                          Resource.iconsArrowRotate,
                           width: 24,
                           color: AppColors.primaryColor,
                         ),
@@ -155,7 +158,7 @@ class _NearbyPageState extends State<NearbyPage> {
                     height: 46,
                     width: 46,
                     decoration: const BoxDecoration(
-                      color: Color(0xFFD7E8F9),
+                      color: AppColors.primaryLightColor,
                       shape: BoxShape.circle,
                     ),
                     child: Transform.scale(scale: 0.7, child: catIcons[index]),

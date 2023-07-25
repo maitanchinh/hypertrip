@@ -1,4 +1,4 @@
-package com.panee.hypertrip
+package io.example.app.dev
 
 import io.flutter.embedding.android.FlutterActivity
 
