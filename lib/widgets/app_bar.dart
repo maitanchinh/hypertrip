@@ -12,6 +12,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final bool implyLeading;
   final VoidCallback? onTap;
+  final Color? backgroundColor;
 
   const MainAppBar({
     super.key,
@@ -20,6 +21,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.implyLeading = false,
     this.onTap,
+    this.backgroundColor,
   });
 
   @override
@@ -55,7 +57,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         title,
       ),
       elevation: 0,
-      backgroundColor: transparentColor,
+      backgroundColor: backgroundColor ?? AppColors.bgLightColor,
       actions: actions != null && actions!.isNotEmpty
           ? List.generate(
               actions!.length,

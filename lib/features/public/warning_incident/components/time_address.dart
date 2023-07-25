@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/date_time_utils.dart';
 
@@ -11,9 +12,9 @@ class TimeAddress extends StatelessWidget {
     return Row(
       children: [
         Text('Today ',
-            style: AppStyle.fontOpenSanRegular.copyWith(fontSize: 14, color: Colors.white)),
+            style: AppStyle.fontOpenSanRegular.copyWith(fontSize: 14, color: AppColors.textColor)),
         Text(DateTimeUtils.convertToHHMMString(time),
-            style: AppStyle.fontOpenSanRegular.copyWith(fontSize: 14, color: Colors.white))
+            style: AppStyle.fontOpenSanRegular.copyWith(fontSize: 14, color: AppColors.textColor))
       ],
     );
   }

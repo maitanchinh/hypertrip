@@ -19,13 +19,13 @@ class WeatherDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         // extendBodyBehindAppBar: true,
-        backgroundColor: AppColors.bgLightColor,
-        appBar: MainAppBar(implyLeading: true, title: title),
+        backgroundColor: AppColors.primaryLightColor,
+        appBar: MainAppBar(implyLeading: true, title: title,backgroundColor: AppColors.primaryLightColor),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              WeatherDay(showAllDay: false, weatherForecastDay: forecastDay),
+              WeatherDay(showAllDay: false, weatherForecastDay: forecastDay,color: null),
               40.height,
               Expanded(
                 child: ListView.separated(
