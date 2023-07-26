@@ -1,19 +1,36 @@
 PODS:
+  - app_settings (4.3.0):
+    - Flutter
   - audio_waveforms (0.0.1):
     - Flutter
-  - cloud_firestore (4.8.2):
-    - Firebase/Firestore (= 10.10.0)
+  - cloud_firestore (4.8.3):
+    - Firebase/Firestore (= 10.12.0)
     - firebase_core
     - Flutter
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
+  - emoji_picker_flutter (0.0.1):
+    - Flutter
+  - Firebase/Auth (10.12.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 10.12.0)
   - Firebase/CoreOnly (10.12.0):
     - FirebaseCore (= 10.12.0)
   - Firebase/Database (10.12.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 10.12.0)
+  - Firebase/Firestore (10.12.0):
+    - Firebase/CoreOnly
+    - FirebaseFirestore (~> 10.12.0)
+  - Firebase/Messaging (10.12.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 10.12.0)
+  - firebase_auth (4.7.1):
+    - Firebase/Auth (= 10.12.0)
+    - firebase_core
+    - Flutter
   - firebase_core (2.15.0):
     - Firebase/CoreOnly (= 10.12.0)
     - Flutter
@@ -21,6 +38,17 @@ PODS:
     - Firebase/Database (= 10.12.0)
     - firebase_core
     - Flutter
+  - firebase_messaging (14.6.5):
+    - Firebase/Messaging (= 10.12.0)
+    - firebase_core
+    - Flutter
+  - FirebaseAppCheckInterop (10.12.0)
+  - FirebaseAuth (10.12.0):
+    - FirebaseAppCheckInterop (~> 10.0)
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
   - FirebaseCore (10.12.0):
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
@@ -30,57 +58,17 @@ PODS:
   - FirebaseDatabase (10.12.0):
     - FirebaseCore (~> 10.0)
     - leveldb-library (~> 1.22)
-  - emoji_picker_flutter (0.0.1):
-    - Flutter
-  - Firebase/Auth (10.10.0):
-    - Firebase/CoreOnly
-    - FirebaseAuth (~> 10.10.0)
-  - Firebase/CoreOnly (10.10.0):
-    - FirebaseCore (= 10.10.0)
-  - Firebase/Firestore (10.10.0):
-    - Firebase/CoreOnly
-    - FirebaseFirestore (~> 10.10.0)
-  - Firebase/Messaging (10.10.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (~> 10.10.0)
-  - firebase_auth (4.6.3):
-    - Firebase/Auth (= 10.10.0)
-    - firebase_core
-    - Flutter
-  - firebase_core (2.14.0):
-    - Firebase/CoreOnly (= 10.10.0)
-    - Flutter
-  - firebase_messaging (14.6.4):
-    - Firebase/Messaging (= 10.10.0)
-    - firebase_core
-    - Flutter
-  - FirebaseAppCheckInterop (10.11.0)
-  - FirebaseAuth (10.10.0):
-    - FirebaseAppCheckInterop (~> 10.0)
-    - FirebaseCore (~> 10.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
-  - FirebaseCore (10.10.0):
-    - FirebaseCoreInternal (~> 10.0)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GoogleUtilities/Logger (~> 7.8)
-  - FirebaseCoreInternal (10.11.0):
-    - "GoogleUtilities/NSData+zlib (~> 7.8)"
-  - FirebaseFirestore (10.10.0):
-    - FirebaseFirestore/AutodetectLeveldb (= 10.10.0)
-  - FirebaseFirestore/AutodetectLeveldb (10.10.0):
+  - FirebaseFirestore (10.12.0):
+    - FirebaseFirestore/AutodetectLeveldb (= 10.12.0)
+  - FirebaseFirestore/AutodetectLeveldb (10.12.0):
     - FirebaseFirestore/Base
-    - FirebaseFirestore/WithLeveldb
-  - FirebaseFirestore/Base (10.10.0)
-  - FirebaseFirestore/WithLeveldb (10.10.0):
-    - FirebaseFirestore/Base
-  - FirebaseInstallations (10.11.0):
+  - FirebaseFirestore/Base (10.12.0)
+  - FirebaseInstallations (10.12.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
     - PromisesObjC (~> 2.1)
-  - FirebaseMessaging (10.10.0):
+  - FirebaseMessaging (10.12.0):
     - FirebaseCore (~> 10.0)
     - FirebaseInstallations (~> 10.0)
     - GoogleDataTransport (~> 9.2)
@@ -114,28 +102,27 @@ PODS:
   - GoogleMaps/Base (7.4.0)
   - GoogleMaps/Maps (7.4.0):
     - GoogleMaps/Base
-  - GoogleUtilities/AppDelegateSwizzler (7.11.1):
+  - GoogleUtilities/AppDelegateSwizzler (7.11.4):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.11.1):
+  - GoogleUtilities/Environment (7.11.4):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.11.1):
+  - GoogleUtilities/Logger (7.11.4):
     - GoogleUtilities/Environment
-  - "GoogleUtilities/NSData+zlib (7.11.1)"
-  - leveldb-library (1.22.2)
-  - GoogleUtilities/Network (7.11.1):
+  - GoogleUtilities/Network (7.11.4):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.11.1)"
-  - GoogleUtilities/Reachability (7.11.1):
+  - "GoogleUtilities/NSData+zlib (7.11.4)"
+  - GoogleUtilities/Reachability (7.11.4):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.11.1):
+  - GoogleUtilities/UserDefaults (7.11.4):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.1.1)
   - image_picker_ios (0.0.1):
     - Flutter
+  - leveldb-library (1.22.2)
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
     - nanopb/encode (= 2.30909.0)
@@ -146,7 +133,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - PromisesObjC (2.2.0)
+  - PromisesObjC (2.3.1)
   - ReachabilitySwift (5.0.0)
   - shared_preferences_foundation (0.0.1):
     - Flutter
@@ -159,16 +146,16 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - audio_waveforms (from `.symlinks/plugins/audio_waveforms/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
-  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - emoji_picker_flutter (from `.symlinks/plugins/emoji_picker_flutter/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
-  - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.10.0`)
+  - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.12.0`)
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
@@ -189,6 +176,7 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreInternal
+    - FirebaseDatabase
     - FirebaseInstallations
     - FirebaseMessaging
     - FMDB
@@ -196,33 +184,34 @@ SPEC REPOS:
     - GoogleMaps
     - GoogleUtilities
     - GTMSessionFetcher
+    - leveldb-library
     - nanopb
     - PromisesObjC
     - ReachabilitySwift
     - Toast
 
 EXTERNAL SOURCES:
+  app_settings:
+    :path: ".symlinks/plugins/app_settings/ios"
   audio_waveforms:
     :path: ".symlinks/plugins/audio_waveforms/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
-  firebase_core:
-    :path: ".symlinks/plugins/firebase_core/ios"
-  firebase_database:
-    :path: ".symlinks/plugins/firebase_database/ios"
   emoji_picker_flutter:
     :path: ".symlinks/plugins/emoji_picker_flutter/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_database:
+    :path: ".symlinks/plugins/firebase_database/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
-    :tag: 10.10.0
+    :tag: 10.12.0
   Flutter:
     :path: Flutter
   flutter_local_notifications:
@@ -251,30 +240,27 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
-    :tag: 10.10.0
+    :tag: 10.12.0
 
 SPEC CHECKSUMS:
+  app_settings: ee4ae4d1c9a907a23b81c40e5c56a5ca8a20a62b
   audio_waveforms: cd736909ebc6b6a164eb74701d8c705ce3241e1c
-  cloud_firestore: 818ebb1a8235177a0dcf7005c14aed5408b8342c
+  cloud_firestore: ac09bcf42ed1f477cb6eeb1d5937255023862e29
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
+  emoji_picker_flutter: df19dac03a2b39ac667dc8d1da939ef3a9e21347
   Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
+  firebase_auth: a57bf431e73283cbffaa562717256ec6bd2d8d4c
   firebase_core: e477125798fc37cd4ab43ca6a8536bf7e0929c00
   firebase_database: 37ea2144bf40525d3ae4df40f70ae4bc3db715a5
+  firebase_messaging: 334d68c3a36b6d4d5cd91e4f42509e0d4ae49828
+  FirebaseAppCheckInterop: f95a4feb9089867aff1a4bdc2ce309137e07736a
+  FirebaseAuth: a66c1e14ec58f41d154a4b41ce1a23ea00ad4805
   FirebaseCore: f86a1394906b97ac445ae49c92552a9425831bed
   FirebaseCoreInternal: 950500ad8a08963657f6d8c67b579740c06d6aa1
   FirebaseDatabase: 6d998d7ef2c1723b3e798a85e61a7dc0504b1ea0
-  emoji_picker_flutter: df19dac03a2b39ac667dc8d1da939ef3a9e21347
-  Firebase: facd334e557a979bd03a0b58d90fd56b52b8aba0
-  firebase_auth: 9905bc3d82328b5050a8b7cb410a959f150b6549
-  firebase_core: 85b6664038311940ad60584eaabc73103c61f5de
-  firebase_messaging: c55f70dd48a998dea00a29ccf94572e1e4d454b2
-  FirebaseAppCheckInterop: 255b6c0292fe5da995c8b2df0c02f6a3ca7f61b4
-  FirebaseAuth: 5ddbe23ebc4e647469261f5c59cd12a04f37c8e6
-  FirebaseCore: d027ff503d37edb78db98429b11f580a24a7df2a
-  FirebaseCoreInternal: 9e46c82a14a3b3a25be4e1e151ce6d21536b89c0
-  FirebaseFirestore: a1f73e087105e50541ba1501469612f3c544301a
-  FirebaseInstallations: 2a2c6859354cbec0a228a863d4daf6de7c74ced4
-  FirebaseMessaging: 8a3b9a8b98ce72a42d22e69865cf662e38d2d6f5
+  FirebaseFirestore: 3ba668437d98bb2a0dec2946cbb684598ed5c36f
+  FirebaseInstallations: 7b99ef103f013624444c614397038219c45f8e63
+  FirebaseMessaging: bb2c4f6422a753038fe137d90ae7c1af57251316
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
@@ -284,19 +270,20 @@ SPEC CHECKSUMS:
   google_maps_flutter_ios: abdac20d6ce8931f6ebc5f46616df241bfaa2cfd
   GoogleDataTransport: f0308f5905a745f94fb91fea9c6cbaf3831cb1bd
   GoogleMaps: 032f676450ba0779bd8ce16840690915f84e57ac
-  GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
+  GoogleUtilities: c63691989bf362ba0505507da00eeb326192e83e
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
+  leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   nb_utils: ada4338858d8827ec92fdab2a545206b4ba4cfb1
-  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
-  PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 
-PODFILE CHECKSUM: 2029baa209bf52d34853c45df8d6ad4d95ce0db1
+PODFILE CHECKSUM: 6ae93a6363a2d84b3ff27c1893285fcc4be4202f
 
 COCOAPODS: 1.12.1

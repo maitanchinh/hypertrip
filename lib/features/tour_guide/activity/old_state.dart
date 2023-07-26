@@ -1,10 +1,11 @@
 import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/activity/activity.dart';
 
+//* ActivityState
 class ActivityState {
   int totalDays = 0;
   List<Activity> activities = [];
-  String filterText = '';
+  String filterText = "";
   ActivityType filterType = ActivityType.All;
   int selectedDay = 0;
   List<Activity> filteredActivities = [];
@@ -30,9 +31,7 @@ class ActivityState {
   }
 }
 
-class ActivityInitState extends ActivityState {}
-
-class ActivityLoadingState extends ActivityState {}
+class ActivityInProgressState extends ActivityState {}
 
 class ActivitySuccessState extends ActivityState {
   ActivitySuccessState(ActivityState state) {
@@ -46,7 +45,18 @@ class ActivitySuccessState extends ActivityState {
   }
 }
 
-class ActivityErrorState extends ActivityState {
+class ActivityFailureState extends ActivityState {
   final String message;
-  ActivityErrorState(this.message);
+  ActivityFailureState(this.message);
 }
+
+// class ActivityFilterChangedState extends ActivityState {
+//   ActivityFilterChangedState(ActivityState state) {
+//     totalDays = state.totalDays;
+//     filterText = state.filterText;
+//     filterType = state.filterType;
+//     selectedDay = state.selectedDay;
+//     activities = state.activities;
+//     filteredActivities = state.filteredActivities;
+//   }
+// }

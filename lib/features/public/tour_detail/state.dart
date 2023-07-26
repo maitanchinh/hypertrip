@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
-import 'package:hypertrip/domain/models/tour/tour.dart';
+import 'package:hypertrip/domain/models/tour/tour_detail.dart';
 
 class TourDetailState {}
 
@@ -13,7 +13,7 @@ class LoadTourDetailFailedState extends TourDetailState {
 }
 
 class LoadTourDetailSuccessState extends TourDetailState {
-  final Tour tour;
+  final TourDetail tour;
 
   LoadTourDetailSuccessState({
     required this.tour,
@@ -22,9 +22,8 @@ class LoadTourDetailSuccessState extends TourDetailState {
   List<int> getDays() {
     if (tour.schedules == null) return [];
 
-    var days = tour.schedules!.map((e) => e.dayNo).toSet()
-        .whereType<int>()
-        .toList();
+    var days =
+        tour.schedules!.map((e) => e.dayNo).toSet().whereType<int>().toList();
 
     days.sort();
 

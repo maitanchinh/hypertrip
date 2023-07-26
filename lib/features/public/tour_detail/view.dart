@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
+import 'package:hypertrip/domain/models/tour/carousel.dart';
+import 'package:hypertrip/domain/models/tour/tour_detail.dart';
 import 'package:hypertrip/features/public/tour_detail/state.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/text_style.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/card/card_section.dart';
-import 'package:hypertrip/widgets/image/image.dart';
 import 'package:hypertrip/widgets/popup/p_error_popup.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
@@ -18,15 +18,14 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:readmore/readmore.dart' as Readmore;
 import 'package:timeline_tile/timeline_tile.dart';
 
-import '../../../domain/models/tour/tour.dart';
 import '../../../widgets/button/action_button.dart';
 import 'cubit.dart';
 
 part 'parts/carousel.dart';
 part 'parts/description.dart';
 part 'parts/header.dart';
-part 'parts/schedule.dart';
 part 'parts/photo.dart';
+part 'parts/schedule.dart';
 
 class TourDetailPage extends StatelessWidget {
   static const routeName = '/tour-detail';

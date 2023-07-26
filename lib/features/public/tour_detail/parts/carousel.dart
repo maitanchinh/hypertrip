@@ -1,6 +1,6 @@
 part of '../view.dart';
 
-Widget _buildCarousel(Tour tour) {
+Widget _buildCarousel(TourDetail tour) {
   //TODO: implement carousel
   const maxItem = 4;
   var length = tour.carousel!.length;

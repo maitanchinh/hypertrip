@@ -14,6 +14,7 @@ class _ListActivityState extends State<ListActivity> {
       listener: (context, state) {},
       builder: (context, state) {
         var activities = state.filteredActivities;
+        if (activities.isEmpty) return const ActivityEmpty();
 
         return ListView.separated(
           shrinkWrap: true,
