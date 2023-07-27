@@ -23,6 +23,10 @@ class ActivityRepo {
     }
   }
 
+  Future<void> removeDraft(String id) {
+    return apiClient.delete('/activities/draft/$id');
+  }
+
   Future<String> createNewAttendance({
     required String tourGroupId,
     required int dayNo,
@@ -48,6 +52,14 @@ class ActivityRepo {
         throw Exception(msg_tour_group_not_found);
       }
       throw Exception(msg_server_error);
+    }
+  }
+
+  Future<void> patchUpdate(Map<String, dynamic> payload) async {
+    try {
+      await apiClient.patch('/activities', data: payload);
+    } on DioException catch (e) {
+      throw Exception(msg_save_attendance_activity_failed);
     }
   }
 }

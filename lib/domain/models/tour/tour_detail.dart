@@ -1,4 +1,9 @@
-class Tour {
+import 'package:hypertrip/domain/models/schedule/slot.dart';
+import 'package:hypertrip/domain/models/tour/carousel.dart';
+
+class TourDetail {
+  List<Slot>? schedules;
+  List<Carousel>? carousel;
   String? id;
   String? title;
   String? departure;
@@ -9,7 +14,9 @@ class Tour {
   String? thumbnailUrl;
   String? type;
 
-  Tour({
+  TourDetail({
+    this.schedules,
+    this.carousel,
     this.id,
     this.title,
     this.departure,
@@ -21,7 +28,9 @@ class Tour {
     this.type,
   });
 
-  Tour copyWith({
+  TourDetail copyWith({
+    List<Slot>? schedules,
+    List<Carousel>? carousel,
     String? id,
     String? title,
     String? departure,
@@ -32,7 +41,9 @@ class Tour {
     String? thumbnailUrl,
     String? type,
   }) =>
-      Tour(
+      TourDetail(
+        schedules: schedules ?? this.schedules,
+        carousel: carousel ?? this.carousel,
         id: id ?? this.id,
         title: title ?? this.title,
         departure: departure ?? this.departure,
@@ -44,7 +55,14 @@ class Tour {
         type: type ?? this.type,
       );
 
-  factory Tour.fromJson(Map<String, dynamic> json) => Tour(
+  factory TourDetail.fromJson(Map<String, dynamic> json) => TourDetail(
+        schedules: json["schedules"] == null
+            ? []
+            : List<Slot>.from(json["schedules"]!.map((x) => Slot.fromJson(x))),
+        carousel: json["carousel"] == null
+            ? []
+            : List<Carousel>.from(
+                json["carousel"]!.map((x) => Carousel.fromJson(x))),
         id: json["id"],
         title: json["title"],
         departure: json["departure"],
@@ -57,6 +75,12 @@ class Tour {
       );
 
   Map<String, dynamic> toJson() => {
+        "schedules": schedules == null
+            ? []
+            : List<dynamic>.from(schedules!.map((x) => x.toJson())),
+        "carousel": carousel == null
+            ? []
+            : List<dynamic>.from(carousel!.map((x) => x.toJson())),
         "id": id,
         "title": title,
         "departure": departure,

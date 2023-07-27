@@ -1,17 +1,28 @@
 class AttendanceActivityState {
   String? attendanceId;
-}
+  String title = '';
 
-class AttendanceActivityInProcess extends AttendanceActivityState {}
-
-class AttendanceActivitySuccess extends AttendanceActivityState {
-  AttendanceActivitySuccess({required String attendanceId}) {
-    this.attendanceId = attendanceId;
+  AttendanceActivityState copyWith({
+    String? attendanceId,
+    String? title,
+  }) {
+    return AttendanceActivityState()
+      ..attendanceId = attendanceId ?? this.attendanceId
+      ..title = title ?? this.title;
   }
 }
 
-class AttendanceActivityFailure extends AttendanceActivityState {
+class AttendanceActivityLoadingState extends AttendanceActivityState {}
+
+class AttendanceActivitySuccessState extends AttendanceActivityState {
+  AttendanceActivitySuccessState(AttendanceActivityState state) {
+    attendanceId = state.attendanceId;
+    title = state.title;
+  }
+}
+
+class AttendanceActivityErrorState extends AttendanceActivityState {
   final String message;
 
-  AttendanceActivityFailure({required this.message});
+  AttendanceActivityErrorState({required this.message});
 }

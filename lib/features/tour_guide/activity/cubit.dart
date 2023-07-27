@@ -13,26 +13,32 @@ class ActivityCubit extends Cubit<ActivityState> {
   final ActivityRepo _activityRepo = ActivityRepo();
   final BuildContext context;
 
-  ActivityCubit(this.context) : super(ActivityState());
+  ActivityCubit(this.context) : super(ActivityInitState());
 
-  void getActivities(
-      {required String tourGroupId, required int totalDays}) async {
+  void getActivities({
+    required String tourGroupId,
+    required int totalDays,
+  }) async {
     try {
-      emit(ActivityInProgressState());
+      emit(ActivityLoadingState());
       var activities = await _activityRepo.getActivities(tourGroupId);
-      var filteredActivities = _filterActivity(activities, state);
-      emit(ActivitySuccessState(
-          activities: activities,
-          filteredActivities: filteredActivities,
-          totalDays: totalDays,
-          tourGroupId: tourGroupId));
+      emit(ActivitySuccessState(state.copyWith(
+        activities: activities,
+        tourGroupId: tourGroupId,
+        totalDays: totalDays,
+        filteredActivities: _filterActivity(activities, state),
+      )));
     } on RequestException catch (error) {
-      emit(ActivityFailureState(error.toString()));
+      emit(ActivityErrorState(error.toString()));
     }
   }
 
+  void removeDraft(String id) async {
+    await _activityRepo.removeDraft(id);
+  }
+
   void setError(String message) {
-    emit(ActivityFailureState(message));
+    emit(ActivityErrorState(message));
   }
 
   void setFilter({String? filterText, ActivityType? filterType, int? day}) {
@@ -44,7 +50,7 @@ class ActivityCubit extends Cubit<ActivityState> {
 
     var filteredActivities = _filterActivity(state.activities, newState);
 
-    emit(ActivityFilterChangedState(newState.copyWith(
+    emit(ActivitySuccessState(newState.copyWith(
       filteredActivities: filteredActivities,
     )));
   }
