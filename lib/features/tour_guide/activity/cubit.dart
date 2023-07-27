@@ -13,12 +13,6 @@ class ActivityCubit extends Cubit<ActivityState> {
   final ActivityRepo _activityRepo = ActivityRepo();
   final BuildContext context;
 
-  @override
-  void onChange(Change<ActivityState> change) {
-    debugPrint('ActivityCubit.onChange: $change');
-    super.onChange(change);
-  }
-
   ActivityCubit(this.context) : super(ActivityInitState());
 
   void getActivities({
@@ -37,6 +31,10 @@ class ActivityCubit extends Cubit<ActivityState> {
     } on RequestException catch (error) {
       emit(ActivityErrorState(error.toString()));
     }
+  }
+
+  void removeDraft(String id) async {
+    await _activityRepo.removeDraft(id);
   }
 
   void setError(String message) {

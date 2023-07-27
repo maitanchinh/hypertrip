@@ -86,3 +86,5 @@ const String currentNotSendMessage = 'Hiện tại không thể gửi message';
 const String label_activity_title = 'Activity';
 const String label_activity_create_new = 'Create new activity';
 const String msg_activity_empty = 'No activity found';
+const String msg_cannot_load_attendance_member = 'No member';
+const String msg_save_attendance_activity_failed = 'Save activity failed';

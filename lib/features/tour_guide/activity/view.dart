@@ -47,11 +47,6 @@ class ActivityPage extends StatefulWidget {
 }
 
 class _ActivityPageState extends State<ActivityPage> {
-  // _ActivityPageState() {
-  //   var state = BlocProvider.of<ActivityCubit>(context).state;
-  //   debugPrint('state: $state');
-  // }
-
   @override
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
@@ -70,15 +65,9 @@ class _ActivityPageState extends State<ActivityPage> {
 
     var activityCubit = context.read<ActivityCubit>();
     activityCubit.getActivities(
-      tourGroupId: rootState.group!.id,
-      totalDays: 5, // todo: fix totalDays
+      tourGroupId: rootState.group!.id!,
+      totalDays: rootState.group!.totalDays!,
     );
-  }
-
-  @override
-  void dispose() {
-    debugPrint('Dispose ActivityPage');
-    super.dispose();
   }
 
   @override
