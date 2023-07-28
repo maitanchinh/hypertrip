@@ -88,3 +88,9 @@ const String label_activity_create_new = 'Create new activity';
 const String msg_activity_empty = 'No activity found';
 const String msg_cannot_load_attendance_member = 'No member';
 const String msg_save_attendance_activity_failed = 'Save activity failed';
+const String msg_invalid_code = 'Invalid code';
+const String label_not_attendance = 'Waiting';
+const String label_attended = 'Success';
+
+// Permission
+const String msg_camera_required = 'You need to allow camera permission';

@@ -15,10 +15,10 @@ import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
 import 'package:hypertrip/features/public/edit_profile/edit_profile_screen.dart';
 import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
 import 'package:hypertrip/features/public/page.dart' as Public;
-import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:hypertrip/features/public/warning_incident/warning_incident_page.dart';
 import 'package:hypertrip/features/public/weather_detail/weather_detail_page.dart';
 import 'package:hypertrip/features/root/view.dart';
+import 'package:hypertrip/features/traveler/page.dart' as Traveler;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 PageRoute? generateRoute(RouteSettings settings) {
@@ -52,9 +52,14 @@ PageRoute? generateRoute(RouteSettings settings) {
           builder: (_) => ChatDetailPage(
               assignGroupResponse: settings.arguments as AssignGroupResponse));
     case WarningIncidentPage.routeName:
-      return MaterialPageRoute(builder: (_) => WarningIncidentPage(args: settings.arguments as WarningArgument,));
+      return MaterialPageRoute(
+          builder: (_) => WarningIncidentPage(
+                args: settings.arguments as WarningArgument,
+              ));
     case AlertDetail.routeName:
-      return MaterialPageRoute(builder: (_) => AlertDetail(alert: settings.arguments as WeatherAlert));
+      return MaterialPageRoute(
+          builder: (_) =>
+              AlertDetail(alert: settings.arguments as WeatherAlert));
 
     // case LoginByPhonePage.routeName:
     //   // test animation page transition
@@ -79,6 +84,8 @@ PageRoute? generateRoute(RouteSettings settings) {
     /// Tour guide
 
     /// Traveler
+    case Traveler.Attendance.routeName:
+      return MaterialPageRoute(builder: (_) => const Traveler.Attendance());
 
     default:
       return null;

@@ -12,9 +12,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_routes/google_maps_routes.dart';
+import 'package:hypertrip/domain/enums/user_role.dart';
 import 'package:hypertrip/domain/models/incidents/warning_argument.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/models/user/member.dart';
+import 'package:hypertrip/domain/repositories/user_repo.dart';
+import 'package:hypertrip/extensions/enum.dart';
 import 'package:hypertrip/features/public/current_tour/state.dart';
 import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
 import 'package:hypertrip/features/public/page.dart';
@@ -22,9 +25,7 @@ import 'package:hypertrip/features/public/warning_incident/interactor/warning_in
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';
-import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_shared.dart';
-import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/button/action_button.dart';
@@ -37,6 +38,7 @@ import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+import 'package:hypertrip/features/traveler/page.dart' as TravelerPage;
 
 import 'cubit.dart';
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/domain/models/nearby/nearby_place.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:hypertrip/features/public/nearby/cubit.dart';
 import 'package:hypertrip/features/public/nearby/state.dart';
 import 'package:hypertrip/generated/resource.dart';
@@ -10,23 +9,19 @@ import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/widgets/button/action_button.dart';
 import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
-import 'package:nb_utils/nb_utils.dart';
 import 'package:intl/intl.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../widgets/image/image.dart';
 import '../../../widgets/safe_space.dart';
 
-part 'parts/detail_component.dart';
-
-part 'parts/detail_screen.dart';
-
-part 'parts/nearby_place.dart';
-
-part 'parts/place.dart';
-
-part 'parts/place_photo.dart';
-
 part 'parts/carousel.dart';
+part 'parts/detail_component.dart';
+part 'parts/detail_screen.dart';
+part 'parts/nearby_place.dart';
+part 'parts/place.dart';
+part 'parts/place_photo.dart';
 
 class NearbyPage extends StatefulWidget {
   static const routeName = '/nearby';
@@ -83,10 +78,7 @@ class _NearbyPageState extends State<NearbyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => NearbyPlaceCubit(),
-      child: Builder(builder: (context) => _buildPage(context)),
-    );
+    return _buildPage(context);
   }
 
   Widget _buildPage(BuildContext context) {

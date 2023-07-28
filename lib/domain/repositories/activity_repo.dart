@@ -62,4 +62,16 @@ class ActivityRepo {
       throw Exception(msg_save_attendance_activity_failed);
     }
   }
+
+  Future<bool> extend(String code) async {
+    try {
+      await apiClient.post('/activities/extend/$code');
+      return true;
+    } on DioException catch (e) {
+      if (e.response != null && e.response!.statusCode == 404) {
+        return false;
+      }
+      throw Exception(msg_server_error);
+    }
+  }
 }
