@@ -41,7 +41,6 @@ class _TextField2State extends State<PTextFormField> {
   Widget build(BuildContext context) {
     Color borderColor =
         _focusNode.hasFocus ? AppColors.primaryColor : Colors.grey.shade500;
-    print(_focusNode);
     return Row(
       children: [
         Expanded(
