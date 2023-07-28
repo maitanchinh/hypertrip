@@ -19,7 +19,9 @@ import 'package:hypertrip/features/tour_guide/activity/state.dart';
 import 'package:hypertrip/features/tour_guide/attendance_activity/view.dart';
 import 'package:hypertrip/r.dart';
 import 'package:hypertrip/theme/color.dart';
+import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/message.dart';
+import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/modals/show_bottom_sheet.dart';
 import 'package:hypertrip/widgets/popup/p_error_popup.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
@@ -69,19 +71,23 @@ class _ActivityPageState extends State<ActivityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgLightColor,
-      appBar: AppBar(
-        leading: BackButton(onPressed: () {
-          Navigator.of(context).pop();
-        }),
-        title: Text(
-          label_activity,
-          // color white
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: Colors.white),
-        ),
+      appBar: MainAppBar(
+        title: 'Activity',
+        implyLeading: true,
       ),
+      // AppBar(
+      //   leading: BackButton(onPressed: () {
+      //     Navigator.of(context).pop();
+      //   }),
+      //   title: Text(
+      //     label_activity,
+      //     // color white
+      //     style: Theme.of(context)
+      //         .textTheme
+      //         .titleLarge!
+      //         .copyWith(color: Colors.white),
+      //   ),
+      // ),
       bottomNavigationBar: _buildCreateNew(context),
       body: RefreshIndicator(
         onRefresh: () async {

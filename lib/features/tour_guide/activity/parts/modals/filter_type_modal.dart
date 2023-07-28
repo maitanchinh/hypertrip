@@ -23,7 +23,13 @@ class _FilterTypeModalState extends State<FilterTypeModal> {
             (e) => ListTile(
               title: Text(e.label),
               enabled: true,
-              leading: Icon(e.icon),
+              leading: SvgPicture.asset(
+                e.icon,
+                width: 20,
+                color: e.type == currentType
+                    ? AppColors.primaryColor
+                    : AppColors.textColor,
+              ),
               selected: e.type == currentType,
               onTap: () => {
                 cubit.setFilter(filterType: e.type),

@@ -42,12 +42,11 @@ class _SearchState extends State<Search> {
               children: [
                 //* Icon search
                 Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: Icon(
-                    Icons.search,
-                    size: Theme.of(context).textTheme.titleMedium!.fontSize,
-                  ),
-                ),
+                    padding: const EdgeInsets.only(right: 4),
+                    child: SvgPicture.asset(
+                      AppAssets.icons_search_svg,
+                      width: Theme.of(context).textTheme.titleMedium!.fontSize,
+                    )),
                 //* Search input
                 Expanded(
                   child: TextField(
@@ -79,11 +78,12 @@ class _SearchState extends State<Search> {
                         ),
                       ),
                       child: Center(
-                        child: Icon(
+                        child: SvgPicture.asset(
                           activitiesTypeData
                               .firstWhere((e) => e.type == currentType)
                               .icon,
                           color: Colors.white,
+                          width: 20,
                         ),
                       ),
                     ).onTap(() {

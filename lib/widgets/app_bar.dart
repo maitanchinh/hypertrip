@@ -57,7 +57,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         title,
       ),
       elevation: 0,
-      backgroundColor: backgroundColor ?? AppColors.bgLightColor,
+      backgroundColor: backgroundColor ?? transparentColor,
       actions: actions != null && actions!.isNotEmpty
           ? List.generate(
               actions!.length,

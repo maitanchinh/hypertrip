@@ -67,7 +67,8 @@ class AccountPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Information(count: state.tourCount, status: 'joined'),
+                          Information(
+                              count: state.tourCount, status: 'Joined Tour'),
                         ],
                       ),
                     ),

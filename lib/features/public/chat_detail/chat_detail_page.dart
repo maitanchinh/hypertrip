@@ -50,7 +50,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isAccepting = widget.assignGroupResponse.status == 'Ongoing' || widget.assignGroupResponse.status == 'Prepare';
+    bool isAccepting = widget.assignGroupResponse.status == 'Ongoing' ||
+        widget.assignGroupResponse.status == 'Prepare';
 
     return BlocProvider(
       create: (BuildContext context) => ChatDetailBloc(
@@ -85,24 +86,30 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     controller: _panelController,
                     minHeight: 0.0,
                     maxHeight: 500.0,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)),
                     disableDraggableOnScrolling: !state.isCanDrag,
                     panelBuilder: () {
-                      return ShareMap(
-                        onSharePosition: (position) {
-                          context.read<ChatDetailBloc>().add(
-                                SendMessageGroupChat(
-                                  userId: UserRepo.profile?.id ?? '',
-                                  message:
-                                      "http://maps.google.com/maps?q=${position.latitude},${position.longitude}&iwloc=A",
-                                  type: MessageType.custom,
-                                  groupId: widget.assignGroupResponse.id,
-                                  groupName:
-                                      widget.assignGroupResponse.groupName,
-                                ),
-                              );
+                      return ClipRRect(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(16)),
+                        child: ShareMap(
+                          onSharePosition: (position) {
+                            context.read<ChatDetailBloc>().add(
+                                  SendMessageGroupChat(
+                                    userId: UserRepo.profile?.id ?? '',
+                                    message:
+                                        "http://maps.google.com/maps?q=${position.latitude},${position.longitude}&iwloc=A",
+                                    type: MessageType.custom,
+                                    groupId: widget.assignGroupResponse.id,
+                                    groupName:
+                                        widget.assignGroupResponse.groupName,
+                                  ),
+                                );
 
-                          _panelController.close();
-                        },
+                            _panelController.close();
+                          },
+                        ),
                       );
                     },
                     body: ChatList(

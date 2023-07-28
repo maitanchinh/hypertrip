@@ -17,7 +17,6 @@ import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
-import 'package:hypertrip/widgets/text_form_field_title.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../generated/resource.dart';

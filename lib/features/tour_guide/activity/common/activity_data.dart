@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/domain/enums/activity_type.dart';
+import 'package:hypertrip/utils/app_assets.dart';
 
 class ActivityTypeData {
   final ActivityType type;
   final String label;
-  final IconData icon;
+  final String icon;
 
   ActivityTypeData({
     required this.type,
@@ -16,13 +18,13 @@ class ActivityTypeData {
 
 final List<ActivityTypeData> activitiesTypeData = [
   ActivityTypeData(
-      type: ActivityType.All, label: "All", icon: Icons.filter_list),
+      type: ActivityType.All, label: "All", icon: AppAssets.icons_filter_svg),
   ActivityTypeData(
       type: ActivityType.Attendance,
       label: "Attendance",
-      icon: CupertinoIcons.person_crop_circle_badge_checkmark),
+      icon: AppAssets.icons_clipboard_user_svg),
   ActivityTypeData(
       type: ActivityType.CheckIn,
       label: "Check-In",
-      icon: CupertinoIcons.check_mark_circled),
+      icon: AppAssets.icons_circle_check_svg),
 ];
