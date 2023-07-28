@@ -28,7 +28,7 @@ const String msg_login_bad_request = 'Login by Phone or Email';
 const String msg_login_failed = 'Login failed';
 
 /// exception
-const String msg_tour_group_not_found = 'Tour group not found';
+const String msg_tour_group_not_found = "You haven't joined any of our tours";
 
 // Notification
 const String markRead = 'Mark read';
@@ -83,3 +83,10 @@ const String notReadFile = 'Error, can\'t read file size';
 const String maxSizeFile = 'The size must not exceed 100MB';
 const String notSendFile = 'Error can\'t send file';
 const String currentNotSendMessage = 'Hiện tại không thể gửi message';
+
+// Activity
+const String label_activity_title = 'Activity';
+const String label_activity_create_new = 'Create new activity';
+const String msg_activity_empty = 'No activity found';
+const String msg_cannot_load_attendance_member = 'No member';
+const String msg_save_attendance_activity_failed = 'Save activity failed';

@@ -1,4 +1,4 @@
-part of '../../view.dart';
+part of '../view.dart';
 
 class FilterTypeModal extends StatefulWidget {
   const FilterTypeModal({super.key});
