@@ -1,11 +1,10 @@
 import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/activity/activity.dart';
 
-//* ActivityState
 class ActivityState {
   int totalDays = 0;
   List<Activity> activities = [];
-  String filterText = "";
+  String filterText = '';
   ActivityType filterType = ActivityType.All;
   int selectedDay = 0;
   List<Activity> filteredActivities = [];
@@ -31,34 +30,23 @@ class ActivityState {
   }
 }
 
-class ActivityInProgressState extends ActivityState {}
+class ActivityInitState extends ActivityState {}
+
+class ActivityLoadingState extends ActivityState {}
 
 class ActivitySuccessState extends ActivityState {
-  ActivitySuccessState({
-    required List<Activity> activities,
-    required List<Activity> filteredActivities,
-    required int totalDays,
-    required String tourGroupId,
-  }) {
-    this.activities = activities;
-    this.filteredActivities = filteredActivities;
-    this.totalDays = totalDays;
-    this.tourGroupId = tourGroupId;
-  }
-}
-
-class ActivityFailureState extends ActivityState {
-  final String message;
-  ActivityFailureState(this.message);
-}
-
-class ActivityFilterChangedState extends ActivityState {
-  ActivityFilterChangedState(ActivityState state) {
+  ActivitySuccessState(ActivityState state) {
     totalDays = state.totalDays;
     filterText = state.filterText;
     filterType = state.filterType;
     selectedDay = state.selectedDay;
     activities = state.activities;
     filteredActivities = state.filteredActivities;
+    tourGroupId = state.tourGroupId;
   }
+}
+
+class ActivityErrorState extends ActivityState {
+  final String message;
+  ActivityErrorState(this.message);
 }

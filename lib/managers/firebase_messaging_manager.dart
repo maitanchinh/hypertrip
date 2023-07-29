@@ -36,7 +36,8 @@ class FirebaseMessagingManager {
 
   Future<void> initNotificationsSettings() async {
     // Config FirebaseMessaging Plugin - Used for iOS
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
       badge: true,
       sound: true,
@@ -48,8 +49,10 @@ class FirebaseMessagingManager {
   void _initLocalNotify() {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    const InitializationSettings initializationSettings = InitializationSettings(
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
+      iOS: DarwinInitializationSettings(),
     );
 
     _flutterLocalNotificationsPlugin.initialize(
@@ -77,13 +80,15 @@ class FirebaseMessagingManager {
 
   Future<void> showNotification(String title, String body) async {
     if (title.isEmpty && body.isEmpty) return;
-    const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your channel id', 'your channel name',
-        importance: Importance.max, priority: Priority.high, showWhen: false);
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            importance: Importance.max,
+            priority: Priority.high,
+            showWhen: false);
     const NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
-    await _flutterLocalNotificationsPlugin.show(0, title, body, platformChannelSpecifics,
-        payload: 'item x');
+    await _flutterLocalNotificationsPlugin
+        .show(0, title, body, platformChannelSpecifics, payload: 'item x');
   }
 
   Future selectNotification(String? payload) async {
@@ -95,20 +100,23 @@ class FirebaseMessagingManager {
   Future<void> _handleForegroundNotification(RemoteMessage message) async {
     // Xử lý khi app đang được bật
     // Update unread count
-    if(message.data.isNotEmpty) {
+    if (message.data.isNotEmpty) {
       _handleNotificationActionFromRemoteMessage(message);
 
       final value = getIntAsync(AppConstant.keyCountNotify);
       setValue(AppConstant.keyCountNotify, value + 1);
     }
 
-    showNotification(message.notification?.title ?? '', message.notification?.body ?? '');
+    showNotification(
+        message.notification?.title ?? '', message.notification?.body ?? '');
   }
 
   /// When the user taps on a Notification with the Application close we have
   /// to consume it ones the App is completely started.
   void processInitialMessage() {
-    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
       if (message != null) {
         if (_latestProcessedInitialMessageId == null ||
             _latestProcessedInitialMessageId != message.messageId) {
@@ -123,7 +131,8 @@ class FirebaseMessagingManager {
   }
 
   void _handleNotificationActionFromRemoteMessage(RemoteMessage message) {
-    debugPrint('NEW NOTIFICATION _handleNotificationActionFromRemoteMessage ${message.toString()}');
+    debugPrint(
+        'NEW NOTIFICATION _handleNotificationActionFromRemoteMessage ${message.toString()}');
     _handleNotificationAction(FirebaseMessage.fromJson(message.data));
   }
 
@@ -141,7 +150,8 @@ class FirebaseMessagingManager {
 
   /// Register Firebase Token to Server
   void registerTokenFCM(String uID) async {
-    await _firebaseMessaging.requestPermission(sound: true, badge: true, alert: true);
+    await _firebaseMessaging.requestPermission(
+        sound: true, badge: true, alert: true);
     getNotificationToken().then((firebaseToken) async {
       String? firebaseTokenLocal = getStringAsync(AppConstant.keyFcmToken);
       if (firebaseToken != null) {
@@ -164,7 +174,8 @@ class FirebaseMessagingManager {
     }
   }
 
-  Future<void> sendFCMNotifications(List<String> deviceTokens, String title, String body) async {
+  Future<void> sendFCMNotifications(
+      List<String> deviceTokens, String title, String body) async {
     final String tokenLocal = getStringAsync(AppConstant.keyFcmToken);
     deviceTokens.remove(tokenLocal);
     try {

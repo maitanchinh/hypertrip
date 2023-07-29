@@ -11,8 +11,8 @@ class AppConstant {
   static const String APP_NAME = 'Hyper Trip';
 
   /// Hosts
-  // static const String API_URL = 'https://c105-27-77-240-60.ngrok-free.app/';
-  static const String API_URL = 'https://dotnet-travelers.fly.dev/';
+  static const String API_URL = 'https://22db-171-232-103-116.ngrok-free.app/';
+  // static const String API_URL = 'https://dotnet-travelers.fly.dev/';
   static const String PUBLIC_API_URL = 'https://api.foursquare.com/v3/';
   static const String weatherKey = 'fba32bf22570466094285146232806';
 

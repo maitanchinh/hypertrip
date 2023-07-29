@@ -14,6 +14,7 @@ class _ListActivityState extends State<ListActivity> {
       listener: (context, state) {},
       builder: (context, state) {
         var activities = state.filteredActivities;
+        if (activities.isEmpty) return const ActivityEmpty();
 
         return ListView.separated(
           shrinkWrap: true,
@@ -23,15 +24,14 @@ class _ListActivityState extends State<ListActivity> {
             thickness: 1,
           ),
           itemBuilder: (context, index) =>
-              _buildSlidable(context, activities, index),
+              _buildSlidable(context, activities[index]),
         );
       },
     );
   }
 }
 
-Widget _buildSlidable(
-    BuildContext context, List<Activity> activities, int index) {
+Widget _buildSlidable(BuildContext context, Activity activitiy) {
   return Slidable(
     // key: activities[index].data['id'],
     //* Left side
@@ -70,7 +70,7 @@ Widget _buildSlidable(
         ),
       ],
     ),
-    child: _buildActivity(context, activities[index]),
+    child: _buildActivity(context, activitiy),
   );
 }
 
@@ -124,18 +124,26 @@ Widget _buildAttendanceActivity(
                     fontWeight: FontWeight.w600,
                   ),
             ),
-            Gap.k4.height,
+            const Text("Attendance",
+                style: TextStyle(color: AppColors.textGreyColor, fontSize: 10)),
+            8.height,
             Text(
               activity.createdAt.toString(),
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColors.textGreyColor,
+                    color: AppColors.textColor,
                   ),
             )
           ],
         ),
       ],
     ),
-  );
+  ).onTap(() {
+    showAppModalBottomSheet(
+      expand: true,
+      context: context,
+      builder: (context) => AttendanceActivity(attendanceId: activity.id),
+    );
+  });
 }
 
 Widget _buildCheckInActivity(

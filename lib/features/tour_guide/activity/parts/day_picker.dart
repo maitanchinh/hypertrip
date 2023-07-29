@@ -12,17 +12,16 @@ class _DayPickerState extends State<DayPicker> {
   Widget build(BuildContext context) {
     return BlocConsumer<ActivityCubit, ActivityState>(
       listener: (context, state) {
-        if (state is ActivityFailureState) {
+        if (state is ActivityErrorState) {
           showErrorPopup(context, content: state.message);
         }
       },
-      buildWhen: (previous, current) => current is! ActivityFilterChangedState,
       builder: (context, state) {
-        if (state is ActivityInProgressState) {
+        if (state is ActivityLoadingState) {
           return const SizedBox();
         }
 
-        if (state is ActivityFailureState) {
+        if (state is ActivityErrorState) {
           return const SizedBox();
         }
 
@@ -39,37 +38,35 @@ class _DayPickerState extends State<DayPicker> {
 
         return DefaultTabController(
           length: cubit.state.totalDays,
-          child: Column(
-            children: [
-              TabBar(
-                onTap: (index) {
-                  cubit.setFilter(day: index);
-                },
-                isScrollable: true,
-                labelPadding: const EdgeInsets.symmetric(
-                  horizontal: 4,
+          child: TabBar(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            onTap: (index) {
+              cubit.setFilter(day: index);
+            },
+            isScrollable: true,
+            labelPadding: const EdgeInsets.symmetric(
+              horizontal: 4,
+            ),
+            indicator: const BoxDecoration(
+              color: Colors.transparent,
+            ),
+            tabs: [
+              for (var i = 0; i < cubit.state.totalDays; i++)
+                Container(
+                  height: ActivityConfig.dayPickerBtnHeight,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: cubit.state.selectedDay == i
+                        ? AppColors.primaryColor
+                        : AppColors.primaryColor.withOpacity(0.5),
+                  ),
+                  child: Center(child: Text("Day ${i + 1}")),
                 ),
-                indicator: const BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                tabs: [
-                  for (var i = 0; i < cubit.state.totalDays; i++)
-                    Container(
-                      height: ActivityConfig.dayPickerBtnHeight,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: cubit.state.selectedDay == i
-                            ? AppColors.primaryColor
-                            : AppColors.primaryColor.withOpacity(0.5),
-                      ),
-                      child: Center(child: Text("Day ${i + 1}")),
-                    ),
-                ],
-              ),
-              Container(),
             ],
           ),
         );
