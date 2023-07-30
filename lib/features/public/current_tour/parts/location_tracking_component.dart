@@ -13,7 +13,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   late GoogleMapController _mapController;
   late StreamSubscription<Position>? _positionStreamSubscription;
   BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
-  Future<Position>? _latlng;
+  // Future<Position>? _latlng;
   late Position _position = const Position(
       latitude: 0,
       longitude: 0,
@@ -33,7 +33,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
 
   @override
   void initState() {
-    _latlng = _getCurrentLocation();
+    // _latlng = _getCurrentLocation();
     setCustomMarkerIcon();
     getPolypoints();
     getDirection();
@@ -53,23 +53,23 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
     _positionStreamSubscription?.cancel();
   }
 
-  Future<Position> _getCurrentLocation() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.whileInUse &&
-          permission != LocationPermission.always) {}
-    }
+  // Future<Position> _getCurrentLocation() async {
+  //   LocationPermission permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission != LocationPermission.whileInUse &&
+  //         permission != LocationPermission.always) {}
+  //   }
 
-    _startLocationUpdates();
+  //   _startLocationUpdates();
 
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
+  //   Position position = await Geolocator.getCurrentPosition(
+  //     desiredAccuracy: LocationAccuracy.high,
+  //   );
 
-    _position = position;
-    return position;
-  }
+  //   _position = position;
+  //   return position;
+  // }
 
   void _moveToNextLocation() {
     setState(() {
@@ -144,7 +144,6 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
         PointLatLng(widget.slots.last.latitude!, widget.slots.last.longitude!),
         travelMode: TravelMode.walking,
         wayPoints: wayPoints);
-    print(result.status);
     if (result.points.isNotEmpty) {
       setState(() {
         for (var point in result.points) {
@@ -243,18 +242,20 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Position>(
-        future: _latlng,
-        builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
-          if (!snapshot.hasData) {
-            return SizedBox(
-              height: context.height() * 0.5,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else {
-            final latlng = snapshot.data!;
+    // return FutureBuilder<Position>(
+    //     future: _latlng,
+    //     builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
+    //       if (!snapshot.hasData) {
+    //         return SizedBox(
+    //           height: context.height() * 0.5,
+    //           child: const Center(
+    //             child: CircularProgressIndicator(),
+    //           ),
+    //         );
+    //       } else {
+    //         final latlng = snapshot.data!;
+    final cubit = BlocProvider.of<CurrentLocationCubit>(context);
+  
             return Scaffold(
               floatingActionButton: ExpandableFab(
                   type: ExpandableFabType.left,
@@ -296,7 +297,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
               body: GoogleMap(
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
-                      target: LatLng(latlng.latitude, latlng.longitude),
+                      target: LatLng((cubit.state as LoadCurrentLocationSuccessState).location.latitude, (cubit.state as LoadCurrentLocationSuccessState).location.longitude),
                       zoom: 12.0),
                   polylines:
                       // route.routes,
@@ -310,11 +311,11 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
                   },
                   myLocationEnabled: true,
                   myLocationButtonEnabled: false,
-                  zoomControlsEnabled: true,
+                  zoomControlsEnabled: false,
                   zoomGesturesEnabled: true,
                   markers: _markers),
             );
-          }
-        });
+        //   }
+        // });
   }
 }

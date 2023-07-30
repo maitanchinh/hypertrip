@@ -109,7 +109,7 @@ class _DetailComponentState extends State<DetailComponent> {
                                     'tel:${widget.place.tel!.replaceAll(' ', '')}');
                               })
                           : const SizedBox.shrink(),
-                      16.width,
+                      Gap.k8.width,
                       widget.place.website != null
                           ? ActionButton(
                               icon: Resource.iconsWeb,
@@ -120,6 +120,15 @@ class _DetailComponentState extends State<DetailComponent> {
                                     Uri.parse(widget.place.website.toString()));
                               })
                           : const SizedBox.shrink(),
+                      Gap.k8.width,
+                      ActionButton(
+                          icon: AppAssets.icons_map_svg,
+                          bgColor: AppColors.primaryLightColor,
+                          iconColor: AppColors.primaryColor,
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(NearbyMap.routeName,
+                                arguments: NearbyMap.fromObject(place: widget.place,));
+                          })
                       // 8.width,
                       // PSmallText(
                       //   widget.place.tel.toString(),

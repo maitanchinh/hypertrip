@@ -55,6 +55,8 @@ const String gender = 'Gender';
 const String firstName = 'First Name';
 const String lastName = 'Last Name';
 const String photoUpload = 'Photo Upload +';
+const String address = 'Address';
+const String urgentMsg = 'Urgent Message';
 
 const String takePicture = 'Take Picture';
 

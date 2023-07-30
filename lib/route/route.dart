@@ -1,6 +1,7 @@
 // ignore_for_file: library_prefixes
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hypertrip/domain/models/group/assign_group_response.dart';
 import 'package:hypertrip/domain/models/incidents/warning_argument.dart';
 import 'package:hypertrip/domain/models/incidents/weather_alert.dart';
@@ -13,6 +14,7 @@ import 'package:hypertrip/features/login_by_phone/view.dart';
 import 'package:hypertrip/features/public/alert_detail/alert_detail.dart';
 import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
 import 'package:hypertrip/features/public/edit_profile/edit_profile_screen.dart';
+import 'package:hypertrip/features/public/nearby/view.dart';
 import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
 import 'package:hypertrip/features/public/page.dart' as Public;
 import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
@@ -73,6 +75,9 @@ PageRoute? generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (_) => Public.TourDetailPage(
               tourId: (settings.arguments as Map)['tourId'].toString()));
+    case Public.NearbyMap.routeName:
+    final arguments = settings.arguments as NearbyMap;
+    return MaterialPageRoute(builder: (_) => Public.NearbyMap(places: arguments.places,));
     // case Public.NearbyPage.routeName:
     //   return MaterialPageRoute(builder: (_) => const Public.NearbyPage());
 

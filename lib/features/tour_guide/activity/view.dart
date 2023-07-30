@@ -21,6 +21,7 @@ import 'package:hypertrip/features/tour_guide/attendance_activity/view.dart';
 import 'package:hypertrip/r.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/message.dart';
+import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/modals/show_bottom_sheet.dart';
 import 'package:hypertrip/widgets/popup/p_error_popup.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
@@ -74,7 +75,10 @@ class _ActivityPageState extends State<ActivityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgLightColor,
-      appBar: _buildAppBar(context),
+      appBar: const MainAppBar(
+        title: 'Activity',
+        implyLeading: true,
+      ),
       bottomNavigationBar: _buildCreateNew(context),
       body: SafeArea(
         child: Column(

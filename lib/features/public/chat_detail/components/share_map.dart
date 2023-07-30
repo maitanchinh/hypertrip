@@ -5,9 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hypertrip/features/public/chat_detail/interactor/chat_detail_bloc.dart';
+import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import '../../../../widgets/text/p_text.dart';
 
 class ShareMap extends StatefulWidget {
   final Function(Position position)? onSharePosition;
@@ -52,23 +55,28 @@ class _ShareMapState extends State<ShareMap> {
                         buildingsEnabled: false,
                         initialCameraPosition: CameraPosition(
                           target: state.position != null
-                              ? LatLng(state.position!.latitude, state.position!.longitude)
-                              : const LatLng(10.762622, 106.660172), // Tọa độ ban đầu của bản đồ
+                              ? LatLng(state.position!.latitude,
+                                  state.position!.longitude)
+                              : const LatLng(10.762622,
+                                  106.660172), // Tọa độ ban đầu của bản đồ
                           zoom: 18, // Độ phóng ban đầu
                         ),
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
-                          margin: const EdgeInsets.only(bottom: 10,right: 56,left: 56),
+                          margin: const EdgeInsets.only(
+                              bottom: 10, right: 56, left: 56),
                           decoration: const BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.all(Radius.circular(16))),
+                              color: AppColors.primaryColor,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16))),
                           child: TextButton(
-                            onPressed: () => widget.onSharePosition?.call(state.position!),
-                            child: Text(
+                            onPressed: () =>
+                                widget.onSharePosition?.call(state.position!),
+                            child: const PText(
                               sendCurrentPosition,
-                              style: boldTextStyle(size: 16, color: Colors.white),
+                              color: white,
                             ),
                           ),
                         ),
@@ -79,17 +87,22 @@ class _ShareMapState extends State<ShareMap> {
                           alignment: Alignment.topCenter,
                           child: GestureDetector(
                             onLongPress: () {
-                              context.read<ChatDetailBloc>().add(const DragPanelEvent(true));
+                              context
+                                  .read<ChatDetailBloc>()
+                                  .add(const DragPanelEvent(true));
                             },
                             onLongPressEnd: (details) {
-                              context.read<ChatDetailBloc>().add(const DragPanelEvent(false));
+                              context
+                                  .read<ChatDetailBloc>()
+                                  .add(const DragPanelEvent(false));
                             },
                             child: Container(
-                              width: 80,
-                              height: 10,
+                              width: 40,
+                              height: 5,
                               decoration: const BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                                  color: AppColors.greyColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
                             ),
                           ),
                         ),
@@ -98,10 +111,14 @@ class _ShareMapState extends State<ShareMap> {
                         alignment: Alignment.topCenter,
                         child: GestureDetector(
                           onLongPress: () {
-                            context.read<ChatDetailBloc>().add(const DragPanelEvent(true));
+                            context
+                                .read<ChatDetailBloc>()
+                                .add(const DragPanelEvent(true));
                           },
                           onLongPressEnd: (details) {
-                            context.read<ChatDetailBloc>().add(const DragPanelEvent(false));
+                            context
+                                .read<ChatDetailBloc>()
+                                .add(const DragPanelEvent(false));
                           },
                           child: Container(
                             width: 80,
@@ -115,9 +132,12 @@ class _ShareMapState extends State<ShareMap> {
                 : Center(
                     child: TextButton(
                       onPressed: () {
-                        context.read<ChatDetailBloc>().add(const RequestPermissionLocationEvent());
+                        context
+                            .read<ChatDetailBloc>()
+                            .add(const RequestPermissionLocationEvent());
                       },
-                      child: Text(requestPermissionGeo, style: boldTextStyle(size: 16)),
+                      child: Text(requestPermissionGeo,
+                          style: boldTextStyle(size: 16)),
                     ),
                   );
       },
@@ -128,7 +148,8 @@ class _ShareMapState extends State<ShareMap> {
     if (_initMarker) return;
 
     ImageConfiguration imageConfiguration = ImageConfiguration(
-        devicePixelRatio: MediaQuery.of(context).devicePixelRatio, size: const Size(21, 25));
+        devicePixelRatio: MediaQuery.of(context).devicePixelRatio,
+        size: const Size(21, 25));
 
     BitmapDescriptor bitmap = await BitmapDescriptor.fromAssetImage(
       imageConfiguration,

@@ -15,6 +15,8 @@ import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/app_widget.dart';
 import 'package:hypertrip/widgets/no_data_widget.dart';
 
+import '../../../widgets/text/p_text.dart';
+
 class NotificationScreen extends StatelessWidget {
   static const String routeName = '/notification';
 
@@ -43,15 +45,15 @@ class NotificationScreen extends StatelessWidget {
               actions: [
                 Flexible(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
+                    padding: const EdgeInsets.only(right: 16.0),
                     child: SizedBox(
-                      width: 100,
+                      width: 80,
                       child: TextButton(
-                        child: Text(markRead,
-                            style: AppStyle.fontOpenSanSemiBold.copyWith(
-                              color: AppColors.primaryColor,
-                              fontSize: 16,
-                            )),
+                        child: const PText(
+                          markRead,
+                          color: AppColors.primaryColor,
+                          size: 16,
+                        ),
                         onPressed: () => context
                             .read<NotificationBloc>()
                             .add(const NotifyReadAll()),
@@ -79,13 +81,9 @@ class NotificationScreen extends StatelessWidget {
                           group2.compareTo(group1),
                       groupSeparatorBuilder: (String groupValue) => Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
+                        child: PText(
                           groupValue,
-                          textAlign: TextAlign.start,
-                          style: AppStyle.fontOpenSanBold.copyWith(
-                            color: AppColors.textColor,
-                            fontSize: 16,
-                          ),
+                          size: 16,
                         ),
                       ),
                       itemBuilder: (context, message) {

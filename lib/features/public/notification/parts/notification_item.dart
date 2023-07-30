@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/notification/firebase_message.dart';
 import 'package:hypertrip/theme/color.dart';
+import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/date_time_utils.dart';
+
+import '../../../../widgets/text/p_small_text.dart';
 
 class NotificationItem extends StatelessWidget {
   final FirebaseMessage item;
   final VoidCallback? callback;
 
-  const NotificationItem({Key? key, required this.item, this.callback}) : super(key: key);
+  const NotificationItem({Key? key, required this.item, this.callback})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +32,33 @@ class NotificationItem extends StatelessWidget {
                 radius: 30,
                 backgroundColor: AppColors.secondaryColor.withOpacity(0.2),
                 child: SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: Image.network(
-                      item.imageUrl,
-                      fit: BoxFit.fitHeight,
-                    )),
+                    width: 40,
+                    height: 40,
+                    child: item.type.name ==
+                            FirebaseMessageType.AttendanceActivity.name
+                        ? Transform.scale(
+                          scale: 0.8,
+                          child: SvgPicture.asset(
+                            AppAssets.icons_attendance_svg),
+                        )
+                        : item.type.name == FirebaseMessageType.CheckInAcitvity.name
+                            ? Transform.scale(
+                              scale: 0.8,
+                              child: SvgPicture.asset(
+                                  AppAssets.icons_destination_svg),
+                            )
+                            : item.type.name ==
+                                    FirebaseMessageType.TourStarted.name
+                                ? Transform.scale(
+                                  scale: 0.8,
+                                  child: SvgPicture.asset(
+                                      AppAssets.icons_finish_flag_svg),
+                                )
+                                : Transform.scale(
+                                  scale: 0.8,
+                                  child: SvgPicture.asset(
+                                      AppAssets.icons_bell_color_svg),
+                                )),
               ),
             ),
             Column(
@@ -49,7 +76,8 @@ class NotificationItem extends StatelessWidget {
             if (!item.isRead)
               const Padding(
                 padding: EdgeInsets.only(top: 12.0),
-                child: CircleAvatar(radius: 5, backgroundColor: Colors.blueAccent),
+                child: CircleAvatar(
+                    radius: 5, backgroundColor: AppColors.secondaryColor),
               ),
           ],
         ),
@@ -60,9 +88,8 @@ class NotificationItem extends StatelessWidget {
   Widget _buildUpdatedTime() {
     return Padding(
       padding: const EdgeInsets.only(left: 7.0),
-      child: Text(
+      child: PSmallText(
         DateTimeUtils.convertTimeToTimeAgo(item.timestamp),
-        style: AppStyle.fontOpenSanLight.copyWith(color: AppColors.textGreyColor, fontSize: 16),
       ),
     );
   }
