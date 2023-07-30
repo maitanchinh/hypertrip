@@ -1,6 +1,7 @@
 part of '../view.dart';
 
 AppBar _buildAppBar(BuildContext context) {
+          final cubit = BlocProvider.of<CurrentTourCubit>(context);
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
@@ -20,7 +21,6 @@ AppBar _buildAppBar(BuildContext context) {
       ActionButton(
         icon: Resource.iconsCloud,
         onPressed: () {
-          final cubit = BlocProvider.of<CurrentTourCubit>(context);
           List<LocationTour> locationTour = [];
           String tripId = '';
           if (cubit.state is LoadCurrentTourSuccessState) {
@@ -42,7 +42,8 @@ AppBar _buildAppBar(BuildContext context) {
       Gap.k16.width,
       ActionButton(
         icon: Resource.iconsInfo,
-        onPressed: () {},
+        onPressed: () { Navigator.pushNamed(context, TourDetailPage.routeName,
+                            arguments: {'tourId': (cubit.state as LoadCurrentTourSuccessState).group.trip?.tour?.id});},
       ),
       Gap.k16.width,
       Stack(

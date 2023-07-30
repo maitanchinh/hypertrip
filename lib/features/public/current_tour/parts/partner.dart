@@ -30,7 +30,7 @@ class Partner extends StatelessWidget {
       child: Column(
         children: [
           commonCachedNetworkImage(member.avatarUrl,
-              height: 46, width: 46, radius: 46, fit: BoxFit.cover),
+              height: 46, width: 46, radius: 46, fit: BoxFit.cover, type: 'avatar'),
           SizedBox(
             height: 30,
             width: 80,
