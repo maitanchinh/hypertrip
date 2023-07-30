@@ -48,7 +48,7 @@ class _FormState extends State<Form> {
       listener: (context, state) {
         if (state is LoginByEmailSuccessState) {
           Navigator.of(context).pushNamedAndRemoveUntil(
-              CurrentTourPage.routeName,
+              RootPage.routeName,
               (route) => false); // remove all previous routes
           return;
         } else if (state is LoginByEmailFailedState) {
