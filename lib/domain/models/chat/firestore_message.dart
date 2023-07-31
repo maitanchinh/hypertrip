@@ -46,6 +46,7 @@ class FirestoreMessage {
       sendBy: senderId ?? '',
       message: content,
       createdAt: timestamp,
+      messageType: type == MessageType.image ? type : MessageType.text,
     );
   }
 }
