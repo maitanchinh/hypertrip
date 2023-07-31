@@ -47,22 +47,20 @@ class FirebaseAttendanceItem {
       );
 
   static List<FirebaseAttendanceItem> fromPayload(Object payload) {
-    return (payload as List<Object?>)
-        .map((e) => e as Map<Object?, Object?>)
-        .map((e) => FirebaseAttendanceItem(
-              id: e["Id"]?.toString(),
-              present: e["Present"] == true,
-              attendanceAt: e["AttendanceAt"] != null
-                  ? DateTime.parse(e["AttendanceAt"].toString())
-                  : null,
-              reason: e["Reason"]?.toString(),
-              userId: e["UserId"]?.toString(),
-              avatarUrl: e["AvatarUrl"]?.toString(),
-              name: e["Name"]?.toString(),
-              lastUpdateAt: e["LastUpdateAt"] != null
-                  ? DateTime.parse(e["LastUpdateAt"].toString())
-                  : null,
-            ))
-        .toList();
+    var rs = (payload as Map<Object?, Object?>).values.map((value) {
+      var item = value as Map<Object?, Object?>;
+      return FirebaseAttendanceItem(
+        attendanceAt: DateTime.parse(item["AttendanceAt"] as String),
+        id: item["Id"] as String,
+        present: item["Present"] as bool,
+        reason: item["Reason"] as String,
+        userId: item["UserId"] as String,
+        avatarUrl: item["AvatarUrl"] as String,
+        name: item["Name"] as String,
+        lastUpdateAt: DateTime.parse(item["LastUpdateAt"] as String),
+      );
+    }).toList();
+
+    return rs;
   }
 }

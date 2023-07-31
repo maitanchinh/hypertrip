@@ -98,6 +98,7 @@ class _ChatListState extends State<ChatList> {
                       textStyle: TextStyle(color: Colors.white),
                     ),
                   ),
+                  messageConfig: const MessageConfiguration(imageMessageConfig: ImageMessageConfiguration(width: 300,height: 300)),
                   sendMessageConfig: SendMessageConfiguration(
                     sendButtonIcon: SvgPicture.asset(
                       AppAssets.icons_paper_plane_svg,

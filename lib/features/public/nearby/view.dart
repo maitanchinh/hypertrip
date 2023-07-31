@@ -1,42 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hypertrip/domain/models/nearby/nearby_place.dart';
-import 'package:hypertrip/features/public/permission/cubit.dart';
-import 'package:hypertrip/features/public/permission/state.dart';
-import 'package:hypertrip/utils/app_assets.dart';
-import 'package:hypertrip/widgets/app_bar.dart';
-import 'package:hypertrip/widgets/space/gap.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:hypertrip/features/public/nearby/cubit.dart';
 import 'package:hypertrip/features/public/nearby/state.dart';
+import 'package:hypertrip/features/public/permission/cubit.dart';
+import 'package:hypertrip/features/public/permission/state.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
+import 'package:hypertrip/utils/app_assets.dart';
+import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/button/action_button.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
-import 'package:nb_utils/nb_utils.dart';
 import 'package:intl/intl.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../widgets/image/image.dart';
 import '../../../widgets/safe_space.dart';
 
-part 'parts/detail_component.dart';
-
-part 'parts/detail_screen.dart';
-
-part 'parts/nearby_place.dart';
-
-part 'parts/place.dart';
-
-part 'parts/place_photo.dart';
-
 part 'parts/carousel.dart';
-
+part 'parts/detail_component.dart';
+part 'parts/detail_screen.dart';
 part 'parts/map.dart';
+part 'parts/nearby_place.dart';
+part 'parts/place.dart';
+part 'parts/place_photo.dart';
 
 class NearbyPage extends StatefulWidget {
   static const routeName = '/nearby';
@@ -93,10 +86,7 @@ class _NearbyPageState extends State<NearbyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => NearbyPlaceCubit(context.read<CurrentLocationCubit>()),
-      child: Builder(builder: (context) => _buildPage(context)),
-    );
+    return _buildPage(context);
   }
 
   Widget _buildPage(BuildContext context) {
@@ -109,7 +99,7 @@ class _NearbyPageState extends State<NearbyPage> {
           _focusNode.unfocus();
         },
         child: RefreshIndicator(
-          onRefresh: ()async{
+          onRefresh: () async {
             nearbyPlaceCubit.refresh();
           },
           child: SafeArea(
@@ -121,12 +111,18 @@ class _NearbyPageState extends State<NearbyPage> {
                     children: [
                       SizedBox(
                         width: context.width() * 0.9,
-                        child:
-                            _searchBox(context).paddingSymmetric(horizontal: 16),
+                        child: _searchBox(context)
+                            .paddingSymmetric(horizontal: 16),
                       ),
                       SizedBox(
                         child: GestureDetector(
-                          onTap: () => Navigator.of(context).pushNamed(NearbyMap.routeName, arguments: NearbyMap(places: (nearbyPlaceCubit.state as LoadNearbyPlaceSuccessState).nearbyPlace!.results)),
+                          onTap: () => Navigator.of(context).pushNamed(
+                              NearbyMap.routeName,
+                              arguments: NearbyMap(
+                                  places: (nearbyPlaceCubit.state
+                                          as LoadNearbyPlaceSuccessState)
+                                      .nearbyPlace!
+                                      .results)),
                           child: SvgPicture.asset(
                             AppAssets.icons_map_svg,
                             width: 24,

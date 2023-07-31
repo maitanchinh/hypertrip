@@ -13,9 +13,13 @@ class _FormState extends State<Form> {
 
   @override
   void initState() {
-    super.initState();
     _phoneController = TextEditingController();
     _passwordController = TextEditingController();
+
+    _phoneController.text = '84768049528';
+    _passwordController.text = '123123';
+
+    super.initState();
   }
 
   void _login() {
