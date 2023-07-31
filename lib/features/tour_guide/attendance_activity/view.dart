@@ -63,8 +63,8 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       // create new attendance if attendanceId is null
       _attendanceId ??= await _createNewAttendance();
-      _dbRef = FirebaseDatabase.instance
-          .ref("attendances/$_attendanceId/${FirebaseKey.attendanceItems}");
+      _dbRef = FirebaseDatabase.instance.ref(
+          "${FirebaseKey.attendanceKey}/$_attendanceId/${FirebaseKey.attendanceItems}");
       await _fetchData(_attendanceId);
     });
 
@@ -90,8 +90,8 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
     }
 
     var cubit = BlocProvider.of<AttendanceActivityCubit>(context);
-    DatabaseReference ref =
-        FirebaseDatabase.instance.ref("attendances/$attendanceId");
+    DatabaseReference ref = FirebaseDatabase.instance
+        .ref("${FirebaseKey.attendanceKey}/$attendanceId");
 
     DatabaseEvent event = await ref.once();
 
@@ -126,11 +126,13 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
 
           return Column(
             children: [
-              TextField(
+              TextFormField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Title',
                 ),
+                validator: (value) =>
+                    value!.isEmpty ? 'Title is required' : null,
                 controller: _titleController,
               ),
               16.height,

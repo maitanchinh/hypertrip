@@ -28,4 +28,8 @@ class TravelerAttendanceState extends Equatable {
 
   @override
   List<Object?> get props => [attendanceSuccess, loading];
+
+  @override
+  String toString() =>
+      'TravelerAttendanceState(attendanceSuccess: $attendanceSuccess, loading: $loading, error: $error)';
 }

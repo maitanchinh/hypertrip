@@ -1,11 +1,9 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/features/traveler/attendance/cubit.dart';
 import 'package:hypertrip/features/traveler/attendance/state.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/message.dart';
-import 'package:hypertrip/widgets/popup/p_error_popup.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class AttendanceStatus extends StatefulWidget {
@@ -16,22 +14,18 @@ class AttendanceStatus extends StatefulWidget {
 }
 
 class _AttendanceStatusState extends State<AttendanceStatus> {
-  DatabaseReference? _dbRef;
-
   @override
   void initState() {
-    _dbRef = FirebaseDatabase.instance.ref("");
+    context.read<TravelerAttendanceCubit>().reset();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TravelerAttendanceCubit, TravelerAttendanceState>(
-      listenWhen: (previous, current) => current.error != null,
-      listener: (context, state) {
-        showErrorPopup(context, content: state.error ?? '');
-      },
+    return BlocBuilder<TravelerAttendanceCubit, TravelerAttendanceState>(
       builder: (context, state) {
+        debugPrint(state.toString());
+
         var text =
             state.attendanceSuccess ? label_attended : label_not_attendance;
         var bg = state.attendanceSuccess
@@ -42,7 +36,7 @@ class _AttendanceStatusState extends State<AttendanceStatus> {
         return Container(
           width: double.infinity,
           color: bg,
-          height: 50,
+          height: context.height() * 0.1 + 50,
           child: Center(
               child: Text(
             text,

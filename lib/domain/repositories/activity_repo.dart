@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/activity/activity.dart';
+import 'package:hypertrip/exceptions/request_exception.dart';
 import 'package:hypertrip/utils/get_it.dart';
 import 'package:hypertrip/utils/message.dart';
 
@@ -17,9 +18,9 @@ class ActivityRepo {
       return Activity.fromJsonList(response.data);
     } on DioException catch (e) {
       if (e.response != null && e.response!.statusCode == 404) {
-        throw Exception(msg_tour_group_not_found);
+        throw RequestException(msg_tour_group_not_found);
       }
-      throw Exception(msg_server_error);
+      throw RequestException(msg_server_error);
     }
   }
 
@@ -49,9 +50,9 @@ class ActivityRepo {
       return res.data.toString();
     } on DioException catch (e) {
       if (e.response != null && e.response!.statusCode == 404) {
-        throw Exception(msg_tour_group_not_found);
+        throw RequestException(msg_tour_group_not_found);
       }
-      throw Exception(msg_server_error);
+      throw RequestException(msg_server_error);
     }
   }
 
@@ -59,19 +60,19 @@ class ActivityRepo {
     try {
       await apiClient.patch('/activities', data: payload);
     } on DioException catch (e) {
-      throw Exception(msg_save_attendance_activity_failed);
+      throw RequestException(msg_save_attendance_activity_failed);
     }
   }
 
-  Future<bool> extend(String code) async {
+  Future<void> attend(String code) async {
     try {
-      await apiClient.post('/activities/extend/$code');
-      return true;
+      await apiClient.post('/activities/attend/$code');
     } on DioException catch (e) {
       if (e.response != null && e.response!.statusCode == 404) {
-        return false;
+        throw RequestException(msg_attendance_invalid_code);
+      } else {
+        throw RequestException(msg_server_error);
       }
-      throw Exception(msg_server_error);
     }
   }
 }

@@ -32,30 +32,60 @@ class _QrScannerState extends State<QrScanner> {
       Navigator.pop(context);
     }
 
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        if (isPermissionGranted)
-          QRView(
-            key: qrKey,
-            onQRViewCreated: _onQRViewCreated,
-            overlay: QrScannerOverlayShape(
-              borderColor: AppColors.primaryColor,
-              borderWidth: 10,
-              borderLength: 20,
-              borderRadius: 10,
-              cutOutSize: MediaQuery.of(context).size.width * 0.8,
-            ),
-          ),
-      ],
+    return BlocConsumer<TravelerAttendanceCubit, TravelerAttendanceState>(
+      listener: (context, state) {
+        if (state.error != null) {
+          showPopup(context,
+              title: msg_error,
+              content: state.error ?? '',
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _attendanceCubit?.reset();
+                    this.controller?.resumeCamera();
+                  },
+                  child: const Text('OK'),
+                ),
+              ]);
+        }
+
+        if (state.loading) {
+          EasyLoading.show(status: msg_loading);
+        } else {
+          EasyLoading.dismiss();
+        }
+      },
+      builder: (context, state) {
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            if (isPermissionGranted)
+              QRView(
+                key: qrKey,
+                onQRViewCreated: _onQRViewCreated,
+                overlay: QrScannerOverlayShape(
+                  borderColor: AppColors.primaryColor,
+                  borderWidth: 10,
+                  borderLength: 20,
+                  borderRadius: 10,
+                  cutOutSize: MediaQuery.of(context).size.width * 0.8,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-    controller.scannedDataStream.listen((data) {
-      debugPrint('QR Code: ${data.code}');
-      _attendanceCubit?.attend(data.code);
+    controller.scannedDataStream.listen((data) async {
+      if (data.code != null) {
+        this.controller?.pauseCamera();
+        HapticFeedback.vibrate();
+        _attendanceCubit?.attend(data.code);
+      }
     });
   }
 
