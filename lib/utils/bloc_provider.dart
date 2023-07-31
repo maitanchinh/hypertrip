@@ -25,7 +25,7 @@ List<BlocProvider> multiBlocProvider() {
       create: (context) => AttendanceActivityCubit(),
     ),
     BlocProvider<NearbyPlaceCubit>(
-      create: (context) => NearbyPlaceCubit(),
+      create: (context) => NearbyPlaceCubit(context.read<CurrentLocationCubit>()),
     ),
     BlocProvider<TravelerAttendanceCubit>(
       create: (context) => TravelerAttendanceCubit(),

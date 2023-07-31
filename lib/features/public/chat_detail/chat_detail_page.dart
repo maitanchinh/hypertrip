@@ -132,6 +132,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 );
               },
             ),
+            resizeToAvoidBottomInset: false,
           );
           },
         ),
