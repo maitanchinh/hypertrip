@@ -2,9 +2,9 @@ part of '../view.dart';
 
 AppBar _buildAppBar(BuildContext context) {
   return AppBar(
-    leading: BackButton(onPressed: () {
-      Navigator.of(context).pop();
-    }),
+    // leading: BackButton(onPressed: () {
+    //   Navigator.of(context).pop();
+    // }),
     title: Text(
       label_activity,
       // color white
