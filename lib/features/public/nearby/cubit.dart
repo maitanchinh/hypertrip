@@ -10,16 +10,20 @@ final FoursquareRepo _foursquareRepo = getIt<FoursquareRepo>();
 
 //Nearby Place
 class NearbyPlaceCubit extends Cubit<NearbyPlaceState> {
-final CurrentLocationCubit currentLocationCubit;
+  final CurrentLocationCubit currentLocationCubit =
+      getIt<CurrentLocationCubit>();
 
-  NearbyPlaceCubit(this.currentLocationCubit) : super(NearbyPlaceState()) {
+  NearbyPlaceCubit() : super(NearbyPlaceState()) {
     getNearbyPlace('');
   }
 
   Future<void> getNearbyPlace(String query) async {
     try {
       emit(LoadingNearbyPlaceState());
-      var place = await _foursquareRepo.getNearbyPlace(query, (currentLocationCubit.state as LoadCurrentLocationSuccessState).location);
+      var place = await _foursquareRepo.getNearbyPlace(
+          query,
+          (currentLocationCubit.state as LoadCurrentLocationSuccessState)
+              .location);
       if (place!.results!.isEmpty) {
         emit(NoResultsNearbyPlaceState());
       } else {
@@ -30,9 +34,8 @@ final CurrentLocationCubit currentLocationCubit;
     }
   }
 
-void refresh(){
-  emit(LoadingNearbyPlaceState());
-  getNearbyPlace('');
+  void refresh() {
+    emit(LoadingNearbyPlaceState());
+    getNearbyPlace('');
+  }
 }
-}
-

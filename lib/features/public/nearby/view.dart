@@ -24,7 +24,6 @@ import '../../../widgets/image/image.dart';
 import '../../../widgets/safe_space.dart';
 
 part 'parts/carousel.dart';
-part 'parts/carousel.dart';
 part 'parts/detail_component.dart';
 part 'parts/detail_screen.dart';
 part 'parts/map.dart';
