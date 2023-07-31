@@ -14,8 +14,11 @@ import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/utils/page_command.dart';
 import 'package:hypertrip/widgets/app_bar.dart';
+import 'package:hypertrip/widgets/p_text_form_field.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../widgets/text/p_text.dart';
 import 'parts/picker_photo_dialog.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -29,10 +32,15 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final TextEditingController _textFirstNameController = TextEditingController();
+  final TextEditingController _textFirstNameController =
+      TextEditingController();
   final TextEditingController _textLastNameController = TextEditingController();
   final TextEditingController _textAddressController = TextEditingController();
   final TextEditingController _textGenderController = TextEditingController();
+  final FocusNode _firstNameFocusNode = FocusNode();
+  final FocusNode _lastNameFocusNode = FocusNode();
+  final FocusNode _addressFocusNode = FocusNode();
+  final FocusNode _genderFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -83,7 +91,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               body: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: [
-                  20.height,
+                  Gap.k16.height,
                   InkWell(
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
@@ -95,12 +103,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         numberImages: 1,
                         callback: (source) {
                           Navigator.of(context).pop();
-                          context.read<EditProfileBloc>().add(OnUpdateAvatar(source));
+                          context
+                              .read<EditProfileBloc>()
+                              .add(OnUpdateAvatar(source));
                         },
                       );
 
                       showCupertinoModalPopup(
-                          context: context, builder: (context) => dialogImagePicker);
+                          context: context,
+                          builder: (context) => dialogImagePicker);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -127,7 +138,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 imageUrl: state.userProfile.avatarUrl ?? '',
                                 width: 100,
                                 height: 100,
-                                imageBuilder: (context, imageProvider) => Container(
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
                                   width: 100,
                                   height: 100,
                                   decoration: BoxDecoration(
@@ -176,91 +188,134 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   ),
                                 ),
                               ),
-                        10.width,
-                        Text(
+                        Gap.k16.width,
+                        const PText(
                           photoUpload,
-                          style: AppStyle.fontOpenSanRegular
-                              .copyWith(fontSize: 16, color: AppColors.primaryColor),
+                          size: 16,
+                          weight: FontWeight.normal,
+                          color: AppColors.primaryColor,
                         ),
                       ],
                     ),
                   ),
-                  TextFormField(
+                  // TextFormField(
+                  //   controller: _textFirstNameController,
+                  //   onChanged: (value) => context
+                  //       .read<EditProfileBloc>()
+                  //       .add(OnChangedFirstName(value)),
+                  //   style: AppStyle.fontOpenSanRegular
+                  //       .copyWith(color: AppColors.textColor, fontSize: 16),
+                  //   decoration: InputDecoration(
+                  //     labelText: firstName,
+                  //     labelStyle: AppStyle.fontOpenSanLight.copyWith(
+                  //         color: AppColors.textGreyColor, fontSize: 16),
+                  //     hintText: '12345678',
+                  //     focusedBorder: const UnderlineInputBorder(
+                  //       borderSide: BorderSide(color: AppColors.greyColor),
+                  //     ),
+                  //     enabledBorder: const UnderlineInputBorder(
+                  //       borderSide: BorderSide(color: AppColors.greyColor),
+                  //     ),
+                  //   ),
+                  // ),
+                  // TextFormField(
+                  //   controller: _textLastNameController,
+                  //   onChanged: (value) => context
+                  //       .read<EditProfileBloc>()
+                  //       .add(OnChangedLastName(value)),
+                  //   style: AppStyle.fontOpenSanRegular
+                  //       .copyWith(color: AppColors.textColor, fontSize: 16),
+                  //   decoration: InputDecoration(
+                  //     labelText: lastName,
+                  //     labelStyle: AppStyle.fontOpenSanLight.copyWith(
+                  //         color: AppColors.textGreyColor, fontSize: 16),
+                  //     hintText: '12345678',
+                  //     focusedBorder: const UnderlineInputBorder(
+                  //       borderSide: BorderSide(color: AppColors.greyColor),
+                  //     ),
+                  //     enabledBorder: const UnderlineInputBorder(
+                  //       borderSide: BorderSide(color: AppColors.greyColor),
+                  //     ),
+                  //   ),
+                  // ),
+                  // TextFormField(
+                  //   controller: _textAddressController,
+                  //   onChanged: (value) => context
+                  //       .read<EditProfileBloc>()
+                  //       .add(OnChangedAddress(value)),
+                  //   style: AppStyle.fontOpenSanRegular
+                  //       .copyWith(color: AppColors.textColor, fontSize: 16),
+                  //   decoration: InputDecoration(
+                  //     labelText: 'Address',
+                  //     labelStyle: AppStyle.fontOpenSanLight.copyWith(
+                  //         color: AppColors.textGreyColor, fontSize: 16),
+                  //     hintText: '12345678',
+                  //     focusedBorder: const UnderlineInputBorder(
+                  //       borderSide: BorderSide(color: AppColors.greyColor),
+                  //     ),
+                  //     enabledBorder: const UnderlineInputBorder(
+                  //       borderSide: BorderSide(color: AppColors.greyColor),
+                  //     ),
+                  //   ),
+                  // ),
+                  // TextFormField(
+                  //   controller: _textGenderController,
+                  //   onChanged: (value) => context
+                  //       .read<EditProfileBloc>()
+                  //       .add(OnChangedGender(value)),
+                  //   style: AppStyle.fontOpenSanRegular
+                  //       .copyWith(color: AppColors.textColor, fontSize: 16),
+                  //   decoration: InputDecoration(
+                  //     labelText: gender,
+                  //     labelStyle: AppStyle.fontOpenSanLight
+                  //         .copyWith(color: AppColors.greyColor, fontSize: 16),
+                  //     hintText: '12345678',
+                  //     focusedBorder: const UnderlineInputBorder(
+                  //       borderSide: BorderSide(color: AppColors.greyColor),
+                  //     ),
+                  //     enabledBorder: const UnderlineInputBorder(
+                  //       borderSide: BorderSide(color: AppColors.greyColor),
+                  //     ),
+                  //   ),
+                  // ),
+                  Gap.kSection.height,
+                  PTextFormField(
+                    label: firstName,
                     controller: _textFirstNameController,
-                    onChanged: (value) =>
-                        context.read<EditProfileBloc>().add(OnChangedFirstName(value)),
-                    style: AppStyle.fontOpenSanRegular
-                        .copyWith(color: AppColors.textColor, fontSize: 16),
-                    decoration: InputDecoration(
-                      labelText: firstName,
-                      labelStyle: AppStyle.fontOpenSanLight
-                          .copyWith(color: AppColors.textGreyColor, fontSize: 16),
-                      hintText: '12345678',
-                      focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.greyColor),
-                      ),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.greyColor),
-                      ),
-                    ),
+                    onChange: (value) {
+                      context
+                          .read<EditProfileBloc>()
+                          .add(OnChangedFirstName(value));
+                    },
                   ),
-                  TextFormField(
+                  PTextFormField(
+                    label: lastName,
                     controller: _textLastNameController,
-                    onChanged: (value) =>
-                        context.read<EditProfileBloc>().add(OnChangedLastName(value)),
-                    style: AppStyle.fontOpenSanRegular
-                        .copyWith(color: AppColors.textColor, fontSize: 16),
-                    decoration: InputDecoration(
-                      labelText: lastName,
-                      labelStyle: AppStyle.fontOpenSanLight
-                          .copyWith(color: AppColors.textGreyColor, fontSize: 16),
-                      hintText: '12345678',
-                      focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.greyColor),
-                      ),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.greyColor),
-                      ),
-                    ),
+                    onChange: (value) {
+                      context
+                          .read<EditProfileBloc>()
+                          .add(OnChangedLastName(value));
+                    },
                   ),
-                  TextFormField(
+                  PTextFormField(
+                    label: address,
                     controller: _textAddressController,
-                    onChanged: (value) =>
-                        context.read<EditProfileBloc>().add(OnChangedAddress(value)),
-                    style: AppStyle.fontOpenSanRegular
-                        .copyWith(color: AppColors.textColor, fontSize: 16),
-                    decoration: InputDecoration(
-                      labelText: 'Address',
-                      labelStyle: AppStyle.fontOpenSanLight
-                          .copyWith(color: AppColors.textGreyColor, fontSize: 16),
-                      hintText: '12345678',
-                      focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.greyColor),
-                      ),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.greyColor),
-                      ),
-                    ),
+                    onChange: (value) {
+                      context
+                          .read<EditProfileBloc>()
+                          .add(OnChangedAddress(value));
+                    },
                   ),
-                  TextFormField(
+                  PTextFormField(
+                    label: gender,
                     controller: _textGenderController,
-                    onChanged: (value) =>
-                        context.read<EditProfileBloc>().add(OnChangedGender(value)),
-                    style: AppStyle.fontOpenSanRegular
-                        .copyWith(color: AppColors.textColor, fontSize: 16),
-                    decoration: InputDecoration(
-                      labelText: gender,
-                      labelStyle: AppStyle.fontOpenSanLight
-                          .copyWith(color: AppColors.greyColor, fontSize: 16),
-                      hintText: '12345678',
-                      focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.greyColor),
-                      ),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.greyColor),
-                      ),
-                    ),
+                    onChange: (value) {
+                      context
+                          .read<EditProfileBloc>()
+                          .add(OnChangedGender(value));
+                    },
                   ),
+
                   // TextFormField(
                   //   initialValue: 'maitanchinh@gmail.com',
                   //   style: AppStyle.fontOpenSanRegular
@@ -295,29 +350,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   //     ),
                   //   ),
                   // ),
-                  50.height,
+                  Gap.kSection.height,
                   GestureDetector(
-                    onTap: () => context.read<EditProfileBloc>().add(const OnSubmitUpdateInfo()),
+                    onTap: () => context
+                        .read<EditProfileBloc>()
+                        .add(const OnSubmitUpdateInfo()),
                     child: Container(
                       height: 40,
                       width: 136,
                       margin: const EdgeInsets.symmetric(horizontal: 120),
                       decoration: BoxDecoration(
                           color: AppColors.primaryColor.withOpacity(0.2),
-                          borderRadius: const BorderRadius.all(Radius.circular(16))),
-                      child: Center(
-                        child: Text(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16))),
+                      child: const Center(
+                        child: PText(
                           save,
-                          style: AppStyle.fontOpenSanSemiBold
-                              .copyWith(color: AppColors.primaryColor, fontSize: 16),
+                          size: 16,
+                          color: AppColors.primaryColor,
                         ),
                       ),
                     ),
                   ),
                   if (state.contacts.isNotEmpty) const ContactInfo(),
-                  10.height,
-                  const UrgentMess(),
-                  100.height,
                 ],
               ),
             ),

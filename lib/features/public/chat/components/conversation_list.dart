@@ -86,23 +86,14 @@ class ConversationList extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
+                              PText(
                                 data.groupName,
-                                style: const TextStyle(fontSize: 16),
+                                size: 16,
                               ),
-                              const SizedBox(
-                                height: 6,
-                              ),
+                              Gap.k8.height,
                               if (lastMsg != null)
-                                Text(
+                                PSmallText(
                                   lastMsg.content,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.grey.shade600,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                             ],
                           ),
@@ -112,12 +103,14 @@ class ConversationList extends StatelessWidget {
                   ),
                 ),
                 if (!isAccepting)
-                  ChoiceChip(
-                    label: const Text(close,
-                        style: TextStyle(color: Colors.white, fontSize: 10)),
-                    selected: !isAccepting,
-                    backgroundColor: Colors.red,
-                    selectedColor: Colors.red,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: DecoratedBox(
+                        decoration: const BoxDecoration(color: redColor),
+                        child: const PSmallText(
+                          close,
+                          color: white,
+                        ).paddingSymmetric(horizontal: 8, vertical: 4)),
                   )
               ],
             ),

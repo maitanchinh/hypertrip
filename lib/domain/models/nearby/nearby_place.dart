@@ -36,6 +36,7 @@ class NearbyResults {
   Features? features;
   int? price;
   double? rating;
+  Geocodes? geocodes;
 
   NearbyResults(
       {this.fsqId,
@@ -51,7 +52,8 @@ class NearbyResults {
       this.website,
       this.features,
       this.price,
-      this.rating});
+      this.rating,
+      this.geocodes});
 
   NearbyResults.fromJson(Map<String, dynamic> json) {
     fsqId = json['fsq_id'];
@@ -89,6 +91,9 @@ class NearbyResults {
         : null;
     price = json['price'];
     rating = json['rating'];
+    geocodes = json['geocodes'] != null
+        ? new Geocodes.fromJson(json['geocodes'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -121,6 +126,9 @@ class NearbyResults {
     }
     data['price'] = this.price;
     data['rating'] = this.rating;
+    if (this.geocodes != null) {
+      data['geocodes'] = this.geocodes!.toJson();
+    }
     return data;
   }
 }
@@ -535,6 +543,54 @@ class Attributes {
     data['dates_popular'] = this.datesPopular;
     data['business_meeting'] = this.businessMeeting;
     data['crowded'] = this.crowded;
+    return data;
+  }
+}
+
+class Geocodes {
+  Main? main;
+  Main? roof;
+  Main? dropOff;
+
+  Geocodes({this.main, this.roof, this.dropOff});
+
+  Geocodes.fromJson(Map<String, dynamic> json) {
+    main = json['main'] != null ? new Main.fromJson(json['main']) : null;
+    roof = json['roof'] != null ? new Main.fromJson(json['roof']) : null;
+    dropOff =
+        json['drop_off'] != null ? new Main.fromJson(json['drop_off']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.main != null) {
+      data['main'] = this.main!.toJson();
+    }
+    if (this.roof != null) {
+      data['roof'] = this.roof!.toJson();
+    }
+    if (this.dropOff != null) {
+      data['drop_off'] = this.dropOff!.toJson();
+    }
+    return data;
+  }
+}
+
+class Main {
+  double? latitude;
+  double? longitude;
+
+  Main({this.latitude, this.longitude});
+
+  Main.fromJson(Map<String, dynamic> json) {
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
     return data;
   }
 }

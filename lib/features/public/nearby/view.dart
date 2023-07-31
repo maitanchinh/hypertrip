@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hypertrip/domain/models/nearby/nearby_place.dart';
 import 'package:hypertrip/features/public/nearby/cubit.dart';
 import 'package:hypertrip/features/public/nearby/state.dart';
+import 'package:hypertrip/features/public/permission/cubit.dart';
+import 'package:hypertrip/features/public/permission/state.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
+import 'package:hypertrip/utils/app_assets.dart';
+import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/button/action_button.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
 import 'package:intl/intl.dart';
@@ -17,8 +24,10 @@ import '../../../widgets/image/image.dart';
 import '../../../widgets/safe_space.dart';
 
 part 'parts/carousel.dart';
+part 'parts/carousel.dart';
 part 'parts/detail_component.dart';
 part 'parts/detail_screen.dart';
+part 'parts/map.dart';
 part 'parts/nearby_place.dart';
 part 'parts/place.dart';
 part 'parts/place_photo.dart';
@@ -82,48 +91,65 @@ class _NearbyPageState extends State<NearbyPage> {
   }
 
   Widget _buildPage(BuildContext context) {
+    final currentLocationCubit = BlocProvider.of<CurrentLocationCubit>(context);
+    final nearbyPlaceCubit = BlocProvider.of<NearbyPlaceCubit>(context);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
           // Unfocus the TextField when tapping outside
           _focusNode.unfocus();
         },
-        child: SafeArea(
-          child: SizedBox(
-            height: context.height(),
-            child: Column(
-              children: [
-                _searchBox(context).paddingSymmetric(horizontal: 16),
-                16.height,
-                _category(context).paddingLeft(16),
-                32.height,
-                SizedBox(
-                  width: context.width(),
-                  // padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            nearbyPlaceCubit.refresh();
+          },
+          child: SafeArea(
+            child: SizedBox(
+              height: context.height(),
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      const Expanded(
-                        child: PText('Nearby You'),
+                      SizedBox(
+                        width: context.width() * 0.9,
+                        child: _searchBox(context)
+                            .paddingSymmetric(horizontal: 16),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          _resetChildState();
-                        },
-                        child: SvgPicture.asset(
-                          Resource.iconsArrowRotate,
-                          width: 24,
-                          color: AppColors.primaryColor,
+                      SizedBox(
+                        child: GestureDetector(
+                          onTap: () => Navigator.of(context).pushNamed(
+                              NearbyMap.routeName,
+                              arguments: NearbyMap(
+                                  places: (nearbyPlaceCubit.state
+                                          as LoadNearbyPlaceSuccessState)
+                                      .nearbyPlace!
+                                      .results)),
+                          child: SvgPicture.asset(
+                            AppAssets.icons_map_svg,
+                            width: 24,
+                            color: AppColors.primaryColor,
+                          ),
                         ),
                       )
                     ],
                   ),
-                ).paddingOnly(left: 16, right: 16, bottom: 16),
-                NearbyPlace(
-                  query: query,
-                  reset: _resetChild,
-                  key: _childKey,
-                ),
-              ],
+                  16.height,
+                  _category(context).paddingLeft(16),
+                  32.height,
+                  SizedBox(
+                    width: context.width(),
+                    // padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: const Expanded(
+                      child: PText('Nearby You'),
+                    ),
+                  ).paddingOnly(left: 16, right: 16, bottom: 16),
+                  NearbyPlace(
+                    query: query,
+                    reset: _resetChild,
+                    key: _childKey,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -184,7 +210,7 @@ class _NearbyPageState extends State<NearbyPage> {
 
     return Container(
         decoration: BoxDecoration(
-            color: whiteColor, borderRadius: BorderRadius.circular(16)),
+            color: whiteColor, borderRadius: BorderRadius.circular(50)),
         child: TextField(
           controller: _searchController,
           focusNode: _focusNode,

@@ -50,7 +50,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isAccepting = widget.assignGroupResponse.status == 'Ongoing' || widget.assignGroupResponse.status == 'Prepare';
+    bool isAccepting = widget.assignGroupResponse.status == 'Ongoing' ||
+        widget.assignGroupResponse.status == 'Prepare';
 
     return BlocProvider(
       create: (BuildContext context) => ChatDetailBloc(
@@ -77,120 +78,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 assignGroupResponse: widget.assignGroupResponse,
                 scaffoldKey: _scaffoldKey,
               ),
-              //     AppBar(
-              //   actions: [
-              //     IconButton(
-              //         onPressed: () {
-              //           _scaffoldKey.currentState?.openEndDrawer();
-              //         },
-              //         icon: Transform.scale(
-              //           scale: 0.7,
-              //           child: SvgPicture.asset(
-              //             Resource.iconsUsers,
-              //             color: AppColors.primaryColor,
-              //           ),
-              //         ))
-              //   ],
-              //   elevation: 0,
-              //   automaticallyImplyLeading: false,
-              //   backgroundColor: Colors.white,
-              //   iconTheme: const IconThemeData(color: Colors.black),
-              //   flexibleSpace: SafeArea(
-              //     child: Container(
-              //       padding: const EdgeInsets.only(right: 16),
-              //       child: Row(
-              //         children: [
-              //           IconButton(
-              //             onPressed: () {
-              //               Navigator.pop(context);
-              //             },
-              //             icon: Image.asset(
-              //               AppAssets.icons_icon_arrow_back_png,
-              //               color: Colors.black,
-              //               width: 16,
-              //               height: 16,
-              //             ),
-              //           ),
-              //           2.width,
-              //           CircleAvatar(
-              //             radius: 23,
-              //             backgroundColor: Colors.white,
-              //             child: CachedNetworkImage(
-              //               imageUrl: widget.assignGroupResponse.trip?.tour
-              //                       ?.thumbnailUrl ??
-              //                   '',
-              //               width: 46,
-              //               height: 46,
-              //               imageBuilder: (context, imageProvider) => Container(
-              //                 width: 46,
-              //                 height: 46,
-              //                 decoration: BoxDecoration(
-              //                   border: Border.all(
-              //                     width: 2,
-              //                     color: AppColors.grey2Color,
-              //                   ),
-              //                   shape: BoxShape.circle,
-              //                   image: DecorationImage(
-              //                     image: imageProvider,
-              //                     fit: BoxFit.cover,
-              //                   ),
-              //                 ),
-              //               ),
-              //               placeholder: (context, url) => Container(
-              //                 width: 150,
-              //                 height: 150,
-              //                 decoration: BoxDecoration(
-              //                   border: Border.all(
-              //                     width: 2,
-              //                     color: AppColors.grey2Color,
-              //                   ),
-              //                   shape: BoxShape.circle,
-              //                   color: Colors.white,
-              //                 ),
-              //                 child: const Center(
-              //                   child: CircularProgressIndicator(),
-              //                 ),
-              //               ),
-              //               errorWidget: (context, url, error) => Container(
-              //                 width: 37.5,
-              //                 height: 37.5,
-              //                 decoration: BoxDecoration(
-              //                   border: Border.all(
-              //                     width: 2,
-              //                     color: AppColors.grey2Color,
-              //                   ),
-              //                   shape: BoxShape.circle,
-              //                   color: Colors.white,
-              //                 ),
-              //                 child: const Center(
-              //                   child: Icon(
-              //                     Icons.error,
-              //                     color: Colors.red,
-              //                   ),
-              //                 ),
-              //               ),
-              //             ),
-              //           ),
-              //           12.width,
-              //           Expanded(
-              //             child: Column(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               mainAxisAlignment: MainAxisAlignment.center,
-              //               children: <Widget>[
-              //                 Text(
-              //                   widget.assignGroupResponse.groupName,
-              //                   style: const TextStyle(
-              //                       fontSize: 16, fontWeight: FontWeight.w600),
-              //                 ),
-              //                 6.width
-              //               ],
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
               extendBodyBehindAppBar: true,
               body: BlocBuilder<ChatDetailBloc, ChatDetailState>(
                 builder: (context, state) {
@@ -199,24 +86,30 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     controller: _panelController,
                     minHeight: 0.0,
                     maxHeight: 500.0,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)),
                     disableDraggableOnScrolling: !state.isCanDrag,
                     panelBuilder: () {
-                      return ShareMap(
-                        onSharePosition: (position) {
-                          context.read<ChatDetailBloc>().add(
-                                SendMessageGroupChat(
-                                  userId: UserRepo.profile?.id ?? '',
-                                  message:
-                                      "http://maps.google.com/maps?q=${position.latitude},${position.longitude}&iwloc=A",
-                                  type: MessageType.custom,
-                                  groupId: widget.assignGroupResponse.id,
-                                  groupName:
-                                      widget.assignGroupResponse.groupName,
-                                ),
-                              );
+                      return ClipRRect(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(16)),
+                        child: ShareMap(
+                          onSharePosition: (position) {
+                            context.read<ChatDetailBloc>().add(
+                                  SendMessageGroupChat(
+                                    userId: UserRepo.profile?.id ?? '',
+                                    message:
+                                        "http://maps.google.com/maps?q=${position.latitude},${position.longitude}&iwloc=A",
+                                    type: MessageType.custom,
+                                    groupId: widget.assignGroupResponse.id,
+                                    groupName:
+                                        widget.assignGroupResponse.groupName,
+                                  ),
+                                );
 
-                          _panelController.close();
-                        },
+                            _panelController.close();
+                          },
+                        ),
                       );
                     },
                     body: ChatList(
@@ -257,7 +150,7 @@ class BlurredAppBar extends StatelessWidget implements PreferredSizeWidget {
         BoxShadow(
           blurRadius: 4,
           color: Colors.black.withOpacity(0.1),
-          offset: Offset(0, 2),
+          offset: const Offset(0, 2),
         ),
       ]),
       child: ClipRRect(
@@ -266,8 +159,7 @@ class BlurredAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withOpacity(0.5),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -277,9 +169,7 @@ class BlurredAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Transform.scale(
-                        scale: 0.7,
-                        child: SvgPicture.asset(Resource.iconsAngleLeft))),
+                    icon: SvgPicture.asset(Resource.iconsAngleLeft)),
                 CircleAvatar(
                   radius: 23,
                   backgroundColor: Colors.white,

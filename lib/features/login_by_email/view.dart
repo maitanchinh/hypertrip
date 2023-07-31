@@ -5,6 +5,7 @@ import 'package:hypertrip/domain/validations/login_validator.dart';
 import 'package:hypertrip/features/login_by_email/state.dart';
 import 'package:hypertrip/features/login_by_phone/view.dart';
 import 'package:hypertrip/features/public/current_tour/view.dart';
+import 'package:hypertrip/features/root/view.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';
 import 'package:hypertrip/utils/message.dart';

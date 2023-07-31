@@ -63,7 +63,7 @@ class _NearbyPlaceState extends State<NearbyPlace> {
                 // if (state.nearbyPlace!.results![index].categories != null &&
                 //     state.nearbyPlace!.results![index].categories!.isNotEmpty) {
                 NearbyResults results = state.nearbyPlace!.results![index];
-
+        
                 return Place(
                   place: results,
                   photoIndex: 0,
