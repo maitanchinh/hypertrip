@@ -137,7 +137,7 @@ class CurrentTourPage extends StatelessWidget {
                     children: [
                       Gap.kSection.height,
                       Partner(state: state),
-                      Gap.k16.height
+                      Gap.k8.height
                     ],
                   ),
                 ),

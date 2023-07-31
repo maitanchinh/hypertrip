@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/domain/validations/login_validator.dart';
 import 'package:hypertrip/features/login_by_email/view.dart';
 import 'package:hypertrip/features/login_by_phone/state.dart';
+import 'package:hypertrip/features/root/view.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';
 import 'package:hypertrip/widgets/p_text_form_field.dart';

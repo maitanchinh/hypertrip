@@ -2,7 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_style.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
+import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import '../../../../widgets/text/p_text.dart';
 
 class ItemTempHourHorizontal extends StatelessWidget {
   final String content;
@@ -24,26 +28,22 @@ class ItemTempHourHorizontal extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          width: 80,
+          width: 100,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(content,
-                  style: AppStyle.fontOpenSanRegular
-                      .copyWith(fontSize: 16, color: AppColors.textColor)),
-              Text(day,
-                  style: AppStyle.fontOpenSanRegular
-                      .copyWith(fontSize: 16, color: AppColors.textGreyColor)),
+              PSmallText(content,
+                  size: 16, color: AppColors.textColor,),
+              PSmallText(day, size: 16,),
             ],
           ),
         ),
-        8.width,
-        Text(
+        Gap.k8.width,
+        PText(
           '$temp°C',
-          style: AppStyle.fontOpenSanSemiBold.copyWith(fontSize: 16, color: Colors.black),
-          textAlign: TextAlign.center,
+          size: 16,
         ),
-        8.width,
+        Gap.k8.width,
         CachedNetworkImage(
           imageUrl: icon,
           width: 39,

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatview/chatview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
@@ -70,7 +71,12 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       child: BaseWidget(
         unFocusWhenTouchOutsideInput: true,
         child: BlocBuilder<ChatDetailBloc, ChatDetailState>(
-          builder: (context, state) => Scaffold(
+          builder: (context, state) {
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.white, // Set your desired color here
+        statusBarIconBrightness: Brightness.dark, // Set the brightness of the status bar icons
+      ));
+            return Scaffold(
             key: _scaffoldKey,
             endDrawer: MemberList(
               members: state.members,
@@ -106,7 +112,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                                       widget.assignGroupResponse.groupName,
                                 ),
                               );
-
+          
                           _panelController.close();
                         },
                       ),
@@ -126,7 +132,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 );
               },
             ),
-          ),
+          );
+          },
         ),
       ),
     );
@@ -147,7 +154,7 @@ class BlurredAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.only(top: 32),
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.5),
           ),

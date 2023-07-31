@@ -5,6 +5,9 @@ import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/date_time_utils.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../../widgets/text/p_small_text.dart';
+import '../../../../widgets/text/p_text.dart';
+
 class ItemTempHour extends StatelessWidget {
   final String hour;
   final int temp;
@@ -21,20 +24,16 @@ class ItemTempHour extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(DateTimeUtils.convertToHHMMString(hour),
-            style: AppStyle.fontOpenSanRegular
-                .copyWith(fontSize: 16, color: AppColors.textGreyColor)),
-        8.height,
+        PSmallText(DateTimeUtils.convertToHHMMString(hour),
+            size: 16,
+            color: AppColors.textGreyColor,),
         CachedNetworkImage(
           imageUrl: icon,
-          width: 29,
-          height: 24,
+          width: 56,
         ),
-        8.height,
-        Text(
+        PText(
           '$temp°C',
-          style: AppStyle.fontOpenSanSemiBold.copyWith(fontSize: 14, color: Colors.black),
-          textAlign: TextAlign.center,
+          size: 16,
         )
       ],
     );
