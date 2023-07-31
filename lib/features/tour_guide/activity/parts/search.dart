@@ -44,19 +44,20 @@ class _SearchState extends State<Search> {
                 size: Theme.of(context).textTheme.titleMedium!.fontSize,
               ),
             ),
-            //* Search input
-            Expanded(
-              child: TextField(
-                style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
-                ),
-                decoration: const InputDecoration(
-                  isDense: true,
-                  hintText: "Search",
-                  border: InputBorder.none,
-                ),
-                onChanged: _onSearchChanged,
-              ),
+                //* Search input
+                Expanded(
+                  child: TextField(
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium!.fontSize,
+                    ),
+                    decoration: const InputDecoration(
+                      isDense: true,
+                      hintText: "Search",
+                      border: InputBorder.none,
+                    ),
+                    onChanged: _onSearchChanged,
+                  ),
             ),
             //* Type filter
             Builder(
@@ -64,34 +65,35 @@ class _SearchState extends State<Search> {
                 final cubit = BlocProvider.of<ActivityCubit>(context);
                 final currentType = cubit.state.filterType;
 
-                return Container(
-                  padding: const EdgeInsets.only(left: 8, right: 16),
-                  decoration: const BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(50),
-                      bottomRight: Radius.circular(50),
-                    ),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      activitiesTypeData
-                          .firstWhere((e) => e.type == currentType)
-                          .icon,
-                      color: Colors.white,
-                    ),
-                  ),
-                ).onTap(() {
-                  showCupertinoModalPopup(
-                    context: context,
-                    builder: (context) => const FilterTypeModal(),
-                  );
-                });
-              },
+                    return Container(
+                      padding: const EdgeInsets.only(left: 8, right: 16),
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(50),
+                          bottomRight: Radius.circular(50),
+                        ),
+                      ),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          activitiesTypeData
+                              .firstWhere((e) => e.type == currentType)
+                              .icon,
+                          color: Colors.white,
+                          width: 20,
+                        ),
+                      ),
+                    ).onTap(() {
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) => const FilterTypeModal(),
+                      );
+                    });
+                  },
+                ),
+              ],
             ),
-          ],
         ),
-      ),
     );
   }
 }

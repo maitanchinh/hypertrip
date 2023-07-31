@@ -66,6 +66,10 @@ class FirebaseMessage {
         return FirebaseMessageType.AttendanceActivity;
       case 'TourStarted':
         return FirebaseMessageType.TourStarted;
+      case 'CheckInAcitvity':
+        return FirebaseMessageType.CheckInAcitvity;
+      case 'CustomActivity':
+        return FirebaseMessageType.CustomActivity;
       default:
         return FirebaseMessageType.AttendanceActivity;
     }
@@ -77,6 +81,11 @@ class FirebaseMessage {
         return 'AttendanceActivity';
       case FirebaseMessageType.TourStarted:
         return 'TourStarted';
+      case FirebaseMessageType.CheckInAcitvity:
+        return 'CheckInAcitvity';
+      case FirebaseMessageType.CustomActivity:
+        return 'CustomActivity';
+      
       default:
         return 'AttendanceActivity';
     }
@@ -86,6 +95,8 @@ class FirebaseMessage {
 enum FirebaseMessageType {
   AttendanceActivity,
   TourStarted,
+  CheckInAcitvity,
+  CustomActivity
 }
 
 extension FirebaseMessageTypeExtension on FirebaseMessageType {

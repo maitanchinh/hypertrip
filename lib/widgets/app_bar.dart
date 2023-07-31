@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_style.dart';
+import 'package:hypertrip/widgets/button/action_button.dart';
+import 'package:hypertrip/widgets/text/p_text.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -25,26 +28,36 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       leading: implyLeading
-          ? IconButton(
-              onPressed: onTap ??
-                  () {
-                    Navigator.pop(context);
-                  },
-              icon: Image.asset(
-                AppAssets.icons_icon_arrow_back_png,
-                color: AppColors.primaryColor,
-                width: 20,
-                height: 24,
+          ?
+          // IconButton(
+          //     onPressed: onTap ??
+          //         () {
+          //           Navigator.pop(context);
+          //         },
+          //     icon: Image.asset(
+          //       AppAssets.icons_icon_arrow_back_png,
+          //       color: AppColors.primaryColor,
+          //       width: 20,
+          //       height: 24,
+          //     ),
+          //   )
+          Padding(
+              padding: const EdgeInsets.only(left: 16),
+              child: ActionButton(
+                icon: AppAssets.icons_angle_left_svg,
+                onPressed: onTap ??
+                    () {
+                      Navigator.pop(context);
+                    },
               ),
             )
           : const SizedBox(),
       centerTitle: true,
-      title: Text(
+      title: PText(
         title,
-        style: titleStyle ?? AppStyle.fontOpenSanSemiBold.copyWith(color: Colors.black),
       ),
       elevation: 0,
-      backgroundColor: backgroundColor ?? AppColors.bgLightColor,
+      backgroundColor: backgroundColor ?? transparentColor,
       actions: actions != null && actions!.isNotEmpty
           ? List.generate(
               actions!.length,

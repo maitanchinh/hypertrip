@@ -13,6 +13,8 @@ const String label_create_new_activity = 'New activity';
 
 /// alert
 const String msg_error = 'Error';
+const String msg_success = 'Success';
+const String msg_loading = 'loading...';
 const String msg_alert_email_empty_title = 'Email is required';
 const String msg_alert_email_empty_content = 'Enter your email to continue';
 const String msg_alert_phone_empty_title = 'Phone is required';
@@ -55,6 +57,8 @@ const String gender = 'Gender';
 const String firstName = 'First Name';
 const String lastName = 'Last Name';
 const String photoUpload = 'Photo Upload +';
+const String address = 'Address';
+const String urgentMsg = 'Urgent Message';
 
 const String takePicture = 'Take Picture';
 
@@ -88,3 +92,12 @@ const String label_activity_create_new = 'Create new activity';
 const String msg_activity_empty = 'No activity found';
 const String msg_cannot_load_attendance_member = 'No member';
 const String msg_save_attendance_activity_failed = 'Save activity failed';
+const String msg_attendance_invalid_code = 'Invalid code';
+const String label_not_attendance = 'waiting...';
+const String label_attended = 'Success';
+
+// attendance
+const String msg_attend_success = 'Attend success';
+
+// Permission
+const String msg_camera_required = 'You need to allow camera permission';

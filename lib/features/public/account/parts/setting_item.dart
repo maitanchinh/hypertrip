@@ -5,9 +5,12 @@ import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../../widgets/text/p_text.dart';
+
 class SettingItem extends StatelessWidget {
   final String icon;
   final Color? greyColor;
+  final Color? iconColor;
   final String content;
   final VoidCallback? callBack;
 
@@ -17,6 +20,7 @@ class SettingItem extends StatelessWidget {
     required this.content,
     this.greyColor,
     this.callBack,
+    this.iconColor,
   }) : super(key: key);
 
   @override
@@ -33,19 +37,38 @@ class SettingItem extends StatelessWidget {
                 Container(
                   width: 40,
                   height: 40,
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: greyColor),
+                  decoration:
+                      BoxDecoration(shape: BoxShape.circle, color: greyColor),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SvgPicture.asset(icon, fit: BoxFit.fitHeight),
+                    child: Transform.scale(
+                      scale: 0.8,
+                      child: SvgPicture.asset(
+                        icon,
+                        fit: BoxFit.fitHeight,
+                        color: iconColor,
+                      ),
+                    ),
                   ),
                 ),
                 10.width,
-                Text(content,
-                    style: AppStyle.fontOpenSanRegular
-                        .copyWith(fontSize: 16, color: AppColors.textColor)),
+                PText(
+                  content,
+                  size: 16,
+                  weight: FontWeight.normal,
+                )
               ],
             ),
-            SvgPicture.asset(AppAssets.icons_ic_chevron_right_svg),
+            SizedBox(
+              width: 24,
+              child: Transform.scale(
+                scale: 0.5,
+                child: SvgPicture.asset(
+                  AppAssets.icons_angle_right_svg,
+                  color: AppColors.primaryColor,
+                ),
+              ),
+            ),
           ],
         ),
       ),

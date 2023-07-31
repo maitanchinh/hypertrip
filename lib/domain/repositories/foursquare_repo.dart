@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hypertrip/domain/models/nearby/nearby_place.dart';
 import 'package:hypertrip/utils/message.dart';
@@ -12,7 +13,7 @@ class FoursquareRepo {
 
   FoursquareRepo();
 
-  Future<NearbyPlace?> getNearbyPlace(String query) async {
+  Future<NearbyPlace?> getNearbyPlace(String query, Position currentLocation) async {
     try {
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
@@ -25,7 +26,7 @@ class FoursquareRepo {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
       var url =
-          '/places/search?query=$query&ll=${position.latitude}%2C${position.longitude}&radius=5000&fields=fsq_id%2Ccategories%2Cdate_closed%2Cdistance%2Cemail%2Cfeatures%2Chours%2Clocation%2Cname%2Cphotos%2Crating%2Csocial_media%2Ctel%2Ctips%2Cwebsite%2Cprice&sort=DISTANCE&limit=50';
+          '/places/search?query=$query&ll=${currentLocation.latitude}%2C${currentLocation.longitude}&radius=5000&fields=fsq_id%2Ccategories%2Cdate_closed%2Cdistance%2Cemail%2Cfeatures%2Chours%2Clocation%2Cname%2Cphotos%2Crating%2Csocial_media%2Ctel%2Ctips%2Cwebsite%2Cgeocodes%2Cprice&sort=DISTANCE&limit=50';
       var response = await publishApiClient.get(url);
 
       return NearbyPlace.fromJson(response.data);

@@ -69,7 +69,8 @@ class _ChatListState extends State<ChatList> {
                   chatBackgroundConfig: const ChatBackgroundConfiguration(
                     messageTimeIconColor: Colors.white,
                     messageTimeTextStyle: TextStyle(color: Colors.white),
-                    defaultGroupSeparatorConfig: DefaultGroupSeparatorConfiguration(
+                    defaultGroupSeparatorConfig:
+                        DefaultGroupSeparatorConfiguration(
                       textStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
@@ -88,7 +89,7 @@ class _ChatListState extends State<ChatList> {
                       ),
                     ),
                     outgoingChatBubbleConfig: ChatBubble(
-                      color: Color(0XFF2695E4),
+                      color: AppColors.primaryColor,
                       linkPreviewConfig: LinkPreviewConfiguration(
                         titleStyle: TextStyle(color: Colors.transparent),
                         bodyStyle: TextStyle(color: Colors.transparent),
@@ -99,16 +100,24 @@ class _ChatListState extends State<ChatList> {
                   ),
                   messageConfig: const MessageConfiguration(imageMessageConfig: ImageMessageConfiguration(width: 300,height: 300)),
                   sendMessageConfig: SendMessageConfiguration(
+                    sendButtonIcon: SvgPicture.asset(
+                      AppAssets.icons_paper_plane_svg,
+                      width: 24,
+                      color: AppColors.primaryColor,
+                    ),
+                    defaultSendButtonColor: AppColors.secondaryColor,
                     imagePickerIconsConfig: ImagePickerIconsConfiguration(
                       cameraIconColor: AppColors.greyColor,
                       galleryIconColor: AppColors.greyColor,
                       mapIconColor: AppColors.greyColor,
-                      cameraImagePickerIcon: SvgPicture.asset(AppAssets.icons_ic_camera_svg,
-                          color: AppColors.greyColor),
-                      galleryImagePickerIcon: SvgPicture.asset(AppAssets.icons_ic_picture_svg,
-                          color: AppColors.greyColor),
+                      cameraImagePickerIcon: SvgPicture.asset(
+                          AppAssets.icons_ic_camera_svg,
+                          color: AppColors.primaryColor),
+                      galleryImagePickerIcon: SvgPicture.asset(
+                          AppAssets.icons_ic_picture_svg,
+                          color: AppColors.primaryColor),
                       mapIcon: SvgPicture.asset(AppAssets.icons_map_svg,
-                          width: 24, height: 24, color: AppColors.greyColor),
+                          width: 24, height: 24, color: AppColors.primaryColor),
                     ),
                     replyMessageColor: Colors.grey,
                     replyDialogColor: const Color(0xffFCD8DC),
@@ -120,7 +129,8 @@ class _ChatListState extends State<ChatList> {
                     ),
                     allowRecordingVoice: false,
                     micIconColor: Colors.white,
-                    voiceRecordingConfiguration: const VoiceRecordingConfiguration(
+                    voiceRecordingConfiguration:
+                        const VoiceRecordingConfiguration(
                       backgroundColor: Color(0xff383152),
                       recorderIconColor: Color(0xff757575),
                       waveStyle: WaveStyle(
@@ -138,11 +148,11 @@ class _ChatListState extends State<ChatList> {
                   ),
                   replyPopupConfig: ReplyPopupConfiguration(
                     onReplyTap: (message) {},
-                    replyPopupBuilder: (message, sendByCurrentUser) => const SizedBox(),
+                    replyPopupBuilder: (message, sendByCurrentUser) =>
+                        const SizedBox(),
                   ),
                   onPressedMap: widget.onPressedMap,
                   onSendTap: (message, replyMessage, messageType) {
-                    print("onSendTap $message - messageType $messageType");
                     context.read<ChatDetailBloc>().add(SendMessageGroupChat(
                           userId: UserRepo.profile?.id ?? '',
                           message: message,

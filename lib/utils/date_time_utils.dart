@@ -4,7 +4,11 @@ import 'package:timeago/timeago.dart' as timeago;
 class DateTimeUtils {
   static String convertTimeToTimeAgo(DateTime? createdDate) {
     if (createdDate == null) return '';
-    final result = timeago.format(createdDate, locale: 'en');
+    final result = timeago
+            .format(createdDate, locale: 'en')
+            .substring(0, 1)
+            .toUpperCase() +
+        timeago.format(createdDate, locale: 'en').substring(1);
     return result;
   }
 
@@ -13,10 +17,13 @@ class DateTimeUtils {
     return DateTime(now.year, now.month, now.day);
   }
 
-  static String convertDateTimeString(DateTime? dateTime, {String format = 'yyyy-MM-dd'}) {
+  static String convertDateTimeString(DateTime? dateTime,
+      {String format = 'yyyy-MM-dd'}) {
     if (dateTime == null) return '';
 
-    if (dateTime.year == today.year && dateTime.month == today.month && dateTime.day == today.day) {
+    if (dateTime.year == today.year &&
+        dateTime.month == today.month &&
+        dateTime.day == today.day) {
       return 'Today';
     }
 
