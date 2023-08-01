@@ -130,16 +130,16 @@ class CurrentTourPage extends StatelessWidget {
                 SliverPersistentHeader(
                   delegate: CustomSliverAppBarDelegate(
                     state: state,
-                    expandedHeight: 300,
+                    expandedHeight: 250,
                   ),
                   pinned: true,
                 ),
                 SliverToBoxAdapter(
                   child: Column(
                     children: [
-                      const SizedBox(height: 50),
+                      Gap.kSection.height,
                       Partner(state: state),
-                      const SizedBox(height: 16),
+                      Gap.k8.height
                     ],
                   ),
                 ),

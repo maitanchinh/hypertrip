@@ -77,20 +77,15 @@ class _NearbyPageState extends State<NearbyPage> {
     super.initState();
   }
 
-  void _resetChildState() {
-    setState(() {
-      _childKey = UniqueKey(); // Update the key to trigger a rebuild
-      _resetChild = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return _buildPage(context);
+     return BlocProvider(
+      create: (BuildContext context) => NearbyPlaceCubit(context.read<CurrentLocationCubit>()),
+      child: Builder(builder: (context) => _buildPage(context)),
+    );
   }
 
   Widget _buildPage(BuildContext context) {
-    final currentLocationCubit = BlocProvider.of<CurrentLocationCubit>(context);
     final nearbyPlaceCubit = BlocProvider.of<NearbyPlaceCubit>(context);
     return Scaffold(
       body: GestureDetector(

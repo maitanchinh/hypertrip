@@ -59,7 +59,7 @@ class _FormState extends State<Form> {
       listener: (context, state) {
         if (state is LoginByPhoneSuccessState) {
           Navigator.of(context).pushNamedAndRemoveUntil(
-              CurrentTourPage.routeName, (route) => false);
+              RootPage.routeName, (route) => false);
         } else if (state is LoginByPhoneFailedState) {}
       },
       builder: (context, state) {

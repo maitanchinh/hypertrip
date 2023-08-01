@@ -5,6 +5,9 @@ import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../../widgets/space/gap.dart';
+import '../../../../widgets/text/p_text.dart';
+
 class WeatherDay extends StatelessWidget {
   final bool showAllDay;
   final List<WeatherForecastDay> weatherForecastDay;
@@ -30,30 +33,31 @@ class WeatherDay extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const PText(
                 "Today",
-                style:
-                    AppStyle.fontOpenSanSemiBold.copyWith(fontSize: 16, color: AppColors.textColor),
+                size: 16,
               ),
               if (showAllDay)
                 SizedBox(
                   width: 100,
                   child: TextButton(
                     onPressed: callback,
-                    child: Text(
+                    child: PText(
                       "Next ${weatherForecastDay.length} Days",
-                      style: AppStyle.fontOpenSanSemiBold.copyWith(
-                        fontSize: 16,
-                        color: AppColors.primaryColor,
-                        decorationStyle: TextDecorationStyle.solid,
-                        decoration: TextDecoration.underline,
-                      ),
+                      size: 16,
+                      decoration: TextDecoration.underline,
+                      color: AppColors.primaryColor,
+                      // style: AppStyle.fontOpenSanSemiBold.copyWith(
+                      //   fontSize: 16,
+                      //   color: AppColors.primaryColor,
+                      //   decorationStyle: TextDecorationStyle.solid,
+                      //   decoration: TextDecoration.underline,
+                      // ),
                     ),
                   ),
                 )
             ],
           ),
-          16.height,
           if (weatherForecastDay.first.hours.isNotEmpty)
             SizedBox(
               height: 116,

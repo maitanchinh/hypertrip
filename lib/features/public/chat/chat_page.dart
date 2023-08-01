@@ -15,6 +15,7 @@ import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/base_page.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/app_bar.dart';
+import 'package:hypertrip/widgets/image/image.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:nb_utils/nb_utils.dart';

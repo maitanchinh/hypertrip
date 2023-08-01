@@ -10,17 +10,13 @@ class Partner extends StatelessWidget {
     return SafeSpace(
       child: CardSection(
         title: label_partner,
-        child: Container(
-          margin: const EdgeInsets.only(top: 16),
-          height: 180,
-          child: GridView.count(
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              physics: const ClampingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              children:
-                  state.members.map((member) => _buildMember(member)).toList()),
-        ),
+        child: GridView.count(
+            shrinkWrap: true,
+            crossAxisCount: 3,
+            physics: const ClampingScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            children:
+                state.members.map((member) => _buildMember(member)).toList()),
       ),
     );
   }
@@ -30,7 +26,7 @@ class Partner extends StatelessWidget {
       child: Column(
         children: [
           commonCachedNetworkImage(member.avatarUrl,
-              height: 46, width: 46, radius: 46, fit: BoxFit.cover),
+              height: 46, width: 46, radius: 46, fit: BoxFit.cover, type: 'avatar'),
           SizedBox(
             height: 30,
             width: 80,
