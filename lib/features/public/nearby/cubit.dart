@@ -10,12 +10,12 @@ final FoursquareRepo _foursquareRepo = getIt<FoursquareRepo>();
 
 //Nearby Place
 class NearbyPlaceCubit extends Cubit<NearbyPlaceState> {
-  final CurrentLocationCubit currentLocationCubit =
-      getIt<CurrentLocationCubit>();
+  final CurrentLocationCubit currentLocationCubit;
 
-  NearbyPlaceCubit() : super(NearbyPlaceState()) {
+  NearbyPlaceCubit(this.currentLocationCubit) : super(NearbyPlaceState()) {
     getNearbyPlace('');
   }
+
 
   Future<void> getNearbyPlace(String query) async {
     try {

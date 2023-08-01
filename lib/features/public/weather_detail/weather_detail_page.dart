@@ -5,6 +5,7 @@ import 'package:hypertrip/features/public/weather_detail/components/item_temp_ho
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/date_time_utils.dart';
 import 'package:hypertrip/widgets/app_bar.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class WeatherDetailPage extends StatelessWidget {
@@ -26,7 +27,7 @@ class WeatherDetailPage extends StatelessWidget {
           child: Column(
             children: [
               WeatherDay(showAllDay: false, weatherForecastDay: forecastDay,color: null),
-              40.height,
+              Gap.kSection.height,
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.all(0),

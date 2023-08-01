@@ -22,63 +22,75 @@ class ConversationList extends StatelessWidget {
                 Expanded(
                   child: Row(
                     children: [
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: Colors.white,
-                        child: CachedNetworkImage(
-                          imageUrl: data.trip?.tour?.thumbnailUrl ?? '',
-                          width: 56,
-                          height: 56,
-                          imageBuilder: (context, imageProvider) => Container(
-                            width: 56,
-                            height: 56,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                color: AppColors.grey2Color,
-                              ),
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          placeholder: (context, url) => Container(
-                            width: 150,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                color: AppColors.grey2Color,
-                              ),
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            width: 37.5,
-                            height: 37.5,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                color: AppColors.grey2Color,
-                              ),
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ),
+                      Container(
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(width: 2, color: AppColors.textGreyColor)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                            child: commonCachedNetworkImage(
+                                data.trip!.tour!.thumbnailUrl,
+                                fit: BoxFit.cover)),
                       ),
+                      // CircleAvatar(
+                      //   radius: 28,
+                      //   backgroundColor: Colors.white,
+                      //   child: CachedNetworkImage(
+                      //     imageUrl: data.trip?.tour?.thumbnailUrl ?? '',
+                      //     width: 56,
+                      //     height: 56,
+                      //     imageBuilder: (context, imageProvider) => Container(
+                      //       width: 56,
+                      //       height: 56,
+                      //       decoration: BoxDecoration(
+                      //         border: Border.all(
+                      //           width: 2,
+                      //           color: AppColors.grey2Color,
+                      //         ),
+                      //         shape: BoxShape.circle,
+                      //         image: DecorationImage(
+                      //           image: imageProvider,
+                      //           fit: BoxFit.cover,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     placeholder: (context, url) => Container(
+                      //       width: 150,
+                      //       height: 150,
+                      //       decoration: BoxDecoration(
+                      //         border: Border.all(
+                      //           width: 2,
+                      //           color: AppColors.grey2Color,
+                      //         ),
+                      //         shape: BoxShape.circle,
+                      //         color: Colors.white,
+                      //       ),
+                      //       child: const Center(
+                      //         child: CircularProgressIndicator(),
+                      //       ),
+                      //     ),
+                      //     errorWidget: (context, url, error) => Container(
+                      //       width: 37.5,
+                      //       height: 37.5,
+                      //       decoration: BoxDecoration(
+                      //         border: Border.all(
+                      //           width: 2,
+                      //           color: AppColors.grey2Color,
+                      //         ),
+                      //         shape: BoxShape.circle,
+                      //         color: Colors.white,
+                      //       ),
+                      //       child: const Center(
+                      //         child: Icon(
+                      //           Icons.error,
+                      //           color: Colors.red,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       16.width,
                       Expanded(
                         child: Container(
