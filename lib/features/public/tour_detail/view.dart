@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/models/tour/carousel.dart';
@@ -53,6 +54,13 @@ class TourDetailPage extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          SystemChrome.setSystemUIOverlayStyle(
+              SystemUiOverlayStyle.dark.copyWith(
+            statusBarColor: Colors.white, // Set your desired color here
+            statusBarIconBrightness:
+                Brightness.dark, // Set the brightness of the status bar icons
+          ));
+
           /// loading
           if (cubit.state is LoadingTourDetailState) {
             return const Center(

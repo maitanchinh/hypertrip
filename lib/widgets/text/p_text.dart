@@ -8,6 +8,7 @@ class PText extends StatelessWidget {
   final TextOverflow overflow;
   final int? maxLines;
   final FontWeight? weight;
+  final TextDecoration? decoration;
 
   const PText(
     this.text, {
@@ -16,7 +17,7 @@ class PText extends StatelessWidget {
     this.size = 18,
     this.overflow = TextOverflow.ellipsis,
     this.maxLines = 1,
-    this.weight,
+    this.weight, this.decoration,
   });
 
   @override
@@ -30,6 +31,7 @@ class PText extends StatelessWidget {
         color: color,
         fontSize: size,
         fontWeight: weight ?? FontWeight.w500,
+        decoration: decoration
       ),
     );
   }

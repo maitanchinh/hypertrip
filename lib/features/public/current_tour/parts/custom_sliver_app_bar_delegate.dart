@@ -56,66 +56,25 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
             child: SizedBox(
+              width: 150,
               height: 40,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        shape: defaultButtonRoundedShape,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                        ),
-                      ),
-                      icon: SvgPicture.asset(
-                        Resource.iconsPlane,
-                        width: 16,
-                        color: white,
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, TourDetailPage.routeName,
-                            arguments: {'tourId': state.group.trip?.tour?.id});
-                      },
-                      label: PText(
-                        state.group.trip?.tour?.title ?? "",
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Gap.k8.width,
-                  SizedBox(
-                    width: 150,
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        shape: defaultButtonRoundedShape,
-                        backgroundColor: AppColors.yellowColor,
-                      ),
-                      onPressed: () {
-                        if (UserRole.Traveler.compareWithString(
-                            UserRepo.profile!.role)) {
-                          Navigator.pushNamed(
-                            context,
-                            TravelerPage.Attendance.routeName,
-                          );
-                        } else {
-                          // todo: navigate to activity page
-                        }
-                      },
-                      icon: SvgPicture.asset(
-                        Resource.iconsClipboardUser,
-                        width: 16,
-                        color: white,
-                      ),
-                      label: const PText(
-                        'Attendance',
-                        overflow: TextOverflow.visible,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  shape: defaultButtonRoundedShape,
+                  backgroundColor: AppColors.yellowColor,
+                ),
+                onPressed: () {},
+                icon: SvgPicture.asset(
+                  Resource.iconsClipboardUser,
+                  width: 16,
+                  color: white,
+                ),
+                label: const PText(
+                  'Attendance',
+                  overflow: TextOverflow.visible,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

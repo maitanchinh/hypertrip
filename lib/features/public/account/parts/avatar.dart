@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hypertrip/theme/color.dart';
+import 'package:hypertrip/utils/app_assets.dart';
 
 class AvatarProfile extends StatelessWidget {
   final String url;
@@ -13,68 +14,17 @@ class AvatarProfile extends StatelessWidget {
       height: 200,
       child: Stack(
         children: [
-          Positioned(
-            top: 24,
-            right: 24,
-            left: 24,
-            bottom: 24,
-            child: CircleAvatar(
-              radius: 75,
-              backgroundColor: Colors.white,
-              child: CachedNetworkImage(
-                imageUrl: url,
-                width: 150,
-                height: 150,
-                imageBuilder: (context, imageProvider) => Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2,
-                      color: AppColors.grey2Color,
-                    ),
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+          Center(
+            child: Container(
+              width: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100)
                 ),
-                placeholder: (context, url) => Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2,
-                      color: AppColors.grey2Color,
-                    ),
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  width: 37.5,
-                  height: 37.5,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2,
-                      color: AppColors.grey2Color,
-                    ),
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: FadeInImage.assetNetwork(
+                      placeholder: AppAssets.avatar_placeholder_png, image: url),
+                )),
           ),
           Positioned(
             right: 0,
