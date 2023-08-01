@@ -45,7 +45,7 @@ Widget _buildSlidable(BuildContext context, Activity activitiy) {
           backgroundColor: AppColors.lightGreenColor,
           foregroundColor: Colors.white,
           child: SvgPicture.asset(
-            AssetIcons.circleCheckRegular1,
+            AppAssets.icons_circle_check_regular_1_svg,
             width: 24,
             height: 24,
           ),
@@ -63,7 +63,7 @@ Widget _buildSlidable(BuildContext context, Activity activitiy) {
           backgroundColor: AppColors.lightGreenColor,
           foregroundColor: Colors.white,
           child: SvgPicture.asset(
-            AssetIcons.circleCheckRegular1,
+            AppAssets.icons_circle_check_regular_1_svg,
             width: 24,
             height: 24,
           ),
@@ -108,7 +108,7 @@ Widget _buildAttendanceActivity(
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SvgPicture.asset(
-            AssetIcons.circleCheckRegular1,
+            AppAssets.icons_circle_check_regular_1_svg,
             width: 24,
             height: 24,
           ),
@@ -128,7 +128,7 @@ Widget _buildAttendanceActivity(
                 style: TextStyle(color: AppColors.textGreyColor, fontSize: 10)),
             8.height,
             Text(
-              activity.createdAt.toString(),
+              activity.createdAt.readableValue,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: AppColors.textColor,
                   ),
@@ -158,7 +158,7 @@ Widget _buildCheckInActivity(
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SvgPicture.asset(
-            AssetIcons.checkIn,
+            AppAssets.icons_check_in_svg,
             width: 24,
             height: 24,
           ),
@@ -200,7 +200,7 @@ Widget _buildCustomActivity(
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SvgPicture.asset(
-            AssetIcons.circleCheckRegular1,
+            AppAssets.icons_circle_check_regular_1_svg,
             width: 24,
             height: 24,
           ),

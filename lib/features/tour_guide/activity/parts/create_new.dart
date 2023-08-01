@@ -46,7 +46,7 @@ Widget _buildCreateNew(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    AssetIcons.plus,
+                    AppAssets.icons_plus_svg,
                     width: 18,
                     height: 18,
                     color: Colors.white,
@@ -74,11 +74,17 @@ void _action(BuildContext context, {required ActivityType type}) {
   if (type == ActivityType.All) return;
   if (type == ActivityType.Attendance) return _onCreateAttendance(context);
   if (type == ActivityType.CheckIn) return _onCreateCheckIn(context);
+  if (type == ActivityType.IncurredCosts)
+    return _onCreateIncurredCosts(context);
 }
 
 void _onCreateAttendance(BuildContext context) {
   showAppModalBottomSheet(
       context: context, builder: (context) => const AttendanceActivity());
+}
+
+void _onCreateIncurredCosts(BuildContext context) {
+  Navigator.of(context).pushNamed(IncurredCostsActivity.routeName);
 }
 
 void _onCreateCheckIn(BuildContext context) {}

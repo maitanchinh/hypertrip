@@ -126,6 +126,11 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin sqflite, com.tekartik.sqflite.SqflitePlugin", e);
     }
     try {
+      flutterEngine.getPlugins().add(new com.dominikkrajcer.system_date_time_format.SystemDateTimeFormatPlugin());
+    } catch(Exception e) {
+      Log.e(TAG, "Error registering plugin system_date_time_format, com.dominikkrajcer.system_date_time_format.SystemDateTimeFormatPlugin", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new io.flutter.plugins.urllauncher.UrlLauncherPlugin());
     } catch(Exception e) {
       Log.e(TAG, "Error registering plugin url_launcher_android, io.flutter.plugins.urllauncher.UrlLauncherPlugin", e);
