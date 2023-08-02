@@ -35,6 +35,10 @@ class LoadableWidget extends StatelessWidget {
         return NoDataWidget(content: "Error $errorText", onPressed: failureOnPress);
       case PageState.success:
         return child;
+      case PageState.loadingFull:
+        return Stack(
+          children: [child, const Center(child: CircularProgressIndicator())],
+        );
     }
   }
 }

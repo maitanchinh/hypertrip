@@ -65,6 +65,14 @@ class FetchContacts extends ProfileEvent {
   List<Object> get props => [];
 }
 
+class OnSubmitSendEmergency extends ProfileEvent {
+  final String groupId;
+  const OnSubmitSendEmergency({required this.groupId});
+
+  @override
+  List<Object> get props => [groupId];
+}
+
 class OnClearPageCommand extends ProfileEvent {
   const OnClearPageCommand();
 

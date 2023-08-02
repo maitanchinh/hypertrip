@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hypertrip/domain/models/group/assign_group_response.dart';
 import 'package:hypertrip/domain/models/group/group.dart';
 import 'package:hypertrip/domain/models/user/member.dart';
@@ -68,11 +69,21 @@ class GroupRepo {
       final response = await apiClient.get('/travelers/${id}/joined-groups');
       return response.data != null
           ? (response.data as List<dynamic>)
-          .map((assignGroupResponse) => AssignGroupResponse.fromJson(assignGroupResponse))
-          .toList()
+              .map((assignGroupResponse) => AssignGroupResponse.fromJson(assignGroupResponse))
+              .toList()
           : [];
     } catch (ex) {
       return [];
+    }
+  }
+
+  Future<dynamic> sendEmergency(Position position, String id) async {
+    try {
+      final response = await apiClient.post('/tour-groups/$id/emergency',
+          data: {'longitude': position.longitude, 'latitude': position.latitude});
+      return true;
+    } catch (ex) {
+      return false;
     }
   }
 }
