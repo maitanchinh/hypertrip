@@ -107,9 +107,9 @@ class AccountPage extends StatelessWidget {
                       },
                     ),
                     SettingItem(
-                      icon: AppAssets.icons_ic_user_svg,
+                      icon: AppAssets.icons_ic_emergency_svg,
                       greyColor: AppColors.yellow_2Color.withOpacity(0.2),
-                      iconColor: AppColors.secondaryColor,
+                      iconColor: AppColors.redColor,
                       content: emergency,
                       callBack: () {
                         showCupertinoModalBottomSheet(
