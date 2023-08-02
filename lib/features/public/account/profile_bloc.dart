@@ -11,6 +11,7 @@ import 'package:hypertrip/utils/message.dart' as message;
 import 'package:hypertrip/utils/page_command.dart';
 import 'package:hypertrip/utils/page_states.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'profile_event.dart';
 
@@ -47,6 +48,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     on<UpdateProfile>(_updateProfile);
     on<OnSubmitSendEmergency>(_onSubmitSendEmergency);
+    on<OnOpenMap>(_onOpenMap);
     on<OnClearPageCommand>((event, emit) => emit(state.copyWith(pageCommand: null)));
   }
 
@@ -113,10 +115,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       if (position != null && event.groupId.isNotEmpty) {
         final result = await _groupRepo.sendEmergency(position, event.groupId);
-        if(result){
+        if (result) {
           toast(message.msg_success);
-        }
-        else{
+        } else {
           toast(message.errorSystem);
         }
       } else {
@@ -126,5 +127,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       toast(message.msg_location_required);
     }
     emit(state.copyWith(status: PageState.success));
+  }
+
+  FutureOr<void> _onOpenMap(OnOpenMap event, Emitter<ProfileState> emit) async {
+    final position = await _foursquareRepo.getCurrentLocation();
+    final url =
+        'http://maps.google.com/maps?q=${position?.latitude},${position?.longitude}&iwloc=A';
+    final parsedUrl = Uri.parse(url);
+    await canLaunchUrl(parsedUrl) ? await launchUrl(parsedUrl) : throw message.errorSystem;
   }
 }

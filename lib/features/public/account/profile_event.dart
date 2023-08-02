@@ -73,6 +73,13 @@ class OnSubmitSendEmergency extends ProfileEvent {
   List<Object> get props => [groupId];
 }
 
+class OnOpenMap extends ProfileEvent {
+  const OnOpenMap();
+
+  @override
+  List<Object> get props => [];
+}
+
 class OnClearPageCommand extends ProfileEvent {
   const OnClearPageCommand();
 

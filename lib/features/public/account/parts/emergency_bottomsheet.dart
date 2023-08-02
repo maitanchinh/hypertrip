@@ -74,10 +74,13 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
                       (kToolbarHeight ~/ 2).height,
                       const PText(emergency),
                       40.height,
-                      const PText(
-                        sendEmergency,
-                        size: 16,
-                        color: AppColors.greyColor,
+                      GestureDetector(
+                        onTap: () => context.read<ProfileBloc>().add(const OnOpenMap()),
+                        child: const PText(
+                          sendEmergency,
+                          size: 16,
+                          color: AppColors.greyColor,
+                        ),
                       ),
                       60.height,
                       GestureDetector(
