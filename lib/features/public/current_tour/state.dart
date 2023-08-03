@@ -35,6 +35,25 @@ class LoadCurrentTourSuccessState extends CurrentTourState {
   Map<int?, List<Slot>> getScheduleByDay() {
     return schedule.groupListsBy((e) => e.dayNo);
   }
+
 }
 
 class LoadCurrentTourNotFoundState extends CurrentTourState {}
+
+//Current Group
+class CurrentGroupState {}
+
+class LoadingCurrentGroupState extends CurrentGroupState {}
+
+class LoadCurrentGroupFailedState extends CurrentGroupState {
+  final String msg;
+  LoadCurrentGroupFailedState({required this.msg});
+}
+
+class LoadCurrentGroupSuccessState extends CurrentGroupState {
+  Group group;
+
+  LoadCurrentGroupSuccessState({required this.group});
+}
+
+class LoadCurrentGroupNotFoundState extends CurrentGroupState {}

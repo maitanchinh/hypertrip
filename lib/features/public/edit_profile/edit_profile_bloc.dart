@@ -109,7 +109,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
       state.address,
       state.idUrl,
     );
-    print("res");
 
     if (res != null) {
       final profile = state.userProfile;

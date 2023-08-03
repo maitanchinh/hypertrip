@@ -38,7 +38,6 @@ class WarningIncidentRepository {
               forecast: WeatherForecast(),
             );
     } else {
-      print('Mã phản hồi: ${response.statusCode}');
       return WeatherResponse(
         location: WeatherLocation(),
         alerts: WeatherAlerts(),
@@ -63,7 +62,6 @@ class WarningIncidentRepository {
           ? EarthquakesResponse.fromJson(jsonDecode(response.body))
           : EarthquakesResponse();
     } else {
-      print('Mã phản hồi: ${response.statusCode}');
       return EarthquakesResponse();
     }
   }

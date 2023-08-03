@@ -79,7 +79,7 @@ class _ActivityPageState extends State<ActivityPage> {
       backgroundColor: AppColors.bgLightColor,
       appBar: const MainAppBar(
         title: 'Activity',
-        implyLeading: true,
+        implyLeading: false,
       ),
       bottomNavigationBar: _buildCreateNew(context),
       body: SafeArea(
