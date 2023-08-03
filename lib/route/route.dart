@@ -1,7 +1,6 @@
 // ignore_for_file: library_prefixes
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:hypertrip/domain/models/group/assign_group_response.dart';
 import 'package:hypertrip/domain/models/incidents/warning_argument.dart';
 import 'package:hypertrip/domain/models/incidents/weather_alert.dart';
@@ -20,6 +19,7 @@ import 'package:hypertrip/features/public/page.dart' as Public;
 import 'package:hypertrip/features/public/warning_incident/warning_incident_page.dart';
 import 'package:hypertrip/features/public/weather_detail/weather_detail_page.dart';
 import 'package:hypertrip/features/root/view.dart';
+import 'package:hypertrip/features/tour_guide/page.dart' as TourGuide;
 import 'package:hypertrip/features/traveler/page.dart' as Traveler;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -81,12 +81,18 @@ PageRoute? generateRoute(RouteSettings settings) {
           builder: (_) => Public.TourDetailPage(
               tourId: (settings.arguments as Map)['tourId'].toString()));
     case Public.NearbyMap.routeName:
-    final arguments = settings.arguments as NearbyMap;
-    return MaterialPageRoute(builder: (_) => Public.NearbyMap(places: arguments.places,));
+      final arguments = settings.arguments as NearbyMap;
+      return MaterialPageRoute(
+          builder: (_) => Public.NearbyMap(
+                places: arguments.places,
+              ));
     // case Public.NearbyPage.routeName:
     //   return MaterialPageRoute(builder: (_) => const Public.NearbyPage());
 
     /// Tour guide
+    case TourGuide.IncurredCostsActivity.routeName:
+      return MaterialPageRoute(
+          builder: (_) => const TourGuide.IncurredCostsActivity());
 
     /// Traveler
     case Traveler.Attendance.routeName:

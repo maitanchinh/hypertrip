@@ -11,6 +11,7 @@ import 'package:hypertrip/theme/theme.dart';
 import 'package:hypertrip/utils/bloc_provider.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/get_it.dart';
+import 'package:hypertrip/utils/system_config.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 void main() async {
@@ -58,6 +59,9 @@ Future<void> _initialApp() async {
 
   /// Fetch Profile
   var initialRoute = await _fetchProfileAndReturnInitialRoute();
+
+  /// Initial System config
+  await SystemConfig.initialize();
 
   /// Run app
   runApp(App(initialRoute: initialRoute));

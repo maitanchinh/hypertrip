@@ -1,6 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 
@@ -27,4 +24,8 @@ final List<ActivityTypeData> activitiesTypeData = [
       type: ActivityType.CheckIn,
       label: "Check-In",
       icon: AppAssets.icons_circle_check_svg),
+  ActivityTypeData(
+      type: ActivityType.IncurredCosts,
+      label: "Incurred Costs",
+      icon: AppAssets.icons_money_bill_svg),
 ];

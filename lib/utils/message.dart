@@ -8,6 +8,7 @@ const String label_carousel = 'Gallery';
 const String label_read_more = ' read more';
 const String label_read_less = ' read less';
 const String label_activity = 'Activity';
+const String label_incurred_costs = 'Incurred costs';
 const String label_search = 'Search';
 const String label_create_new_activity = 'New activity';
 
