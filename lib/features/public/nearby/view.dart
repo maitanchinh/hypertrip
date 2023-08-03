@@ -133,9 +133,7 @@ class _NearbyPageState extends State<NearbyPage> {
                   SizedBox(
                     width: context.width(),
                     // padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: const Expanded(
-                      child: PText('Nearby You'),
-                    ),
+                    child: const PText('Nearby You'),
                   ).paddingOnly(left: 16, right: 16, bottom: 16),
                   NearbyPlace(
                     query: query,

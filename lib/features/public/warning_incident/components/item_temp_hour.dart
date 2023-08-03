@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/date_time_utils.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../widgets/text/p_small_text.dart';
@@ -27,10 +28,12 @@ class ItemTempHour extends StatelessWidget {
         PSmallText(DateTimeUtils.convertToHHMMString(hour),
             size: 16,
             color: AppColors.textGreyColor,),
+            Gap.k8.height,
         CachedNetworkImage(
           imageUrl: icon,
           width: 56,
         ),
+            Gap.k8.height,
         PText(
           '$temp°C',
           size: 16,

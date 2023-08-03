@@ -11,6 +11,7 @@ class Partner extends StatelessWidget {
       child: CardSection(
         title: label_partner,
         child: GridView.count(
+            padding: EdgeInsets.zero,
             shrinkWrap: true,
             crossAxisCount: 3,
             physics: const ClampingScrollPhysics(),
@@ -22,27 +23,21 @@ class Partner extends StatelessWidget {
   }
 
   Widget _buildMember(Member member) {
-    return Center(
-      child: Column(
-        children: [
-          commonCachedNetworkImage(member.avatarUrl,
-              height: 46, width: 46, radius: 46, fit: BoxFit.cover, type: 'avatar'),
-          SizedBox(
-            height: 30,
-            width: 80,
-            child: Text(
-              '${member.firstName} ${member.lastName}',
-              style: const TextStyle(
-                fontSize: 12,
-                color: AppColors.textColor,
-              ),
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        commonCachedNetworkImage(member.avatarUrl,
+            height: 46,
+            width: 46,
+            radius: 46,
+            fit: BoxFit.cover,
+            type: 'avatar'),
+        Gap.k8.height,
+        PSmallText(
+          '${member.firstName} ${member.lastName}',
+          color: AppColors.textColor,
+        ),
+      ],
     );
   }
 }

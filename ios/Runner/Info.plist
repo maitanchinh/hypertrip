@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to scan QR codes</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+<string>App needs access to photo lib for profile images</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Access local network to discover devices.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

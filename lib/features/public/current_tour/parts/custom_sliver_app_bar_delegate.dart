@@ -64,7 +64,17 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   shape: defaultButtonRoundedShape,
                   backgroundColor: AppColors.yellowColor,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                        if (UserRole.Traveler.compareWithString(
+                            UserRepo.profile!.role)) {
+                          Navigator.pushNamed(
+                            context,
+                            TravelerPage.Attendance.routeName,
+                          );
+                        } else {
+                          // todo: navigate to activity page
+                        }
+                      },
                 icon: SvgPicture.asset(
                   Resource.iconsClipboardUser,
                   width: 16,

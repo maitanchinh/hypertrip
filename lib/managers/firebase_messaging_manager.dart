@@ -159,7 +159,6 @@ class FirebaseMessagingManager {
           await setValue(AppConstant.keyFcmToken, firebaseToken);
           _notificationRepo.addTokenFCMApi(firebaseToken, uID).then((value) {});
         }
-        print("firebase Token: $firebaseToken");
       }
     });
   }

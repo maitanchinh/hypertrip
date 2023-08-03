@@ -28,7 +28,7 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   int _currentLocationIndex = -1;
   MapsRoutes route = MapsRoutes();
   DistanceCalculator distanceCalculator = DistanceCalculator();
-  String googleApiKey = 'AIzaSyBbahrYaUhtSGNxXS-1fUsUsZ--e8jTYqg';
+  String googleApiKey = 'AIzaSyCrnkFUjP4YhaT9OPfRyP_3trttqauSHlY';
   // String googleApiKey = '';
 
   @override

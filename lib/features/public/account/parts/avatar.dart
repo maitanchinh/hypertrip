@@ -17,13 +17,14 @@ class AvatarProfile extends StatelessWidget {
           Center(
             child: Container(
               width: 150,
+              height: 150,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100)
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: FadeInImage.assetNetwork(
-                      placeholder: AppAssets.avatar_placeholder_png, image: url),
+                      placeholder: AppAssets.avatar_placeholder_png, image: url, fit: BoxFit.cover,),
                 )),
           ),
           Positioned(

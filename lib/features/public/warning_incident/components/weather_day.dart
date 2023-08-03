@@ -60,7 +60,7 @@ class WeatherDay extends StatelessWidget {
           ),
           if (weatherForecastDay.first.hours.isNotEmpty)
             SizedBox(
-              height: 116,
+              height: 120,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: weatherForecastDay.first.hours.length,
