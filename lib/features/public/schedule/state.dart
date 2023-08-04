@@ -60,3 +60,39 @@ class LoadNearbyPlaceSuccessState extends NearbyPlaceState {
 
   LoadNearbyPlaceSuccessState({required this.nearbyPlace});
 }
+
+// Nearby Place Suggestion
+class NearbyPlaceSuggestionState {}
+
+class LoadingNearbyPlaceSuggestionState extends NearbyPlaceSuggestionState {}
+
+class NoResultsNearbyPlaceSuggestionState extends NearbyPlaceSuggestionState {}
+
+class LoadNearbyPlaceSuggestionFailedState extends NearbyPlaceSuggestionState {
+  final String message;
+  LoadNearbyPlaceSuggestionFailedState({required this.message});
+}
+
+class LoadNearbyPlaceSuggestionSuccessState extends NearbyPlaceSuggestionState {
+  final NearbyPlace? nearbyPlace;
+
+  LoadNearbyPlaceSuggestionSuccessState({required this.nearbyPlace});
+}
+
+// Nearby Schedule
+class NearbyScheduleState {}
+
+class LoadingNearbyScheduleState extends NearbyScheduleState {}
+
+class NoResultsNearbyScheduleState extends NearbyScheduleState {}
+
+class LoadNearbyScheduleFailedState extends NearbyScheduleState {
+  final String message;
+  LoadNearbyScheduleFailedState({required this.message});
+}
+
+class LoadNearbyScheduleSuccessState extends NearbyScheduleState {
+  final NearbyPlace? nearbySchedule;
+
+  LoadNearbyScheduleSuccessState({required this.nearbySchedule});
+}

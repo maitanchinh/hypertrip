@@ -10,12 +10,10 @@ class LocationTracking extends StatefulWidget {
 
 class _LocationTrackingState extends State<LocationTracking> {
   late GoogleMapController _mapController;
-  late StreamSubscription<Position>? _positionStreamSubscription;
   BitmapDescriptor currentLocationIcon = BitmapDescriptor.defaultMarker;
   final _searchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  // Future<Position>? _latlng;
   late Position _position = const Position(
       latitude: 0,
       longitude: 0,
@@ -32,7 +30,7 @@ class _LocationTrackingState extends State<LocationTracking> {
   DistanceCalculator distanceCalculator = DistanceCalculator();
   // String googleApiKey = 'AIzaSyCrnkFUjP4YhaT9OPfRyP_3trttqauSHlY';
   String googleApiKey = '';
-
+  Key _childKey = UniqueKey();
   @override
   void initState() {
     // _latlng = _getCurrentLocation();
@@ -44,29 +42,14 @@ class _LocationTrackingState extends State<LocationTracking> {
     super.initState();
   }
 
-  void _stopLocationUpdates() {
-    _positionStreamSubscription?.cancel();
+void _resetChildState() {
+    setState(() {
+      _childKey = UniqueKey(); // Update the key to trigger a rebuild
+    });
   }
 
-  // Future<Position> _getCurrentLocation() async {
-  //   LocationPermission permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission != LocationPermission.whileInUse &&
-  //         permission != LocationPermission.always) {}
-  //   }
-
-  //   _startLocationUpdates();
-
-  //   Position position = await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   );
-
-  //   _position = position;
-  //   return position;
-  // }
-
   void _moveToNextLocation() {
+    // _resetChildState();
     setState(() {
       if (_currentLocationIndex < widget.slots.length - 1) {
         _currentLocationIndex++;
@@ -87,6 +70,7 @@ class _LocationTrackingState extends State<LocationTracking> {
   void _moveCamera() {
     final currentLocation = widget.slots[_currentLocationIndex];
     getPolypoints();
+    _resetChildState();
     _mapController.animateCamera(
       CameraUpdate.newLatLngZoom(
         LatLng(currentLocation.latitude as double,
@@ -110,7 +94,6 @@ class _LocationTrackingState extends State<LocationTracking> {
 
   @override
   void dispose() {
-    _stopLocationUpdates();
     super.dispose();
   }
 
@@ -265,16 +248,28 @@ class _LocationTrackingState extends State<LocationTracking> {
     //       } else {
     //         final latlng = snapshot.data!;
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
+    // final nearbyPlaceSuggestionCubit = BlocProvider.of<NearbyPlaceSuggestionCubit>(context);
     int indexOfSchedule = _currentLocationIndex < 0
         ? _currentLocationIndex + 1
         : _currentLocationIndex;
     Slot schedule = widget.slots[indexOfSchedule];
+    return _buildePage(cubit, context, schedule, _currentLocationIndex);
+    //   }
+    // });
+  }
+
+  Scaffold _buildePage(CurrentLocationCubit cubit, BuildContext context,
+      Slot schedule, int index) {
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: SearchBar(
         scaffoldKey: _scaffoldKey,
         searchController: _searchController,
         focusNode: _focusNode,
+        currentLocationIndex: index,
+        schedule: schedule,
+        currentLocation: _position,
       ),
       floatingActionButton: ExpandableFab(
           type: ExpandableFabType.left,
@@ -358,6 +353,7 @@ class _LocationTrackingState extends State<LocationTracking> {
                 minChildSize: 0.1,
                 maxChildSize: 0.7,
                 builder: (context, ScrollController scrollController) {
+                  // nearbyPlaceSuggestionCubit.getNearbyPlaceSuggestion(Position(longitude: schedule.latitude!.toDouble(), latitude: schedule.longitude!.toDouble(), timestamp: null, accuracy: 0, altitude: 0, heading: 0, speed: 0, speedAccuracy: 0));
                   return Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     decoration: const BoxDecoration(
@@ -400,67 +396,107 @@ class _LocationTrackingState extends State<LocationTracking> {
                                           color: AppColors.greyColor,
                                         ),
                                         Gap.k8.width,
-                                        PSmallText('Day',
+                                        const PSmallText('Day',
                                             color: AppColors.greyColor),
                                         Gap.k4.width,
                                         PSmallText(
                                           schedule.dayNo.toString(),
                                           color: AppColors.greyColor,
                                         ),
-                                        Gap.k8.width,
-                                        Container(
-                                          height: 3,
-                                          width: 3,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: AppColors.greyColor),
-                                        ),
-                                        Gap.k8.width,
-                                        schedule.vehicle == 'Airplane'
-                                            ? SvgPicture.asset(AppAssets
-                                                .icons_plane_departure_svg,
-                                                height: 14,
-                                                color: AppColors.greyColor,)
-                                            : schedule.vehicle == 'Motorbike'
-                                                ? SvgPicture.asset(AppAssets
-                                                    .icons_motorcycle_svg,
-                                                    height: 14,
-                                                    color: AppColors.greyColor,)
-                                                : schedule.vehicle == 'Car'
-                                                    ? SvgPicture.asset(AppAssets
-                                                        .icons_car_side_svg,
-                                                        height: 14,
-                                                        color: AppColors.greyColor,)
-                                                    : schedule.vehicle == 'Bus'
-                                                        ? SvgPicture.asset(
-                                                            AppAssets
-                                                                .icons_bus_svg,
-                                                                height: 14,
-                                                                color: AppColors.greyColor,)
-                                                        : schedule.vehicle ==
-                                                                'Boat'
-                                                            ? SvgPicture.asset(
-                                                                AppAssets
-                                                                    .icons_sailboat_svg,
-                                                                    height: 14,
-                                                                    color: AppColors.greyColor,)
-                                                            : SvgPicture.asset(
-                                                                AppAssets
-                                                                    .icons_train_svg,
-                                                                    height: 14,
-                                                                    color: AppColors.greyColor,),
-                                                                    Gap.k8.width,
-                                                                    PSmallText('Come by ' + schedule.vehicle.toString(), color: AppColors.greyColor,)
+                                        schedule.vehicle != null
+                                            ? Row(
+                                                children: [
+                                                  Gap.k8.width,
+                                                  Container(
+                                                    height: 3,
+                                                    width: 3,
+                                                    decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: AppColors
+                                                            .greyColor),
+                                                  ),
+                                                  Gap.k8.width,
+                                                  schedule.vehicle == 'Airplane'
+                                                      ? SvgPicture.asset(
+                                                          AppAssets
+                                                              .icons_plane_departure_svg,
+                                                          height: 14,
+                                                          color: AppColors
+                                                              .greyColor,
+                                                        )
+                                                      : schedule.vehicle ==
+                                                              'Motorbike'
+                                                          ? SvgPicture.asset(
+                                                              AppAssets
+                                                                  .icons_motorcycle_svg,
+                                                              height: 14,
+                                                              color: AppColors
+                                                                  .greyColor,
+                                                            )
+                                                          : schedule.vehicle ==
+                                                                  'Car'
+                                                              ? SvgPicture
+                                                                  .asset(
+                                                                  AppAssets
+                                                                      .icons_car_side_svg,
+                                                                  height: 14,
+                                                                  color: AppColors
+                                                                      .greyColor,
+                                                                )
+                                                              : schedule.vehicle ==
+                                                                      'Bus'
+                                                                  ? SvgPicture
+                                                                      .asset(
+                                                                      AppAssets
+                                                                          .icons_bus_svg,
+                                                                      height:
+                                                                          14,
+                                                                      color: AppColors
+                                                                          .greyColor,
+                                                                    )
+                                                                  : schedule.vehicle ==
+                                                                          'Boat'
+                                                                      ? SvgPicture
+                                                                          .asset(
+                                                                          AppAssets
+                                                                              .icons_sailboat_svg,
+                                                                          height:
+                                                                              14,
+                                                                          color:
+                                                                              AppColors.greyColor,
+                                                                        )
+                                                                      : SvgPicture
+                                                                          .asset(
+                                                                          AppAssets
+                                                                              .icons_train_svg,
+                                                                          height:
+                                                                              14,
+                                                                          color:
+                                                                              AppColors.greyColor,
+                                                                        ),
+                                                  Gap.k8.width,
+                                                  PSmallText(
+                                                    'Come by ' +
+                                                        schedule.vehicle
+                                                            .toString(),
+                                                    color: AppColors.greyColor,
+                                                  ),
+                                                ],
+                                              )
+                                            : SizedBox.shrink()
                                       ],
                                     ),
                                   )
                                 ],
                               ),
                               Gap.kSection.height,
-                              PText('Nearby'),
+                              PText('Nearby Suggestion'),
                               Gap.k16.height,
-                              
-
+                              NearbyPlaceSuggestion(
+                                key: _childKey,
+                                query: '',
+                                location: Position(longitude: schedule.longitude!, latitude: schedule.latitude!, timestamp: null, accuracy: 0, altitude: 0, heading: 0, speed: 0, speedAccuracy: 0),
+                              )
                             ],
                           ))
                         ]),
@@ -472,8 +508,6 @@ class _LocationTrackingState extends State<LocationTracking> {
         ],
       ),
     );
-    //   }
-    // });
   }
 }
 
@@ -481,11 +515,17 @@ class SearchBar extends StatefulWidget implements PreferredSizeWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final TextEditingController searchController;
   final FocusNode focusNode;
+  final int currentLocationIndex;
+  final Slot schedule;
+  final Position currentLocation;
   const SearchBar(
       {super.key,
       required this.scaffoldKey,
       required this.searchController,
-      required this.focusNode});
+      required this.focusNode,
+      required this.currentLocationIndex,
+      required this.schedule,
+      required this.currentLocation});
 
   @override
   State<SearchBar> createState() => _SearchBarState();
@@ -499,13 +539,13 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<NearbyPlaceCubit>(context);
-    final currentLocationCubit = BlocProvider.of<CurrentLocationCubit>(context);
 
     return SafeArea(
       child: Column(
         children: [
           SafeSpace(
             child: Container(
+                height: 44,
                 decoration: BoxDecoration(boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -535,15 +575,81 @@ class _SearchBarState extends State<SearchBar> {
                     border: InputBorder.none,
                   ),
                   onSubmitted: (_) {
-                    cubit.getNearbyPlace(widget.searchController.text);
+                    // cubit.getNearbyPlace(widget.searchController.text);
                     showCupertinoModalBottomSheet(
                         context: context,
-                        builder: (context) => BlocProvider(
-                            create: (context) => NearbyPlaceCubit(
-                                currentLocationCubit,
-                                widget.searchController.text),
-                            child: NearbyPlaceList(
-                                query: widget.searchController.text)));
+                        builder: (context) => widget.currentLocationIndex < 0
+                            ? BlocProvider(
+                                create: (context) => NearbyPlaceCubit(
+                                    widget.currentLocation,
+                                    widget.searchController.text),
+                                child: BlocBuilder<NearbyPlaceCubit,
+                                        NearbyPlaceState>(
+                                    builder: (context, state) {
+                                  if (state is LoadingNearbyPlaceState) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  if (state is LoadNearbyPlaceSuccessState) {
+                                    return NearbyPlaceList(
+                                      state: state,
+                                    );
+                                  }
+                                  if (state is NoResultsNearbyPlaceState) {
+                                    return Center(
+                                      child: Column(
+                                        children: [
+                                          32.height,
+                                          Image.asset(
+                                            AppAssets.not_found_png,
+                                            width: 200,
+                                          ),
+                                          const PText(
+                                            "Couldn't find any places around here",
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  return SizedBox.shrink();
+                                }))
+                            : BlocProvider(
+                                create: (context) => NearbyScheduleCubit(
+                                    query: widget.searchController.text,
+                                    lat: widget.schedule.latitude,
+                                    lng: widget.schedule.longitude),
+                                child: BlocBuilder<NearbyScheduleCubit,
+                                        NearbyScheduleState>(
+                                    builder: (context, state) {
+                                  if (state is LoadingNearbyScheduleState) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  if (state is LoadNearbyScheduleSuccessState) {
+                                    return NearbyScheduleList(
+                                      state: state,
+                                    );
+                                  }
+                                  if (state is NoResultsNearbyScheduleState) {
+                                    return Center(
+                                      child: Column(
+                                        children: [
+                                          32.height,
+                                          Image.asset(
+                                            AppAssets.not_found_png,
+                                            width: 200,
+                                          ),
+                                          const PText(
+                                            "Couldn't find any places around here",
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  return SizedBox.shrink();
+                                })));
                     // _resetChildState();
                     // setState(() {
                     //   query = _searchController.text;
@@ -553,7 +659,7 @@ class _SearchBarState extends State<SearchBar> {
                 )),
           ),
           Gap.k8.height,
-          _category(context)
+          _category(context, widget.currentLocation)
         ],
       ),
     );
@@ -583,9 +689,7 @@ class _SearchBarState extends State<SearchBar> {
     ),
   ];
 
-  Widget _category(BuildContext context) {
-    final cubit = BlocProvider.of<NearbyPlaceCubit>(context);
-    final currentLocationCubit = BlocProvider.of<CurrentLocationCubit>(context);
+  Widget _category(BuildContext context, Position currentLocation) {
     return SizedBox(
       height: 36,
       width: context.width(),
@@ -615,14 +719,78 @@ class _SearchBarState extends State<SearchBar> {
                 ),
               ),
             ).onTap(() {
-              // _resetChildState();
-              cubit.getNearbyPlace(catNames[index]);
               showCupertinoModalBottomSheet(
                   context: context,
-                  builder: (context) => BlocProvider(
-                      create: (context) => NearbyPlaceCubit(
-                          currentLocationCubit, catNames[index]),
-                      child: NearbyPlaceList(query: catNames[index])));
+                  builder: (context) => widget.currentLocationIndex < 0
+                      ? BlocProvider(
+                          create: (context) => NearbyPlaceCubit(
+                              currentLocation, catNames[index]),
+                          child:
+                              BlocBuilder<NearbyPlaceCubit, NearbyPlaceState>(
+                                  builder: (context, state) {
+                            if (state is LoadingNearbyPlaceState) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (state is LoadNearbyPlaceSuccessState) {
+                              return NearbyPlaceList(
+                                state: state,
+                              );
+                            }
+                            if (state is NoResultsNearbyPlaceState) {
+                              return Center(
+                                child: Column(
+                                  children: [
+                                    32.height,
+                                    Image.asset(
+                                      AppAssets.not_found_png,
+                                      width: 200,
+                                    ),
+                                    const PText(
+                                      "Couldn't find any places around here",
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            return SizedBox.shrink();
+                          }))
+                      : BlocProvider(
+                          create: (context) => NearbyScheduleCubit(
+                              query: catNames[index],
+                              lat: widget.schedule.latitude,
+                              lng: widget.schedule.longitude),
+                          child: BlocBuilder<NearbyScheduleCubit,
+                              NearbyScheduleState>(builder: (context, state) {
+                            if (state is LoadingNearbyScheduleState) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (state is LoadNearbyScheduleSuccessState) {
+                              return NearbyScheduleList(
+                                state: state,
+                              );
+                            }
+                            if (state is NoResultsNearbyScheduleState) {
+                              return Center(
+                                child: Column(
+                                  children: [
+                                    32.height,
+                                    Image.asset(
+                                      AppAssets.not_found_png,
+                                      width: 200,
+                                    ),
+                                    const PText(
+                                      "Couldn't find any places around here",
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            return SizedBox.shrink();
+                          })));
             });
           }),
     );

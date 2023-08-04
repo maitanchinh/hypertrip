@@ -23,8 +23,6 @@ class FoursquareRepo {
           // return null;
         }
       }
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
       var url =
           '/places/search?query=$query&ll=${currentLocation.latitude}%2C${currentLocation.longitude}&radius=5000&fields=fsq_id%2Ccategories%2Cdate_closed%2Cdistance%2Cemail%2Cfeatures%2Chours%2Clocation%2Cname%2Cphotos%2Crating%2Csocial_media%2Ctel%2Ctips%2Cwebsite%2Cgeocodes%2Cprice&sort=DISTANCE&limit=50';
       var response = await publishApiClient.get(url);

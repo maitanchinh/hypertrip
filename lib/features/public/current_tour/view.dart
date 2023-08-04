@@ -72,27 +72,6 @@ class CurrentTourPage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(context),
       backgroundColor: AppColors.bgLightColor,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        elevation: 0,
-        backgroundColor: AppColors.primaryColor,
-        shape: defaultButtonRoundedShape,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MapScreen()),
-          );
-        },
-        label: const PText(
-          'Map',
-          color: white,
-        ),
-        icon: SvgPicture.asset(
-          Resource.iconsMap,
-          width: 20,
-          color: white,
-        ),
-      ),
       body: BlocConsumer<CurrentTourCubit, CurrentTourState>(
         listener: (context, state) {
           if (cubit.state is LoadCurrentTourFailedState) {

@@ -13,8 +13,6 @@ import 'package:hypertrip/utils/message.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../domain/repositories/foursquare_repo.dart';
-import '../permission/cubit.dart';
-import '../permission/state.dart';
 import 'state.dart';
 
 class CurrentTourCubit extends Cubit<CurrentTourState> {
@@ -22,7 +20,8 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
   final TourRepo _tourRepo = getIt<TourRepo>();
   final NotificationRepo notificationRepo = getIt<NotificationRepo>();
   final UserRepo userRepo = getIt<UserRepo>();
-  final FirebaseMessagingManager _firebaseMessagingManager = getIt<FirebaseMessagingManager>();
+  final FirebaseMessagingManager _firebaseMessagingManager =
+      getIt<FirebaseMessagingManager>();
 
   CurrentTourCubit() : super(LoadingCurrentTourState()) {
     getCurrentTour();
@@ -59,7 +58,7 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
     setValue(AppConstant.keyCountNotify, result);
   }
 
-  void _registerFCMToken() async{
+  void _registerFCMToken() async {
     final user = await userRepo.getProfile();
     _firebaseMessagingManager.registerTokenFCM(user.id ?? '');
   }
@@ -69,21 +68,18 @@ final FoursquareRepo _foursquareRepo = getIt<FoursquareRepo>();
 
 //Nearby Place
 class NearbyPlaceCubit extends Cubit<NearbyPlaceState> {
-  final CurrentLocationCubit currentLocationCubit;
+  final Position currentLocation;
   final String query;
 
-  NearbyPlaceCubit(this.currentLocationCubit, this.query) : super(NearbyPlaceState()) {
+  NearbyPlaceCubit(this.currentLocation, this.query)
+      : super(NearbyPlaceState()) {
     getNearbyPlace(query);
   }
 
-
   Future<void> getNearbyPlace(String query) async {
     try {
-      emit(LoadingNearbyPlaceState());
       var place = await _foursquareRepo.getNearbyPlace(
-          query,
-          currentLocationCubit.state is LoadCurrentLocationSuccessState ? (currentLocationCubit.state as LoadCurrentLocationSuccessState)
-              .location : Position(longitude: 0, latitude: 0, timestamp: null, accuracy: 0, altitude: 0, heading: 0, speed: 0, speedAccuracy: 0));
+          query, currentLocation);
       if (place!.results!.isEmpty) {
         emit(NoResultsNearbyPlaceState());
       } else {
@@ -97,5 +93,74 @@ class NearbyPlaceCubit extends Cubit<NearbyPlaceState> {
   void refresh() {
     emit(LoadingNearbyPlaceState());
     getNearbyPlace('');
+  }
+}
+
+//Nearby Schedule
+class NearbyScheduleCubit extends Cubit<NearbyScheduleState> {
+  final String query;
+  final double? lat;
+  final double? lng;
+
+  NearbyScheduleCubit( {required this.query, this.lat, this.lng})
+      : super(NearbyScheduleState()) {
+    getNearbyPlace(query);
+  }
+
+  Future<void> getNearbyPlace(String query) async {
+    try {
+      emit(LoadingNearbyScheduleState());
+      var place = await _foursquareRepo.getNearbyPlace(
+          query, Position(
+                  longitude: lng!,
+                  latitude: lat!,
+                  timestamp: null,
+                  accuracy: 0,
+                  altitude: 0,
+                  heading: 0,
+                  speed: 0,
+                  speedAccuracy: 0));
+      if (place!.results!.isEmpty) {
+        emit(NoResultsNearbyScheduleState());
+      } else {
+        emit(LoadNearbyScheduleSuccessState(nearbySchedule: place));
+      }
+    } on Exception catch (e) {
+      emit(LoadNearbyScheduleFailedState(message: e.toString()));
+    }
+  }
+
+  void refresh() {
+    emit(LoadingNearbyScheduleState());
+    getNearbyPlace('');
+  }
+}
+
+//Nearby Place Suggestion
+class NearbyPlaceSuggestionCubit extends Cubit<NearbyPlaceSuggestionState> {
+  final Position location;
+
+  NearbyPlaceSuggestionCubit(this.location)
+      : super(NearbyPlaceSuggestionState()) {
+    getNearbyPlaceSuggestion(location);
+  }
+
+  Future<void> getNearbyPlaceSuggestion(Position location) async {
+    try {
+      emit(LoadingNearbyPlaceSuggestionState());
+      var place = await _foursquareRepo.getNearbyPlace('', location);
+      if (place!.results!.isEmpty) {
+        emit(NoResultsNearbyPlaceSuggestionState());
+      } else {
+        emit(LoadNearbyPlaceSuggestionSuccessState(nearbyPlace: place));
+      }
+    } on Exception catch (e) {
+      emit(LoadNearbyPlaceSuggestionFailedState(message: e.toString()));
+    }
+  }
+
+  void refresh() {
+    emit(LoadingNearbyPlaceSuggestionState());
+    getNearbyPlaceSuggestion(location);
   }
 }

@@ -37,6 +37,8 @@ part './parts/detail_screen.dart';
 part './parts/detail_component.dart';
 part './parts/carousel.dart';
 part './parts/place_photo.dart';
+part './parts/nearby_place_suggestion.dart';
+part './parts/nearby_schedule_list.dart';
 
 class ScheduleScreen extends StatefulWidget {
   static const routeName = '/schedule';
@@ -77,13 +79,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<CurrentTourCubit>(
       create: (context) => CurrentTourCubit(),
-      child: Builder(
-        builder: (context) => _buildPage(context),
+      child: BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
+        builder: (context, state) => _buildPage(context, state as LoadCurrentLocationSuccessState),
       ),
     );
   }
 
-  Widget _buildPage(BuildContext context) {
+  Widget _buildPage(BuildContext context, LoadCurrentLocationSuccessState locationState) {
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
 
     return BlocBuilder<CurrentTourCubit, CurrentTourState>(
@@ -92,7 +94,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         return Scaffold(
             extendBodyBehindAppBar: true,
             body: BlocProvider(
-              create: (BuildContext context) => NearbyPlaceCubit(cubit, ''),
+              create: (BuildContext context) => NearbyPlaceCubit(locationState.location, ''),
               child: SizedBox(
                 height: context.height(),
                 child: LocationTracking(
