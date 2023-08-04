@@ -30,6 +30,7 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
     try {
       var group = await _groupRepo.getCurrentGroup();
       if (group == null) {
+        emit(LoadCurrentGroupNotFoundState() as CurrentTourState);
         emit(LoadCurrentTourNotFoundState());
         return;
       }
@@ -58,5 +59,33 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
   void _registerFCMToken() async{
     final user = await userRepo.getProfile();
     _firebaseMessagingManager.registerTokenFCM(user.id ?? '');
+  }
+}
+
+//Current Group
+class CurrentGroupCubit extends Cubit<CurrentGroupState> {
+  final GroupRepo _groupRepo = getIt<GroupRepo>();
+  CurrentGroupCubit() : super(LoadingCurrentGroupState()) {
+    getCurrentTour();
+  }
+
+  void getCurrentTour() async {
+    try {
+      var group = await _groupRepo.getCurrentGroup();
+      if (group == null) {
+        emit(LoadCurrentGroupNotFoundState());
+        return;
+      }
+
+      emit(LoadCurrentGroupSuccessState(
+          group: group));
+    } on Exception catch (_) {
+      emit(LoadCurrentGroupFailedState(msg: msg_server_error));
+    }
+  }
+
+  void refresh() {
+    emit(LoadingCurrentGroupState());
+    getCurrentTour();
   }
 }

@@ -12,6 +12,7 @@ import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/app_widget.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class WarningIncidentPage extends StatefulWidget {
@@ -97,7 +98,7 @@ class _WarningIncidentPageState extends State<WarningIncidentPage> {
                               style: AppStyle.fontOpenSanSemiBold
                                   .copyWith(color: AppColors.textColor, fontSize: 16),
                             ),
-                            16.height,
+                            Gap.k8.height,
                             ...state.alerts.map((e) {
                               return AlertItem(alert: e).paddingSymmetric(vertical: 10);
                             }).toList()

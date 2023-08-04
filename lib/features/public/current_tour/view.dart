@@ -23,6 +23,8 @@ import 'package:hypertrip/features/public/notification/notifcation_screen.dart';
 import 'package:hypertrip/features/public/page.dart';
 import 'package:hypertrip/features/public/permission/cubit.dart';
 import 'package:hypertrip/features/public/permission/state.dart';
+import 'package:hypertrip/features/public/tour_detail/cubit.dart';
+import 'package:hypertrip/features/public/tour_detail/state.dart';
 import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
@@ -83,7 +85,7 @@ class CurrentTourPage extends StatelessWidget {
             MaterialPageRoute(builder: (context) => MapScreen()),
           );
         },
-        label: PText(
+        label: const PText(
           'Map',
           color: white,
         ),
@@ -139,12 +141,19 @@ class CurrentTourPage extends StatelessWidget {
                     children: [
                       Gap.kSection.height,
                       Partner(state: state),
-                      Gap.k8.height
+                      Gap.k8.height,
+                      // TrackingSchedule(state: state)
                     ],
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: TrackingSchedule(state: state),
+                  // child: TrackingSchedule(state: state),
+                  child: BlocProvider<TourDetailCubit>(
+                    create: (context) =>
+                        TourDetailCubit(tourId: state.group.trip!.tourId),
+                    child: Builder(
+                        builder: (context) => TrackingSchedule(state: state)),
+                  ),
                 )
               ],
             ),

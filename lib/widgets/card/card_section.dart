@@ -24,6 +24,7 @@ class CardSection extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           children: [

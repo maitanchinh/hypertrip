@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hypertrip/domain/models/incidents/weather_forecast_day.dart';
 import 'package:hypertrip/domain/models/incidents/weather_hour.dart';
 import 'package:hypertrip/features/public/warning_incident/components/progress_hour_temp.dart';
+import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -18,12 +19,12 @@ class ChartTemp extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(16))),
         child: Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16, top: 16),
+          padding: const EdgeInsets.only(left: 16.0, right: 16, top: 16, bottom: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Temperature",
-                  style: AppStyle.fontOpenSanSemiBold.copyWith(fontSize: 16, color: Colors.white)),
+                  style: AppStyle.fontOpenSanSemiBold.copyWith(fontSize: 16, color: AppColors.textColor)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -45,7 +46,6 @@ class ChartTemp extends StatelessWidget {
                   })
                 ],
               ),
-              20.height,
             ],
           ),
         ));

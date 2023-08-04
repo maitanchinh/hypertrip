@@ -6,6 +6,8 @@ import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/utils/get_it.dart';
 import 'package:hypertrip/utils/message.dart';
 
+import 'user_repo.dart';
+
 class GroupRepo {
   final Dio apiClient = getIt.get<Dio>();
 
@@ -13,8 +15,8 @@ class GroupRepo {
 
   Future<Group?> getCurrentGroup() async {
     try {
-      // var id = UserRepo.profile!.id;
-      var id = "21751a9c-fcd9-4fcc-93ed-7a4349a34bc7";
+      var id = UserRepo.profile!.id;
+      // var id = "21751a9c-fcd9-4fcc-93ed-7a4349a34bc7";
       var res = await apiClient.get("/users/$id/current-group");
 
       return Group.fromJson(res.data);
