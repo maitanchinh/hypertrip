@@ -6,6 +6,7 @@ import 'package:hypertrip/features/public/account/view.dart';
 import 'package:hypertrip/features/public/chat/chat_page.dart';
 import 'package:hypertrip/features/public/current_tour/view.dart';
 import 'package:hypertrip/features/public/nearby/view.dart';
+import 'package:hypertrip/features/public/page.dart';
 import 'package:hypertrip/features/root/cubit.dart';
 import 'package:hypertrip/features/tour_guide/activity/view.dart';
 import 'package:hypertrip/theme/color.dart';
@@ -28,7 +29,8 @@ class _RootPageState extends State<RootPage> {
 
   final List<Widget> screens = [
     const CurrentTourPage(),
-    const NearbyPage(),
+    // const NearbyPage(),
+    const ScheduleScreen(),
     const ChatPageScreen(),
     const ActivityPage(),
     const AccountPage(),
