@@ -1,4 +1,6 @@
 // ignore_for_file: constant_identifier_names
+// ignore_for_file: prefer_single_quotes
+// [dart]: {"editor.rulers": 300}
 
 /// label
 const String label_partner = 'Partner';
@@ -99,6 +101,15 @@ const String label_attended = 'Success';
 
 // attendance
 const String msg_attend_success = 'Attend success';
+
+// incurred costs
+const String msg_incurred_costs_amount_hint = 'No incurred costs found';
+const String label_incurred_costs_image = 'Upload invoice image';
+const String msg_incurred_costs_image_note =
+    'Add image to prove your incurred costs';
+const String label_incurred_costs_date_time = 'Date & Time';
+const String label_incurred_costs_note = 'Note';
+const String label_incurred_button_save = 'Create new incurred costs';
 
 // Permission
 const String msg_camera_required = 'You need to allow camera permission';

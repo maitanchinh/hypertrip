@@ -25,6 +25,7 @@ class AppColors {
   static const Color whiteLightColor = Color(0xFFD5DDF2);
   static const Color yellow_2Color = Color(0xFFFF9500);
   static const Color greyColor = Color(0xFF8E8E93);
+  static const Color lightGreyColor = Color(0xFFF0F0F0);
   static const Color purpleColor = Color(0xff9f85ff);
   static const Color whiteLight2Color = Color(0xFFF3F6F7);
 }

@@ -128,7 +128,7 @@ Widget _buildAttendanceActivity(
                 style: TextStyle(color: AppColors.textGreyColor, fontSize: 10)),
             8.height,
             Text(
-              activity.createdAt.readableValue,
+              activity.createdAt.readableDateTimeValue,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: AppColors.textColor,
                   ),

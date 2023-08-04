@@ -41,122 +41,115 @@ class _TrackingScheduleState extends State<TrackingSchedule>
         .toList();
     test.sort();
     return BlocProvider(
-          create: (context) => TourDetailCubit(
-                                tourId: widget.state.group.trip!.tourId),
-          child: BlocBuilder<TourDetailCubit, TourDetailState>(
-            builder: (context, state) {
-              if (state is LoadingTourDetailState) {
-                return SizedBox.shrink();
-              }
-              if (state is LoadTourDetailSuccessState) {
-                
-              return SafeSpace(
-      child: CardSection(
-        child:  DefaultTabController(
-                length: days.length,
-                initialIndex: state.tour.schedules!
-                                                        .firstWhere((schedule) =>
-                                                            schedule.id ==
-                                                            widget.state.group
-                                                                .currentScheduleId)
-                                                        .dayNo! - 1,
-                child: Column(
-                  children: [
-                    // Day tabs
-                    TabBar(
-                      isScrollable: true,
-                      labelColor: AppColors.primaryColor,
-                      unselectedLabelColor: AppColors.textGreyColor,
-                      indicatorColor: AppColors.primaryColor,
-                      tabs: [
-                        for (var i = 0; i < days.length; i++)
-                          Tab(
-                            text: "Day ${i + 1}",
-                          ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 300,
-                      child: TabBarView(
-                        children: [
-                          ...days.map(
-                            (e) {
-                              return ListView.builder(
-                                padding: EdgeInsets.zero,
-                                itemCount: scheduleByDay[e]?.length ?? 0,
-                                itemBuilder: (context, index) {
-                                  if (state is LoadingTourDetailState) {
-                                    return TimelineTile(
-                                      indicatorStyle: const IndicatorStyle(
-                                        width: 15,
-                                        color: AppColors.textGreyColor,
-                                        padding: EdgeInsets.all(6),
-                                      ),
-                                      beforeLineStyle: const LineStyle(
-                                          color: AppColors.textGreyColor,
-                                          thickness: 1),
-                                      isFirst: index == 0,
-                                      isLast:
-                                          index == scheduleByDay[e]!.length - 1,
-                                      endChild: buildSlotTile(
-                                          Map.fromEntries(scheduleByDay0),
-                                          e,
-                                          index),
-                                    );
-                                  }
-                                  var sortedSchedule =
-                                      scheduleByDay[e]?.toSet().toList();
-                                  sortedSchedule!.sort((a, b) =>
-                                      a.sequence!.compareTo(b.sequence as num));
+      create: (context) =>
+          TourDetailCubit(tourId: widget.state.group.trip!.tourId),
+      child: BlocBuilder<TourDetailCubit, TourDetailState>(
+          builder: (context, state) {
+        if (state is LoadingTourDetailState) {
+          return SizedBox.shrink();
+        }
+        if (state is LoadTourDetailSuccessState) {
+          return SafeSpace(
+            child: CardSection(
+                child: DefaultTabController(
+              length: days.length,
+              initialIndex: state.tour.schedules!
+                      .firstWhere((schedule) =>
+                          schedule.id == widget.state.group.currentScheduleId)
+                      .dayNo! -
+                  1,
+              child: Column(
+                children: [
+                  // Day tabs
+                  TabBar(
+                    isScrollable: true,
+                    labelColor: AppColors.primaryColor,
+                    unselectedLabelColor: AppColors.textGreyColor,
+                    indicatorColor: AppColors.primaryColor,
+                    tabs: [
+                      for (var i = 0; i < days.length; i++)
+                        Tab(
+                          text: "Day ${i + 1}",
+                        ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: TabBarView(
+                      children: [
+                        ...days.map(
+                          (e) {
+                            return ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: scheduleByDay[e]?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                if (state is LoadingTourDetailState) {
                                   return TimelineTile(
-                                    indicatorStyle: IndicatorStyle(
+                                    indicatorStyle: const IndicatorStyle(
                                       width: 15,
-                                      color:
-                                          state.tour.schedules!
-                                                      .firstWhere((schedule) =>
-                                                          schedule.id ==
-                                                          widget.state.group
-                                                              .currentScheduleId)
-                                                      .sequence! >=
-                                                  sortedSchedule[index]
-                                                      .sequence!
-                                              ? AppColors.primaryColor
-                                              : AppColors.textGreyColor,
-                                      padding: const EdgeInsets.all(6),
+                                      color: AppColors.textGreyColor,
+                                      padding: EdgeInsets.all(6),
                                     ),
-                                    beforeLineStyle: LineStyle(
-                                        color: state.tour.schedules!
-                                                      .firstWhere((schedule) =>
-                                                          schedule.id ==
-                                                          widget.state.group
-                                                              .currentScheduleId)
-                                                      .sequence! >=
-                                                  sortedSchedule[index]
-                                                      .sequence!
-                                            ? AppColors.primaryColor
-                                            : AppColors.textGreyColor,
+                                    beforeLineStyle: const LineStyle(
+                                        color: AppColors.textGreyColor,
                                         thickness: 1),
                                     isFirst: index == 0,
                                     isLast:
                                         index == scheduleByDay[e]!.length - 1,
-                                    endChild:
-                                        buildSlotTile(scheduleByDay, e, index),
+                                    endChild: buildSlotTile(
+                                        Map.fromEntries(scheduleByDay0),
+                                        e,
+                                        index),
                                   );
-                                },
-                              );
-                            },
-                          )
-                        ],
-                      ),
+                                }
+                                var sortedSchedule =
+                                    scheduleByDay[e]?.toSet().toList();
+                                sortedSchedule!.sort((a, b) =>
+                                    a.sequence!.compareTo(b.sequence as num));
+                                return TimelineTile(
+                                  indicatorStyle: IndicatorStyle(
+                                    width: 15,
+                                    color: state.tour.schedules!
+                                                .firstWhere((schedule) =>
+                                                    schedule.id ==
+                                                    widget.state.group
+                                                        .currentScheduleId)
+                                                .sequence! >=
+                                            sortedSchedule[index].sequence!
+                                        ? AppColors.primaryColor
+                                        : AppColors.textGreyColor,
+                                    padding: const EdgeInsets.all(6),
+                                  ),
+                                  beforeLineStyle: LineStyle(
+                                      color: state.tour.schedules!
+                                                  .firstWhere((schedule) =>
+                                                      schedule.id ==
+                                                      widget.state.group
+                                                          .currentScheduleId)
+                                                  .sequence! >=
+                                              sortedSchedule[index].sequence!
+                                          ? AppColors.primaryColor
+                                          : AppColors.textGreyColor,
+                                      thickness: 1),
+                                  isFirst: index == 0,
+                                  isLast: index == scheduleByDay[e]!.length - 1,
+                                  endChild:
+                                      buildSlotTile(scheduleByDay, e, index),
+                                );
+                              },
+                            );
+                          },
+                        )
+                      ],
                     ),
-                  ],
-                ),
-              )
-          ),
-        );
-              } return const SizedBox.shrink();
-            } 
-      ),
+                  ),
+                ],
+              ),
+            )),
+          );
+        }
+        return const SizedBox.shrink();
+      }),
     );
   }
 
