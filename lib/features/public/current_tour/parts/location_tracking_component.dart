@@ -28,8 +28,8 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
   int _currentLocationIndex = -1;
   MapsRoutes route = MapsRoutes();
   DistanceCalculator distanceCalculator = DistanceCalculator();
-  String googleApiKey = 'AIzaSyCrnkFUjP4YhaT9OPfRyP_3trttqauSHlY';
-  // String googleApiKey = '';
+  // String googleApiKey = 'AIzaSyCrnkFUjP4YhaT9OPfRyP_3trttqauSHlY';
+  String googleApiKey = '';
 
   @override
   void initState() {
@@ -164,9 +164,17 @@ class _LocationTrackingComponentState extends State<LocationTrackingComponent> {
           LatLng latLng = LatLng(lat.toDouble(), lng.toDouble());
           _markers.add(Marker(
               markerId: MarkerId('tour_location: ${position.id}'),
+              infoWindow: InfoWindow(snippet: position.description, title: 'Day ${position.dayNo}'),
               position: latLng,
               icon: BitmapDescriptor.fromBytes(canvas),
-              anchor: const Offset(0.5, 1.0)));
+              anchor: const Offset(0.5, 1.0),
+              onTap: (){
+                showMaterialModalBottomSheet(expand: true, context: context, builder: (context) => Container(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.vertical(top: Radius.circular(16)), color: yellow),
+                  height: 300,
+                  child: Text(position.description.toString()),
+                ));
+              }));
         });
       }
     });
