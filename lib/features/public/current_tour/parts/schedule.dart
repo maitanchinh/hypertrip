@@ -55,10 +55,10 @@ class _TrackingScheduleState extends State<TrackingSchedule>
         child:  DefaultTabController(
                 length: days.length,
                 initialIndex: state.tour.schedules!
-                                                        .firstWhere((schedule) =>
+                                                        .firstWhereOrNull((schedule) =>
                                                             schedule.id ==
                                                             widget.state.group
-                                                                .currentScheduleId)
+                                                                .currentScheduleId)!
                                                         .dayNo! - 1,
                 child: Column(
                   children: [

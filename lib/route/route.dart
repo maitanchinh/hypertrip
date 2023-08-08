@@ -86,6 +86,8 @@ PageRoute? generateRoute(RouteSettings settings) {
           builder: (_) => Public.NearbyMap(
                 places: arguments.places,
               ));
+    case Public.ScheduleScreen.routeName:
+    return MaterialPageRoute(builder: (_) => const Public.ScheduleScreen());
     // case Public.NearbyPage.routeName:
     //   return MaterialPageRoute(builder: (_) => const Public.NearbyPage());
 

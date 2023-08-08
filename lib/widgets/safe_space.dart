@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-const double _padding = 24;
+const double _padding = 16;
 
 class SafeSpace extends StatelessWidget {
   final Widget child;
