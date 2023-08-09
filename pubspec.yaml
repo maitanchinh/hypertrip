@@ -80,6 +80,10 @@ dependencies:
   qr_code_scanner: ^1.0.1
   permission_handler: ^10.4.3
   system_date_time_format: ^0.7.0
+
+  # PageView
+  smooth_page_indicator: ^1.0.0+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

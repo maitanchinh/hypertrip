@@ -1,10 +1,18 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
+import 'package:hypertrip/domain/models/incidents/weather_alerts.dart';
+import 'package:hypertrip/domain/models/incidents/weather_current.dart';
+import 'package:hypertrip/domain/models/incidents/weather_forecast.dart';
+import 'package:hypertrip/domain/models/incidents/weather_location.dart';
+import 'package:hypertrip/domain/models/incidents/weather_response.dart';
 import 'package:hypertrip/domain/repositories/group_repo.dart';
 import 'package:hypertrip/domain/repositories/notification_repo.dart';
 import 'package:hypertrip/domain/repositories/tour_repo.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
+import 'package:hypertrip/domain/repositories/warning_incident_repository.dart';
+import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:hypertrip/managers/firebase_messaging_manager.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/get_it.dart';
@@ -19,6 +27,7 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
   final NotificationRepo notificationRepo = getIt<NotificationRepo>();
   final UserRepo userRepo = getIt<UserRepo>();
   final FirebaseMessagingManager _firebaseMessagingManager = getIt<FirebaseMessagingManager>();
+  final WarningIncidentRepository _warningIncidentRepository = getIt<WarningIncidentRepository>();
 
   CurrentTourCubit() : super(LoadingCurrentTourState()) {
     getCurrentTour();
@@ -38,11 +47,87 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
       var members = await _groupRepo.getMembers(group.id);
       var schedule = await _tourRepo.getSchedule(group.trip?.tourId);
 
-      emit(LoadCurrentTourSuccessState(
-          group: group, members: members, schedule: schedule));
+      emit(LoadCurrentTourSuccessState(group: group, members: members, schedule: schedule));
+
+      _fetchAllLocationTour();
     } on Exception catch (_) {
       emit(LoadCurrentTourFailedState(message: msg_server_error));
     }
+  }
+
+  FutureOr<void> _fetchAllLocationTour() {
+    if (state is LoadCurrentTourSuccessState) {
+      final loadCurrentTourSuccessState = state as LoadCurrentTourSuccessState;
+      final Map<int, WeatherResponse> dataWeatherTour = {};
+
+      loadCurrentTourSuccessState.schedule.sort((a, b) => a.dayNo!.compareTo(b.dayNo!));
+
+      List<LocationTour> locationTour = loadCurrentTourSuccessState.schedule
+          .map((e) => LocationTour(lat: e.latitude ?? 0.0, lng: e.longitude ?? 0.0))
+          .toList();
+
+      if (locationTour.isNotEmpty) {
+        // Remove LocationTour objects with lat and lng equal to 0.0
+        locationTour.removeWhere((tour) => tour.lat == 0.0 && tour.lng == 0.0);
+        for (int i = 0; i < locationTour.length; i++) {
+          dataWeatherTour[i] = WeatherResponse(
+            location: WeatherLocation(),
+            alerts: WeatherAlerts(),
+            current: WeatherCurrent(),
+            forecast: WeatherForecast(),
+          );
+        }
+
+        emit(loadCurrentTourSuccessState.copyWith(
+            dataWeatherTour: dataWeatherTour, locationTour: locationTour));
+
+        // Find index weather
+        // If lat,lng = 0 return index = 0
+
+        final currentScheduleId = loadCurrentTourSuccessState.group.currentScheduleId;
+        final schedule = loadCurrentTourSuccessState.schedule
+            .firstWhereOrNull((element) => element.id == currentScheduleId);
+
+        int index = locationTour.indexWhere((element) => element.lat == schedule?.latitude && element.lng == schedule?.longitude);
+
+        if(index == -1) index = 0;
+
+        fetchDataWeather(index);
+      }
+    }
+  }
+
+  FutureOr<Map<int, WeatherResponse>> fetchDataWeather(int index) async {
+    final Map<int, WeatherResponse> dataWeatherTour = {};
+
+    if (state is LoadCurrentTourSuccessState) {
+      final loadCurrentTourSuccessState = state as LoadCurrentTourSuccessState;
+      try {
+        final result = await _warningIncidentRepository.fetchDataWeather(
+          lat: loadCurrentTourSuccessState.locationTour[index].lat,
+          lng: loadCurrentTourSuccessState.locationTour[index].lng,
+        );
+
+        final updatedDataWeatherTour =
+            loadCurrentTourSuccessState.dataWeatherTour.map((key, value) {
+          if (key == index) {
+            return MapEntry(
+                key,
+                value.copyWith(
+                    forecast: result.forecast,
+                    current: result.current,
+                    alerts: result.alerts,
+                    location: result.location));
+          }
+          return MapEntry(key, value);
+        });
+
+        emit(loadCurrentTourSuccessState.copyWith(dataWeatherTour: updatedDataWeatherTour));
+      } catch (e) {
+        print("ex ${e.toString()}");
+      }
+    }
+    return dataWeatherTour;
   }
 
   void refresh() {
@@ -56,7 +141,7 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
     setValue(AppConstant.keyCountNotify, result);
   }
 
-  void _registerFCMToken() async{
+  void _registerFCMToken() async {
     final user = await userRepo.getProfile();
     _firebaseMessagingManager.registerTokenFCM(user.id ?? '');
   }
@@ -65,6 +150,7 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
 //Current Group
 class CurrentGroupCubit extends Cubit<CurrentGroupState> {
   final GroupRepo _groupRepo = getIt<GroupRepo>();
+
   CurrentGroupCubit() : super(LoadingCurrentGroupState()) {
     getCurrentTour();
   }
@@ -77,8 +163,7 @@ class CurrentGroupCubit extends Cubit<CurrentGroupState> {
         return;
       }
 
-      emit(LoadCurrentGroupSuccessState(
-          group: group));
+      emit(LoadCurrentGroupSuccessState(group: group));
     } on Exception catch (_) {
       emit(LoadCurrentGroupFailedState(msg: msg_server_error));
     }

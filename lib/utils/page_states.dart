@@ -1,2 +1,2 @@
 /// --- SCREEN STATES
-enum PageState { initial, loading, failure, success }
+enum PageState { initial, loading, failure, success, loadingFull}

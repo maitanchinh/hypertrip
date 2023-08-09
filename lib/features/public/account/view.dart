@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hypertrip/domain/models/user/user_profile.dart';
+import 'package:hypertrip/domain/repositories/foursquare_repo.dart';
+import 'package:hypertrip/domain/repositories/group_repo.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/features/login_by_email/view.dart';
 import 'package:hypertrip/features/public/account/parts/avatar.dart';
+import 'package:hypertrip/features/public/account/parts/emergency_bottomsheet.dart';
 import 'package:hypertrip/features/public/account/parts/information.dart';
 import 'package:hypertrip/features/public/account/parts/privacy_bottomsheet.dart';
 import 'package:hypertrip/features/public/account/parts/setting_item.dart';
@@ -29,8 +32,9 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) =>
-          ProfileBloc(GetIt.I.get<UserRepo>())..add(const FetchProfile()),
+      create: (BuildContext context) => ProfileBloc(
+          GetIt.I.get<UserRepo>(), GetIt.I.get<FoursquareRepo>(), GetIt.I.get<GroupRepo>())
+        ..add(const FetchProfile()),
       child: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {},
         child: Scaffold(
@@ -40,8 +44,7 @@ class AccountPage extends StatelessWidget {
               return LoadableWidget(
                 status: state.status,
                 errorText: state.error,
-                failureOnPress: () =>
-                    context.read<ProfileBloc>().add(const FetchProfile()),
+                failureOnPress: () => context.read<ProfileBloc>().add(const FetchProfile()),
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   children: [
@@ -67,8 +70,7 @@ class AccountPage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Information(
-                              count: state.tourCount, status: 'Joined Tour'),
+                          Information(count: state.tourCount, status: 'Joined Tour'),
                         ],
                       ),
                     ),
@@ -98,20 +100,35 @@ class AccountPage extends StatelessWidget {
                       content: editProfile,
                       callBack: () {
                         Navigator.of(context)
-                            .pushNamed(EditProfileScreen.routeName,
-                                arguments: state.userProfile)
+                            .pushNamed(EditProfileScreen.routeName, arguments: state.userProfile)
                             .then((value) {
-                          context
-                              .read<ProfileBloc>()
-                              .add(UpdateProfile(value as UserProfile));
+                          context.read<ProfileBloc>().add(UpdateProfile(value as UserProfile));
                         });
+                      },
+                    ),
+                    SettingItem(
+                      icon: AppAssets.icons_ic_emergency_svg,
+                      greyColor: AppColors.yellow_2Color.withOpacity(0.2),
+                      iconColor: AppColors.redColor,
+                      content: emergency,
+                      callBack: () {
+                        showCupertinoModalBottomSheet(
+                          // isScrollControlled: true,
+                          context: context,
+                          // useSafeArea: true,
+                          expand: true,
+                          backgroundColor: Colors.transparent,
+
+                          builder: (BuildContext context) {
+                            return const EmergencyBottomSheet();
+                          },
+                        );
                       },
                     ),
                     60.height,
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            LoginByEmailPage.routeName,
+                        Navigator.of(context).pushNamedAndRemoveUntil(LoginByEmailPage.routeName,
                             (route) => false); // remove all previous routes
                       },
                       child: Container(
@@ -120,8 +137,7 @@ class AccountPage extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(horizontal: 100),
                         decoration: BoxDecoration(
                             color: AppColors.primaryColor.withOpacity(0.2),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16))),
+                            borderRadius: const BorderRadius.all(Radius.circular(16))),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
