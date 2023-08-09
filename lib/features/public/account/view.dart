@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hypertrip/domain/models/user/user_profile.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
@@ -9,8 +13,11 @@ import 'package:hypertrip/features/public/account/parts/avatar.dart';
 import 'package:hypertrip/features/public/account/parts/information.dart';
 import 'package:hypertrip/features/public/account/parts/privacy_bottomsheet.dart';
 import 'package:hypertrip/features/public/account/parts/setting_item.dart';
+import 'package:hypertrip/features/public/account/parts/share_location_map.dart';
 import 'package:hypertrip/features/public/account/profile_bloc.dart';
 import 'package:hypertrip/features/public/edit_profile/edit_profile_screen.dart';
+import 'package:hypertrip/features/public/permission/cubit.dart';
+import 'package:hypertrip/features/public/permission/state.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_style.dart';
@@ -24,8 +31,9 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../widgets/text/p_text.dart';
 
 class AccountPage extends StatelessWidget {
-  const AccountPage({super.key});
+  AccountPage({super.key});
 
+  StreamSubscription<Position>? _locationSubscription;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -145,7 +153,101 @@ class AccountPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    Gap.k16.height,
+                    StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('location')
+                            .snapshots(),
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          return Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _getLocation(context, state.userProfile);
+                                  _listenLocation(state
+                                      .userProfile); // remove all previous routes
+                                },
+                                child: Container(
+                                  height: 40,
+                                  // margin: const EdgeInsets.symmetric(horizontal: 50),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.2),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(16))),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      PText(
+                                        'Share',
+                                        color: AppColors.primaryColor,
+                                        size: 16,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Gap.k16.width,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ShareLocationMap(
+                                          userId: snapshot.data!.docs[0]
+                                              .id))); // remove all previous routes
+                                },
+                                child: Container(
+                                  height: 40,
+                                  // margin: const EdgeInsets.symmetric(horizontal: 50),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.2),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(16))),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      PText(
+                                        'View',
+                                        color: AppColors.primaryColor,
+                                        size: 16,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Gap.k16.width,
+                              GestureDetector(
+                                onTap: () {
+                                  _stopListeningLocation();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  // margin: const EdgeInsets.symmetric(horizontal: 50),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.2),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(16))),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      PText(
+                                        'Stop',
+                                        color: AppColors.primaryColor,
+                                        size: 16,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        })
                   ],
                 ),
               );
@@ -154,5 +256,41 @@ class AccountPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _getLocation(BuildContext context, UserProfile user) async {
+    try {
+      final cubit = BlocProvider.of<CurrentLocationCubit>(context);
+      Position currentLocation =
+          (cubit.state as LoadCurrentLocationSuccessState).location;
+      await FirebaseFirestore.instance.collection('location').doc(user.id).set(
+          {'lat': currentLocation.latitude, 'lng': currentLocation.longitude},
+          SetOptions(merge: true));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Future<void> _listenLocation(UserProfile user) async {
+  //   Geolocator.getPositionStream().listen((Position position) async {
+  //     await FirebaseFirestore.instance.collection('location').doc(user.id).set(
+  //         {'lat': position.latitude, 'lng': position.longitude},
+  //         SetOptions(merge: true));
+  //   });
+  // }
+  void _listenLocation(UserProfile user) {
+    _locationSubscription =
+        Geolocator.getPositionStream().listen((Position position) async {
+      await FirebaseFirestore.instance.collection('location').doc(user.id).set(
+          {'lat': position.latitude, 'lng': position.longitude},
+          SetOptions(merge: true));
+    });
+  }
+
+  void _stopListeningLocation() {
+    if (_locationSubscription != null) {
+      _locationSubscription!.cancel();
+      _locationSubscription = null;
+    }
   }
 }

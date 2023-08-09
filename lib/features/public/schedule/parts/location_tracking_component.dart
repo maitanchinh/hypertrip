@@ -378,6 +378,10 @@ void _resetChildState() {
                               child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              if (schedule.imageUrl != null) ClipRRect(borderRadius: BorderRadius.circular(16), child: FadeInImage.assetNetwork(placeholder: AppAssets.placeholder_png, image: schedule.imageUrl!)),
+                              if (schedule.imageUrl != null) Gap.k16.height else SizedBox.shrink(),
+                              PText(schedule.title),
+                              Gap.k16.height,
                               PSmallText(
                                 schedule.description,
                                 color: AppColors.greyColor,
