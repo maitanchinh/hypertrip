@@ -25,6 +25,10 @@ import 'package:hypertrip/features/public/permission/cubit.dart';
 import 'package:hypertrip/features/public/permission/state.dart';
 import 'package:hypertrip/features/public/tour_detail/cubit.dart';
 import 'package:hypertrip/features/public/tour_detail/state.dart';
+import 'package:hypertrip/features/public/warning_incident/components/address.dart';
+import 'package:hypertrip/features/public/warning_incident/components/item_wind.dart';
+import 'package:hypertrip/features/public/warning_incident/components/termp.dart';
+import 'package:hypertrip/features/public/warning_incident/components/time_address.dart';
 import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
@@ -42,6 +46,7 @@ import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:hypertrip/features/traveler/page.dart' as TravelerPage;
 
@@ -51,6 +56,7 @@ part 'parts/app_bar.dart';
 part 'parts/custom_sliver_app_bar_delegate.dart';
 part 'parts/partner.dart';
 part 'parts/schedule.dart';
+part 'parts/weather_schedules.dart';
 
 part 'parts/map_screen.dart';
 

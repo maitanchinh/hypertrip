@@ -41,6 +41,7 @@ const String notificationTitle = 'Notification';
 const String profileTitle = 'Profile';
 const String privacy = 'Privacy & Settings';
 const String editProfile = 'Edit Profile';
+const String emergency = 'Emergency';
 const String signOut = 'Sign Out';
 const String save = 'Save';
 const String reload = 'Reload';
@@ -102,3 +103,9 @@ const String msg_attend_success = 'Attend success';
 
 // Permission
 const String msg_camera_required = 'You need to allow camera permission';
+const String msg_location_required = 'You need to allow location permission';
+
+// Emergency
+const String sendEmergency = 'Please send us your current location';
+const String send = 'Send';
+const String sendEmergencySuccess = 'Send Success';
