@@ -11,7 +11,7 @@ class PSmallText extends StatelessWidget {
     this.text, {
     super.key,
     this.color = AppColors.textGreyColor,
-    this.size = 12,
+    this.size = 14,
     this.height = 1.2,
   });
 

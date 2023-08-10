@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hypertrip/domain/repositories/foursquare_repo.dart';
+import 'package:hypertrip/domain/repositories/group_repo.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/domain/validations/login_validator.dart';
 import 'package:hypertrip/features/public/account/profile_bloc.dart';
@@ -38,7 +40,7 @@ class _PrivacyBottomSheetState extends State<PrivacyBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: ProfileBloc(GetIt.I.get<UserRepo>())..add(const FetchProfile()),
+      value: ProfileBloc(GetIt.I.get<UserRepo>(),GetIt.I.get<FoursquareRepo>(),GetIt.I.get<GroupRepo>())..add(const FetchProfile()),
       child:
           BlocConsumer<ProfileBloc, ProfileState>(listener: (context, state) {
         if (state.pageCommand != null) {

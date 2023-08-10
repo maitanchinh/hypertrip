@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,6 +25,10 @@ import 'package:hypertrip/features/public/permission/cubit.dart';
 import 'package:hypertrip/features/public/permission/state.dart';
 import 'package:hypertrip/features/public/tour_detail/cubit.dart';
 import 'package:hypertrip/features/public/tour_detail/state.dart';
+import 'package:hypertrip/features/public/warning_incident/components/address.dart';
+import 'package:hypertrip/features/public/warning_incident/components/item_wind.dart';
+import 'package:hypertrip/features/public/warning_incident/components/termp.dart';
+import 'package:hypertrip/features/public/warning_incident/components/time_address.dart';
 import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
@@ -40,7 +44,9 @@ import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:hypertrip/features/traveler/page.dart' as TravelerPage;
 
@@ -50,6 +56,7 @@ part 'parts/app_bar.dart';
 part 'parts/custom_sliver_app_bar_delegate.dart';
 part 'parts/partner.dart';
 part 'parts/schedule.dart';
+part 'parts/weather_schedules.dart';
 
 part 'parts/map_screen.dart';
 
@@ -62,10 +69,7 @@ class CurrentTourPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => CurrentTourCubit(),
-      child: Builder(builder: (context) => _buildPage(context)),
-    );
+    return Builder(builder: (context) => _buildPage(context));
   }
 
   Widget _buildPage(BuildContext context) {
@@ -74,27 +78,6 @@ class CurrentTourPage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(context),
       backgroundColor: AppColors.bgLightColor,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        elevation: 0,
-        backgroundColor: AppColors.primaryColor,
-        shape: defaultButtonRoundedShape,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MapScreen()),
-          );
-        },
-        label: const PText(
-          'Map',
-          color: white,
-        ),
-        icon: SvgPicture.asset(
-          Resource.iconsMap,
-          width: 20,
-          color: white,
-        ),
-      ),
       body: BlocConsumer<CurrentTourCubit, CurrentTourState>(
         listener: (context, state) {
           if (cubit.state is LoadCurrentTourFailedState) {

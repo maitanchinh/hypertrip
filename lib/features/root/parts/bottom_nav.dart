@@ -62,7 +62,7 @@ class _BottomNavState extends State<BottomNav> {
                 height: 20,
                 color: AppColors.primaryColor,
               ),
-              label: "Nearby"),
+              label: "Schedule"),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 Resource.iconsMessage,
