@@ -69,7 +69,7 @@ const String gallery = 'Gallery';
 const String uploadPhoto = 'Upload Photo';
 
 //Chat
-const String close = 'Close';
+const String close = 'Closed';
 const String searchHint = 'Search...';
 const String contentChat = 'Conversation';
 const String sendCurrentPosition = 'Share current location';

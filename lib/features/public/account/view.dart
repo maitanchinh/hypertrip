@@ -118,7 +118,7 @@ class AccountPage extends StatelessWidget {
                       icon: AppAssets.icons_ic_emergency_svg,
                       greyColor: AppColors.yellow_2Color.withOpacity(0.2),
                       iconColor: AppColors.redColor,
-                      content: emergency,
+                      content: "emergency",
                       callBack: () {
                         showCupertinoModalBottomSheet(
                           // isScrollControlled: true,
