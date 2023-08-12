@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hypertrip/domain/models/chat/firestore_message.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
+import 'package:hypertrip/features/public/chat_detail/components/share_location.dart';
 import 'package:hypertrip/features/public/chat_detail/interactor/chat_detail_bloc.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
+import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/page_states.dart';
 
 class ChatList extends StatefulWidget {
@@ -69,8 +71,7 @@ class _ChatListState extends State<ChatList> {
                   chatBackgroundConfig: const ChatBackgroundConfiguration(
                     messageTimeIconColor: Colors.white,
                     messageTimeTextStyle: TextStyle(color: Colors.white),
-                    defaultGroupSeparatorConfig:
-                        DefaultGroupSeparatorConfiguration(
+                    defaultGroupSeparatorConfig: DefaultGroupSeparatorConfiguration(
                       textStyle: TextStyle(
                         color: Colors.black,
                         fontSize: 17,
@@ -98,7 +99,10 @@ class _ChatListState extends State<ChatList> {
                       textStyle: TextStyle(color: Colors.white),
                     ),
                   ),
-                  messageConfig: const MessageConfiguration(imageMessageConfig: ImageMessageConfiguration(width: 250,height: 250)),
+                  messageConfig: MessageConfiguration(
+                    imageMessageConfig: const ImageMessageConfiguration(width: 250, height: 250),
+                    customMessageBuilder: (message) => ShareLocation(message: message),
+                  ),
                   sendMessageConfig: SendMessageConfiguration(
                     sendButtonIcon: SvgPicture.asset(
                       AppAssets.icons_paper_plane_svg,
@@ -110,11 +114,9 @@ class _ChatListState extends State<ChatList> {
                       cameraIconColor: AppColors.greyColor,
                       galleryIconColor: AppColors.greyColor,
                       mapIconColor: AppColors.greyColor,
-                      cameraImagePickerIcon: SvgPicture.asset(
-                          AppAssets.icons_ic_camera_svg,
+                      cameraImagePickerIcon: SvgPicture.asset(AppAssets.icons_ic_camera_svg,
                           color: AppColors.primaryColor),
-                      galleryImagePickerIcon: SvgPicture.asset(
-                          AppAssets.icons_ic_picture_svg,
+                      galleryImagePickerIcon: SvgPicture.asset(AppAssets.icons_ic_picture_svg,
                           color: AppColors.primaryColor),
                       mapIcon: SvgPicture.asset(AppAssets.icons_map_svg,
                           width: 24, height: 24, color: AppColors.primaryColor),
@@ -129,8 +131,7 @@ class _ChatListState extends State<ChatList> {
                     ),
                     allowRecordingVoice: false,
                     micIconColor: Colors.white,
-                    voiceRecordingConfiguration:
-                        const VoiceRecordingConfiguration(
+                    voiceRecordingConfiguration: const VoiceRecordingConfiguration(
                       backgroundColor: Color(0xff383152),
                       recorderIconColor: Color(0xff757575),
                       waveStyle: WaveStyle(
@@ -148,8 +149,7 @@ class _ChatListState extends State<ChatList> {
                   ),
                   replyPopupConfig: ReplyPopupConfiguration(
                     onReplyTap: (message) {},
-                    replyPopupBuilder: (message, sendByCurrentUser) =>
-                        const SizedBox(),
+                    replyPopupBuilder: (message, sendByCurrentUser) => const SizedBox(),
                   ),
                   onPressedMap: widget.onPressedMap,
                   onSendTap: (message, replyMessage, messageType) {
