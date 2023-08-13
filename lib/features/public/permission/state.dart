@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:geolocator/geolocator.dart';
 
 //Location
@@ -14,5 +16,3 @@ class LoadCurrentLocationSuccessState extends CurrentLocationState {
   final Position location;
   LoadCurrentLocationSuccessState({required this.location});
 }
-
-//Local Network

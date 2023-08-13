@@ -46,9 +46,9 @@ import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:hypertrip/widgets/text/p_text.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:hypertrip/features/traveler/page.dart' as TravelerPage;
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'cubit.dart';
 

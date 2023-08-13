@@ -88,6 +88,10 @@ PageRoute? generateRoute(RouteSettings settings) {
               ));
     case Public.ScheduleScreen.routeName:
     return MaterialPageRoute(builder: (_) => const Public.ScheduleScreen());
+    case Public.ShareLocationMap.routeName:
+    return MaterialPageRoute(builder: (_) => const Public.ShareLocationMap());
+    case Public.ChatPageScreen.routeName:
+    return MaterialPageRoute(builder: (_) => const Public.ChatPageScreen());
     // case Public.NearbyPage.routeName:
     //   return MaterialPageRoute(builder: (_) => const Public.NearbyPage());
 

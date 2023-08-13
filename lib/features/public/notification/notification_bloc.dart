@@ -4,6 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/domain/models/notification/firebase_message.dart';
 import 'package:hypertrip/domain/repositories/notification_repo.dart';
+import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
+import 'package:hypertrip/features/public/page.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/page_command.dart';
 import 'package:hypertrip/utils/page_states.dart';
@@ -42,12 +44,17 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   FutureOr<void> _itemNotificationClick(
       ItemNotificationClick event, Emitter<NotificationState> emit) async {
     String page = '';
+    var argument;
     switch (event.item.type) {
       case FirebaseMessageType.AttendanceActivity:
         // page = Routers.CURRRENT_TOUR_PAGE;
         break;
       case FirebaseMessageType.TourStarted:
         // TODO: Handle this case.
+        break;
+      case FirebaseMessageType.Emergency:
+      page = ChatPageScreen.routeName;
+      // argument = 
         break;
     }
 
