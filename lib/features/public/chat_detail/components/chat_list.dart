@@ -16,13 +16,14 @@ class ChatList extends StatefulWidget {
   final String groupName;
   final VoidCallBack? onPressedMap;
   final bool isAccepting;
+  final String userId;
 
   const ChatList(
       {Key? key,
       required this.tourGroupId,
       required this.groupName,
       this.onPressedMap,
-      required this.isAccepting})
+      required this.isAccepting, required this.userId})
       : super(key: key);
 
   @override
@@ -101,7 +102,7 @@ class _ChatListState extends State<ChatList> {
                   ),
                   messageConfig: MessageConfiguration(
                     imageMessageConfig: const ImageMessageConfiguration(width: 250, height: 250),
-                    customMessageBuilder: (message) => ShareLocation(message: message),
+                    customMessageBuilder: (message) => ShareLocation(message: message,),
                   ),
                   sendMessageConfig: SendMessageConfiguration(
                     sendButtonIcon: SvgPicture.asset(

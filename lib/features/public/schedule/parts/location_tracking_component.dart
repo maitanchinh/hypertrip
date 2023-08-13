@@ -147,19 +147,7 @@ void _resetChildState() {
                   title: 'Day ${position.dayNo}'),
               position: latLng,
               icon: BitmapDescriptor.fromBytes(canvas),
-              anchor: const Offset(0.5, 1.0),
-              onTap: () {
-                showCupertinoModalBottomSheet(
-                    expand: true,
-                    context: context,
-                    builder: (context) => Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(16))),
-                          height: 300,
-                          child: Text(position.description.toString()),
-                        ));
-              }));
+              anchor: const Offset(0.5, 1.0),));
         });
       }
     });

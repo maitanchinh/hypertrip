@@ -109,3 +109,4 @@ const String msg_location_required = 'You need to allow location permission';
 const String sendEmergency = 'Please send us your current location';
 const String send = 'Send';
 const String sendEmergencySuccess = 'Send Success';
+const String stopShareLocation = 'Stop Share Location';

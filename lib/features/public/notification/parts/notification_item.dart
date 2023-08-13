@@ -22,9 +22,9 @@ class NotificationItem extends StatelessWidget {
     return InkWell(
       onTap: callback,
       child: SizedBox(
-        height: 80,
+        // height: 80,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ClipOval(
@@ -34,31 +34,11 @@ class NotificationItem extends StatelessWidget {
                 child: SizedBox(
                     width: 40,
                     height: 40,
-                    child: item.type.name ==
-                            FirebaseMessageType.AttendanceActivity.name
-                        ? Transform.scale(
+                    child: Transform.scale(
                           scale: 0.8,
                           child: SvgPicture.asset(
-                            AppAssets.icons_attendance_svg),
-                        )
-                        : item.type.name == FirebaseMessageType.CheckInAcitvity.name
-                            ? Transform.scale(
-                              scale: 0.8,
-                              child: SvgPicture.asset(
-                                  AppAssets.icons_destination_svg),
-                            )
-                            : item.type.name ==
-                                    FirebaseMessageType.TourStarted.name
-                                ? Transform.scale(
-                                  scale: 0.8,
-                                  child: SvgPicture.asset(
-                                      AppAssets.icons_finish_flag_svg),
-                                )
-                                : Transform.scale(
-                                  scale: 0.8,
-                                  child: SvgPicture.asset(
-                                      AppAssets.icons_bell_color_svg),
-                                )),
+                            item.type.image),
+                        )),
               ),
             ),
             Column(

@@ -27,6 +27,7 @@ import '../../../widgets/text/p_text.dart';
 part '../chat/components/conversation_list.dart';
 
 class ChatPageScreen extends StatelessWidget {
+  static const routeName = '/chat';
   const ChatPageScreen({super.key});
 
   @override
@@ -40,7 +41,7 @@ class ChatPageScreen extends StatelessWidget {
         unFocusWhenTouchOutsideInput: true,
         child: SafeArea(
           child: Scaffold(
-            // appBar: const MainAppBar(title: contentChat),
+            appBar: MainAppBar(title: contentChat, implyLeading: ModalRoute.of(context)!.isFirst == false ? true : false,),
             body: SafeSpace(
               child: BlocBuilder<ChatBloc, ChatState>(
                 builder: (context, state) {
@@ -126,7 +127,7 @@ class ChatPageScreen extends StatelessWidget {
                   );
                 },
               ),
-            ),
+            ).paddingTop(16),
           ),
         ),
       ),

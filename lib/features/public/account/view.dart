@@ -114,24 +114,31 @@ class AccountPage extends StatelessWidget {
                         });
                       },
                     ),
-                    SettingItem(
-                      icon: AppAssets.icons_ic_emergency_svg,
-                      greyColor: AppColors.yellow_2Color.withOpacity(0.2),
-                      iconColor: AppColors.redColor,
-                      content: "emergency",
-                      callBack: () {
-                        showCupertinoModalBottomSheet(
-                          // isScrollControlled: true,
-                          context: context,
-                          // useSafeArea: true,
-                          expand: true,
-                          backgroundColor: Colors.transparent,
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                              .collection('location')
+                              .snapshots(),
+                      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        return SettingItem(
+                          icon: AppAssets.icons_ic_emergency_svg,
+                          greyColor: AppColors.yellow_2Color.withOpacity(0.2),
+                          iconColor: AppColors.redColor,
+                          content: emergency,
+                          callBack: () {
+                            showCupertinoModalBottomSheet(
+                              // isScrollControlled: true,
+                              context: context,
+                              // useSafeArea: true,
+                              expand: true,
+                              backgroundColor: Colors.transparent,
 
-                          builder: (BuildContext context) {
-                            return const EmergencyBottomSheet();
+                              builder: (BuildContext context) {
+                                return const EmergencyBottomSheet();
+                              },
+                            );
                           },
                         );
-                      },
+                      }
                     ),
                     60.height,
                     GestureDetector(
@@ -170,100 +177,6 @@ class AccountPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Gap.k16.height,
-                    StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('location')
-                            .snapshots(),
-                        builder:
-                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                          return Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _getLocation(context, state.userProfile);
-                                  _listenLocation(state
-                                      .userProfile); // remove all previous routes
-                                },
-                                child: Container(
-                                  height: 40,
-                                  // margin: const EdgeInsets.symmetric(horizontal: 50),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.2),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(16))),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      PText(
-                                        'Share',
-                                        color: AppColors.primaryColor,
-                                        size: 16,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Gap.k16.width,
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ShareLocationMap(
-                                          userId: snapshot.data!.docs[0]
-                                              .id))); // remove all previous routes
-                                },
-                                child: Container(
-                                  height: 40,
-                                  // margin: const EdgeInsets.symmetric(horizontal: 50),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.2),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(16))),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      PText(
-                                        'View',
-                                        color: AppColors.primaryColor,
-                                        size: 16,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Gap.k16.width,
-                              GestureDetector(
-                                onTap: () {
-                                  _stopListeningLocation();
-                                },
-                                child: Container(
-                                  height: 40,
-                                  // margin: const EdgeInsets.symmetric(horizontal: 50),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.primaryColor
-                                          .withOpacity(0.2),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(16))),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      PText(
-                                        'Stop',
-                                        color: AppColors.primaryColor,
-                                        size: 16,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        })
                   ],
                 ),
               );
@@ -272,41 +185,5 @@ class AccountPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _getLocation(BuildContext context, UserProfile user) async {
-    try {
-      final cubit = BlocProvider.of<CurrentLocationCubit>(context);
-      Position currentLocation =
-          (cubit.state as LoadCurrentLocationSuccessState).location;
-      await FirebaseFirestore.instance.collection('location').doc(user.id).set(
-          {'lat': currentLocation.latitude, 'lng': currentLocation.longitude},
-          SetOptions(merge: true));
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  // Future<void> _listenLocation(UserProfile user) async {
-  //   Geolocator.getPositionStream().listen((Position position) async {
-  //     await FirebaseFirestore.instance.collection('location').doc(user.id).set(
-  //         {'lat': position.latitude, 'lng': position.longitude},
-  //         SetOptions(merge: true));
-  //   });
-  // }
-  void _listenLocation(UserProfile user) {
-    _locationSubscription =
-        Geolocator.getPositionStream().listen((Position position) async {
-      await FirebaseFirestore.instance.collection('location').doc(user.id).set(
-          {'lat': position.latitude, 'lng': position.longitude},
-          SetOptions(merge: true));
-    });
-  }
-
-  void _stopListeningLocation() {
-    if (_locationSubscription != null) {
-      _locationSubscription!.cancel();
-      _locationSubscription = null;
-    }
   }
 }
