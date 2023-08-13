@@ -105,6 +105,8 @@ class AppAssets {
 
   static const String icons_icon_arrow_back_png = 'assets/images/icons/icon_arrow_back.png';
 
+  static const String icons_image_file_add_svg = 'assets/images/icons/image-file-add.svg';
+
   static const String icons_info_svg = 'assets/images/icons/info.svg';
 
   static const String icons_location_arrow_solid_svg = 'assets/images/icons/location-arrow-solid.svg';

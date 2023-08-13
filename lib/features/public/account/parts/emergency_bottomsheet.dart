@@ -3,20 +3,17 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hypertrip/domain/repositories/foursquare_repo.dart';
 import 'package:hypertrip/domain/repositories/group_repo.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
-import 'package:hypertrip/domain/validations/login_validator.dart';
 import 'package:hypertrip/features/public/account/profile_bloc.dart';
 import 'package:hypertrip/features/root/cubit.dart';
 import 'package:hypertrip/features/root/state.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/app_widget.dart';
-import 'package:hypertrip/widgets/p_text_form_field.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../../domain/models/user/user_profile.dart';
@@ -118,7 +115,7 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                  width: MediaQuery.sizeOf(context).width,
+                  width: MediaQuery.of(context).size.width,
                   height: 250,
                   decoration: const BoxDecoration(
                     color: Colors.white,
