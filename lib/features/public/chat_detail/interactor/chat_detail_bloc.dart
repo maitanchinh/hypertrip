@@ -95,7 +95,7 @@ class ChatDetailBloc extends Bloc<ChatDetailEvent, ChatDetailState> {
     }
 
     final result = await _firestoreRepository.saveMessage(
-        event.userId, event.type, message, DateTime.now(), event.groupId);
+        event.userId, event.type == MessageType.custom ? MessageType.text : event.type, message, DateTime.now(), event.groupId);
 
     String content = state.currentUser?.name ?? '';
     switch (event.type) {
