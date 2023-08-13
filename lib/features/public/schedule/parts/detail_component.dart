@@ -206,8 +206,9 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             PSmallText(
-                              intl.DateFormat('dd/MM/yyyy').format(DateTime.parse(
-                                  widget.place.tips![index].createdAt
+                              intl.DateFormat('dd/MM/yyyy').format(
+                                  DateTime.parse(widget
+                                      .place.tips![index].createdAt
                                       .toString())),
                             ),
                             8.height,

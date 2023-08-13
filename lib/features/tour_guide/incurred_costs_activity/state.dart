@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class IncurredCostsActivityState {
@@ -6,6 +8,7 @@ class IncurredCostsActivityState {
   final DateTime dateTime;
   final bool isValid;
   final bool isLoading;
+  final List<File> images;
 
   static const int maxNoteLength = 100;
   static const int maxAmountLength = 15;
@@ -16,6 +19,7 @@ class IncurredCostsActivityState {
     required this.noteController,
     required this.isValid,
     required this.isLoading,
+    required this.images,
   });
 
   factory IncurredCostsActivityState.initial() {
@@ -36,6 +40,7 @@ class IncurredCostsActivityState {
       dateTime: DateTime.now(),
       isValid: false,
       isLoading: false,
+      images: [],
     );
   }
 
@@ -45,6 +50,7 @@ class IncurredCostsActivityState {
     DateTime? dateTime,
     bool? isValid,
     bool? isLoading,
+    List<File>? images,
   }) {
     return IncurredCostsActivityState(
       amountController: amountController ?? this.amountController,
@@ -52,6 +58,7 @@ class IncurredCostsActivityState {
       dateTime: dateTime ?? this.dateTime,
       isValid: isValid ?? this.isValid,
       isLoading: isLoading ?? this.isLoading,
+      images: images ?? this.images,
     );
   }
 }

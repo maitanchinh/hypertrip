@@ -127,7 +127,9 @@ class _DetailComponentState extends State<DetailComponent> {
                           iconColor: AppColors.primaryColor,
                           onPressed: () {
                             Navigator.of(context).pushNamed(NearbyMap.routeName,
-                                arguments: NearbyMap.fromObject(place: widget.place,));
+                                arguments: NearbyMap.fromObject(
+                                  place: widget.place,
+                                ));
                           })
                       // 8.width,
                       // PSmallText(

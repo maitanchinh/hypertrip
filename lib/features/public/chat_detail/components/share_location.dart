@@ -5,7 +5,7 @@ import 'package:hypertrip/utils/app_style.dart';
 
 class ShareLocation extends StatelessWidget {
   final Message message;
-  const ShareLocation({Key? key,required this.message}) : super(key: key);
+  const ShareLocation({Key? key, required this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class ShareLocation extends StatelessWidget {
             children: [
               const Icon(Icons.telegram, size: 48, color: Colors.blueAccent),
               SizedBox(
-                width: MediaQuery.sizeOf(context).width - 159,
+                width: MediaQuery.of(context).size.width - 159,
                 child: RichText(
                   text: TextSpan(children: [
                     TextSpan(
@@ -41,8 +41,8 @@ class ShareLocation extends StatelessWidget {
                         style: AppStyle.fontOpenSanBold.copyWith(fontSize: 22)),
                     TextSpan(
                         text: textContent,
-                        style: AppStyle.fontOpenSanBold
-                            .copyWith(fontSize: 16, color: AppColors.textColor)),
+                        style: AppStyle.fontOpenSanBold.copyWith(
+                            fontSize: 16, color: AppColors.textColor)),
                   ]),
                 ),
               ),
@@ -56,7 +56,9 @@ class ShareLocation extends StatelessWidget {
               side: BorderSide.none,
             ),
             onPressed: () {},
-            child: Text('View location',style: AppStyle.fontOpenSanRegular.copyWith(color: Colors.white)),
+            child: Text('View location',
+                style:
+                    AppStyle.fontOpenSanRegular.copyWith(color: Colors.white)),
           )
         ],
       ),

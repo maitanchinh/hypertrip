@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/features/tour_guide/incurred_costs_activity/state.dart';
 
@@ -28,5 +30,11 @@ class IncurredCostsActivityCubit extends Cubit<IncurredCostsActivityState> {
         .copyWith(hour: value.hour, minute: value.minute, second: value.second);
 
     onStateChanged(state.copyWith(dateTime: newTime));
+  }
+
+  void addImages(List<File> images) {
+    var newState = state.copyWith(images: [...state.images, ...images]);
+
+    onStateChanged(newState);
   }
 }

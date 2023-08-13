@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,8 +11,11 @@ import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/currency_formatter.dart';
 import 'package:hypertrip/utils/message.dart';
+import 'package:hypertrip/utils/picture.dart';
 import 'package:hypertrip/widgets/base_page.dart';
+import 'package:hypertrip/widgets/image/gallery.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 part 'part/amount_input.dart';

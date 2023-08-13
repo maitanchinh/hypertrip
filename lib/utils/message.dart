@@ -13,6 +13,8 @@ const String label_activity = 'Activity';
 const String label_incurred_costs = 'Incurred costs';
 const String label_search = 'Search';
 const String label_create_new_activity = 'New activity';
+const String label_cancel = 'Cancel';
+const String label_cropper = 'Cropper';
 
 /// alert
 const String msg_error = 'Error';
@@ -111,6 +113,8 @@ const String msg_incurred_costs_image_note =
 const String label_incurred_costs_date_time = 'Date & Time';
 const String label_incurred_costs_note = 'Note';
 const String label_incurred_button_save = 'Create new incurred costs';
+const String label_use_camera = 'Use camera';
+const String label_use_gallery = 'Pick from gallery';
 
 // Permission
 const String msg_camera_required = 'You need to allow camera permission';
