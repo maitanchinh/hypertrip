@@ -20,12 +20,13 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
       clipBehavior: Clip.none,
       children: [
         buildBackground(shrinkOffset),
-        Positioned(
-          top: top,
-          left: 0,
-          right: 0,
-          child: buildFloating(context, shrinkOffset),
-        ),
+        if (UserRole.Traveler.compareWithString(UserRepo.profile!.role))
+          Positioned(
+            top: top,
+            left: 0,
+            right: 0,
+            child: buildFloating(context, shrinkOffset),
+          ),
       ],
     );
   }
@@ -65,23 +66,23 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   backgroundColor: AppColors.yellowColor,
                 ),
                 onPressed: () {
-                        if (UserRole.Traveler.compareWithString(
-                            UserRepo.profile!.role)) {
-                          Navigator.pushNamed(
-                            context,
-                            TravelerPage.Attendance.routeName,
-                          );
-                        } else {
-                          // todo: navigate to activity page
-                        }
-                      },
+                  if (UserRole.Traveler.compareWithString(
+                      UserRepo.profile!.role)) {
+                    Navigator.pushNamed(
+                      context,
+                      TravelerPage.Attendance.routeName,
+                    );
+                  } else {
+                    // todo: navigate to activity page
+                  }
+                },
                 icon: SvgPicture.asset(
                   Resource.iconsClipboardUser,
                   width: 16,
                   color: white,
                 ),
                 label: const PText(
-                  'Attendance',
+                  label_attendance,
                   overflow: TextOverflow.visible,
                   color: Colors.white,
                 ),

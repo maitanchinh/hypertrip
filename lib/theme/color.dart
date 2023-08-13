@@ -20,6 +20,7 @@ class AppColors {
   // static const Color bgLightColor = Color(0xFFF1F2F6);
   static const Color bgLightColor = CupertinoColors.systemGroupedBackground;
   static const Color boxShadowColor = Color(0xFFE8E8E8);
+  static const Color cardBorderColor = Color.fromARGB(255, 172, 172, 172);
 
   static const Color grey2Color = Color(0xFFBDC1C6);
   static const Color whiteLightColor = Color(0xFFD5DDF2);

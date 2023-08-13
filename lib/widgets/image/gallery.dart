@@ -14,7 +14,7 @@ class Gallery extends StatefulWidget {
   final Function(List<String> imagePaths)? onImagePathsChanged;
   final bool allowAdd;
   final bool allowRemove;
-  final bool isMultiple;
+  final int? limit;
 
   const Gallery({
     super.key,
@@ -23,8 +23,9 @@ class Gallery extends StatefulWidget {
     this.allowAdd = false,
     this.allowRemove = false,
     this.onImagePathsChanged,
-    this.isMultiple = false,
-  });
+    this.limit,
+  })  : assert(limit == null || limit > 0),
+        assert(visibleAmount > 0);
 
   @override
   State<Gallery> createState() => _GalleryState();
@@ -41,12 +42,15 @@ class _GalleryState extends State<Gallery> {
 
   @override
   Widget build(BuildContext context) {
-    var itemCount = widget.imagePaths.length > widget.visibleAmount
+    var itemCount = _imagePaths.length > widget.visibleAmount
         ? widget.visibleAmount
-        : widget.imagePaths.length;
+        : _imagePaths.length;
+
+    final hasAddButton = widget.allowAdd &&
+        (widget.limit == null || _imagePaths.length < widget.limit!);
 
     /// add last button to add new item
-    if (widget.allowAdd) itemCount++;
+    if (hasAddButton) itemCount++;
 
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
@@ -61,13 +65,17 @@ class _GalleryState extends State<Gallery> {
       itemBuilder: (context, index) {
         /// Add button
         final isLast = index == itemCount - 1;
-        if (isLast && widget.allowAdd) {
+        if (isLast && hasAddButton) {
           return _buildAddButton(
             onTap: () => _showPickupImageSource(
               context,
-              widget.isMultiple,
+              widget.limit,
               (imagePaths) {
-                final newImagePaths = [..._imagePaths, ...imagePaths];
+                var newImagePaths = [..._imagePaths, ...imagePaths];
+                if (widget.limit != null) {
+                  newImagePaths = newImagePaths
+                      .sublist(newImagePaths.length - widget.limit!);
+                }
                 widget.onImagePathsChanged?.call(newImagePaths);
                 setState(() {
                   _imagePaths = newImagePaths;
@@ -77,10 +85,10 @@ class _GalleryState extends State<Gallery> {
           );
         }
 
-        final path = widget.imagePaths[index];
-        final hasOverlay = widget.imagePaths.length > widget.visibleAmount &&
+        final path = _imagePaths[index];
+        final hasOverlay = _imagePaths.length > widget.visibleAmount &&
             index == widget.visibleAmount - 1;
-        final moreItem = widget.imagePaths.length - widget.visibleAmount + 1;
+        final moreItem = _imagePaths.length - widget.visibleAmount + 1;
 
         /// Last item overlay
         if (hasOverlay) {
@@ -100,7 +108,10 @@ Widget _buildAddButton({void Function()? onTap}) {
       borderRadius: BorderRadius.circular(8),
       color: AppColors.lightGreyColor,
     ),
-    child: const Icon(Icons.add),
+    child: const Icon(
+      Icons.add,
+      color: AppColors.textGreyColor,
+    ),
   ).onTap(onTap);
 }
 
@@ -134,7 +145,7 @@ Widget _buildItem(String imagePath) => GestureDetector(
       ),
     );
 
-void _showPickupImageSource(BuildContext context, bool isMultiple,
+void _showPickupImageSource(BuildContext context, int? limit,
     Function(List<String> imagePath)? onImagePathsAdded) {
   showCupertinoModalPopup(
     context: context,
@@ -152,8 +163,14 @@ void _showPickupImageSource(BuildContext context, bool isMultiple,
           child: const Text(label_use_gallery),
           onPressed: () async {
             Navigator.pop(context);
-            var images = await pickMultipleImages();
-            onImagePathsAdded?.call(images.map((image) => image.path).toList());
+            try {
+              var images = await pickMultipleImages();
+              onImagePathsAdded
+                  ?.call(images.map((image) => image.path).toList());
+            } catch (e) {
+              // Todo: handle error
+              throw e;
+            }
           },
         )
       ],

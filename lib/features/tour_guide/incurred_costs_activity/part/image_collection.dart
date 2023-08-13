@@ -14,63 +14,67 @@ class _ImageCollectionState extends State<ImageCollection> {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<IncurredCostsActivityCubit>(context);
 
-    return Column(
-      children: [
-        const Gallery(
-          allowAdd: true,
-          allowRemove: true,
-          isMultiple: true,
-          // onImagePathsChanged: (imagePaths) {},
-          imagePaths: [],
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        border: Border.fromBorderSide(
+          BorderSide(color: AppColors.cardBorderColor),
         ),
-        16.height,
-        SizedBox(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  color: AppColors.lightGreyColor,
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    AppAssets.icons_image_file_add_svg,
-                    width: 60,
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.textGreyColor,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ).onTap(() {
-          // show bottom sheet options
-          showCupertinoModalPopup(
-            context: context,
-            builder: (context) => CupertinoActionSheet(
-              actions: [
-                CupertinoActionSheetAction(
-                  child: const Text(label_use_camera),
-                  onPressed: () => pickImageFromCamera(context),
-                ),
-                CupertinoActionSheetAction(
-                  child: const Text(label_use_gallery),
-                  onPressed: () => pickImageFromGallery(context),
-                )
-              ],
-              cancelButton: CupertinoActionSheetAction(
-                onPressed: () => Navigator.pop(context),
-                child: const Text(label_cancel),
-              ),
-            ),
-          );
-        }),
-      ],
+      ),
+      child: const Gallery(
+        allowAdd: true,
+        allowRemove: true,
+        limit: 1,
+        // onImagePathsChanged: (imagePaths) {},
+        imagePaths: [],
+      ),
+      // SizedBox(
+      //   width: double.infinity,
+      //   child: Column(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //       Container(
+      //         padding: const EdgeInsets.all(16),
+      //         decoration: const BoxDecoration(
+      //           borderRadius: BorderRadius.all(Radius.circular(8)),
+      //           color: AppColors.lightGreyColor,
+      //         ),
+      //         child: Center(
+      //           child: SvgPicture.asset(
+      //             AppAssets.icons_image_file_add_svg,
+      //             width: 60,
+      //             colorFilter: const ColorFilter.mode(
+      //               AppColors.textGreyColor,
+      //               BlendMode.srcIn,
+      //             ),
+      //           ),
+      //         ),
+      //       )
+      //     ],
+      //   ),
+      // ).onTap(() {
+      //   // show bottom sheet options
+      //   showCupertinoModalPopup(
+      //     context: context,
+      //     builder: (context) => CupertinoActionSheet(
+      //       actions: [
+      //         CupertinoActionSheetAction(
+      //           child: const Text(label_use_camera),
+      //           onPressed: () => pickImageFromCamera(context),
+      //         ),
+      //         CupertinoActionSheetAction(
+      //           child: const Text(label_use_gallery),
+      //           onPressed: () => pickImageFromGallery(context),
+      //         )
+      //       ],
+      //       cancelButton: CupertinoActionSheetAction(
+      //         onPressed: () => Navigator.pop(context),
+      //         child: const Text(label_cancel),
+      //       ),
+      //     ),
+      //   );
+      // }),
     );
   }
 

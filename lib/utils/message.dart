@@ -103,6 +103,7 @@ const String label_not_attendance = 'waiting...';
 const String label_attended = 'Success';
 
 // attendance
+const String label_attendance = 'Attendance';
 const String msg_attend_success = 'Attend success';
 
 // incurred costs
