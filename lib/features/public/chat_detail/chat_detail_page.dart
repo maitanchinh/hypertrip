@@ -87,7 +87,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             ),
             extendBodyBehindAppBar: true,
             body: BlocBuilder<ChatDetailBloc, ChatDetailState>(
-              builder: (context, state) {
+              builder: (context, chatDetailState) {
                 return SlidingUpPanel(
                   defaultPanelState: PanelState.CLOSED,
                   controller: _panelController,
@@ -119,12 +119,13 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     );
                   },
                   body: ChatList(
+                    userId: 'e6618130-62e9-4053-4047-08db269c26be',
                     isAccepting: isAccepting,
                     tourGroupId: widget.assignGroupResponse.id,
                     onPressedMap: () {
                       context
                           .read<ChatDetailBloc>()
-                          .add(StatusMapEvent(state.isOpenMap));
+                          .add(StatusMapEvent(chatDetailState.isOpenMap));
                       _panelController.open();
                     },
                     groupName: widget.assignGroupResponse.groupName,

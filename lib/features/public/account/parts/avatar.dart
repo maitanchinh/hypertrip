@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
+import 'package:hypertrip/widgets/image/image.dart';
 
 class AvatarProfile extends StatelessWidget {
   final String url;
@@ -23,8 +24,9 @@ class AvatarProfile extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: FadeInImage.assetNetwork(
-                      placeholder: AppAssets.avatar_placeholder_png, image: url, fit: BoxFit.cover,),
+                  // child: FadeInImage.assetNetwork(
+                  //     placeholder: AppAssets.avatar_placeholder_png, image: url, fit: BoxFit.cover,),
+                  child: commonCachedNetworkImage(url, type: 'avatar'),
                 )),
           ),
           Positioned(

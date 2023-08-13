@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hypertrip/domain/models/user/user_profile.dart';
 import 'package:hypertrip/domain/repositories/foursquare_repo.dart';
@@ -12,8 +16,11 @@ import 'package:hypertrip/features/public/account/parts/emergency_bottomsheet.da
 import 'package:hypertrip/features/public/account/parts/information.dart';
 import 'package:hypertrip/features/public/account/parts/privacy_bottomsheet.dart';
 import 'package:hypertrip/features/public/account/parts/setting_item.dart';
+import 'package:hypertrip/features/public/account/parts/share_location_map.dart';
 import 'package:hypertrip/features/public/account/profile_bloc.dart';
 import 'package:hypertrip/features/public/edit_profile/edit_profile_screen.dart';
+import 'package:hypertrip/features/public/permission/cubit.dart';
+import 'package:hypertrip/features/public/permission/state.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_style.dart';
@@ -27,8 +34,9 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../widgets/text/p_text.dart';
 
 class AccountPage extends StatelessWidget {
-  const AccountPage({super.key});
+  AccountPage({super.key});
 
+  StreamSubscription<Position>? _locationSubscription;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -106,24 +114,31 @@ class AccountPage extends StatelessWidget {
                         });
                       },
                     ),
-                    SettingItem(
-                      icon: AppAssets.icons_ic_emergency_svg,
-                      greyColor: AppColors.yellow_2Color.withOpacity(0.2),
-                      iconColor: AppColors.redColor,
-                      content: emergency,
-                      callBack: () {
-                        showCupertinoModalBottomSheet(
-                          // isScrollControlled: true,
-                          context: context,
-                          // useSafeArea: true,
-                          expand: true,
-                          backgroundColor: Colors.transparent,
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                              .collection('location')
+                              .snapshots(),
+                      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        return SettingItem(
+                          icon: AppAssets.icons_ic_emergency_svg,
+                          greyColor: AppColors.yellow_2Color.withOpacity(0.2),
+                          iconColor: AppColors.redColor,
+                          content: emergency,
+                          callBack: () {
+                            showCupertinoModalBottomSheet(
+                              // isScrollControlled: true,
+                              context: context,
+                              // useSafeArea: true,
+                              expand: true,
+                              backgroundColor: Colors.transparent,
 
-                          builder: (BuildContext context) {
-                            return const EmergencyBottomSheet();
+                              builder: (BuildContext context) {
+                                return const EmergencyBottomSheet();
+                              },
+                            );
                           },
                         );
-                      },
+                      }
                     ),
                     60.height,
                     GestureDetector(
@@ -161,7 +176,7 @@ class AccountPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               );

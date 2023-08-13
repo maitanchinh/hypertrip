@@ -109,6 +109,8 @@ class AppAssets {
 
   static const String icons_info_svg = 'assets/images/icons/info.svg';
 
+  static const String icons_location_arrow_solid_svg = 'assets/images/icons/location-arrow-solid.svg';
+
   static const String icons_location_arrow_svg = 'assets/images/icons/location-arrow.svg';
 
   static const String icons_location_crosshairs_svg = 'assets/images/icons/location-crosshairs.svg';

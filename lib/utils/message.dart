@@ -73,7 +73,7 @@ const String gallery = 'Gallery';
 const String uploadPhoto = 'Upload Photo';
 
 //Chat
-const String close = 'Close';
+const String close = 'Closed';
 const String searchHint = 'Search...';
 const String contentChat = 'Conversation';
 const String sendCurrentPosition = 'Share current location';
@@ -124,3 +124,4 @@ const String msg_location_required = 'You need to allow location permission';
 const String sendEmergency = 'Please send us your current location';
 const String send = 'Send';
 const String sendEmergencySuccess = 'Send Success';
+const String stopShareLocation = 'Stop Share Location';

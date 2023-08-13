@@ -70,6 +70,8 @@ class FirebaseMessage {
         return FirebaseMessageType.CheckInAcitvity;
       case 'CustomActivity':
         return FirebaseMessageType.CustomActivity;
+      case 'Emergency':
+        return FirebaseMessageType.Emergency;
       default:
         return FirebaseMessageType.AttendanceActivity;
     }
@@ -85,6 +87,8 @@ class FirebaseMessage {
         return 'CheckInAcitvity';
       case FirebaseMessageType.CustomActivity:
         return 'CustomActivity';
+      case FirebaseMessageType.Emergency:
+        return 'Emergency';
       
       default:
         return 'AttendanceActivity';
@@ -96,18 +100,21 @@ enum FirebaseMessageType {
   AttendanceActivity,
   TourStarted,
   CheckInAcitvity,
-  CustomActivity
+  CustomActivity,
+  Emergency
 }
 
 extension FirebaseMessageTypeExtension on FirebaseMessageType {
   String get image {
     switch (this) {
       case FirebaseMessageType.AttendanceActivity:
-        return AppAssets.icons_ic_attendacnce_png;
+        return AppAssets.icons_attendance_svg;
       case FirebaseMessageType.TourStarted:
-        return AppAssets.icons_ic_start_tour_jpg;
+        return AppAssets.icons_finish_flag_svg;
+      case FirebaseMessageType.CheckInAcitvity:
+        return AppAssets.icons_destination_svg;
       default:
-        return '';
+        return AppAssets.icons_bell_color_svg;
     }
   }
 }

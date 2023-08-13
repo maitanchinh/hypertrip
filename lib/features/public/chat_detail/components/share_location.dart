@@ -1,7 +1,15 @@
 import 'package:chatview/chatview.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hypertrip/theme/color.dart';
-import 'package:hypertrip/utils/app_style.dart';
+import 'package:hypertrip/utils/app_assets.dart';
+import 'package:hypertrip/widgets/button/action_button.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
+import 'package:hypertrip/widgets/text/p_small_text.dart';
+import 'package:hypertrip/widgets/text/p_text.dart';
+import 'package:nb_utils/nb_utils.dart';
+
+import '../../account/parts/share_location_map.dart';
 
 class ShareLocation extends StatelessWidget {
   final Message message;
@@ -19,11 +27,10 @@ class ShareLocation extends StatelessWidget {
       urlParse = message.message; // Phần trước "http"
     }
     return Container(
-      constraints: const BoxConstraints(minHeight: 146, maxHeight: 200),
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
-        color: Colors.black45,
+        color: white,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       child: Column(
@@ -31,35 +38,46 @@ class ShareLocation extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(Icons.telegram, size: 48, color: Colors.blueAccent),
+              ActionButton(
+                  icon: AppAssets.icons_location_arrow_solid_svg,
+                  bgColor: AppColors.primaryColor,
+                  onPressed: () {}),
+              Gap.k16.width,
               SizedBox(
-                width: MediaQuery.of(context).size.width - 159,
-                child: RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: "Live location \n",
-                        style: AppStyle.fontOpenSanBold.copyWith(fontSize: 22)),
-                    TextSpan(
-                        text: textContent,
-                        style: AppStyle.fontOpenSanBold.copyWith(
-                            fontSize: 16, color: AppColors.textColor)),
-                  ]),
-                ),
-              ),
+                  width: context.width() * 0.5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      PText('Live location'),
+                      Gap.k8.height,
+                      PSmallText(textContent)
+                    ],
+                  )),
             ],
           ),
-          MaterialButton(
-            height: 56,
-            color: Colors.grey,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-              side: BorderSide.none,
-            ),
-            onPressed: () {},
-            child: Text('View location',
-                style:
-                    AppStyle.fontOpenSanRegular.copyWith(color: Colors.white)),
-          )
+          StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance.collection('location').snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                return MaterialButton(
+                  elevation: 0,
+                  height: 40,
+                  minWidth: context.width(),
+                  color: AppColors.primaryLightColor,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    side: BorderSide.none,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ShareLocationMap(userId: message.id)));
+                  },
+                  child: PText(
+                    'View location',
+                  ),
+                );
+              })
         ],
       ),
     );
