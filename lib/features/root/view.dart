@@ -33,7 +33,7 @@ class _RootPageState extends State<RootPage> {
     const ScheduleScreen(),
     const ChatPageScreen(),
     const ActivityPage(),
-    const AccountPage(),
+    AccountPage(),
   ];
 
   void onChangeTab(int index) {

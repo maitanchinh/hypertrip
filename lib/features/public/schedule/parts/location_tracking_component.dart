@@ -147,19 +147,7 @@ void _resetChildState() {
                   title: 'Day ${position.dayNo}'),
               position: latLng,
               icon: BitmapDescriptor.fromBytes(canvas),
-              anchor: const Offset(0.5, 1.0),
-              onTap: () {
-                showCupertinoModalBottomSheet(
-                    expand: true,
-                    context: context,
-                    builder: (context) => Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(16))),
-                          height: 300,
-                          child: Text(position.description.toString()),
-                        ));
-              }));
+              anchor: const Offset(0.5, 1.0),));
         });
       }
     });
@@ -378,6 +366,10 @@ void _resetChildState() {
                               child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              if (schedule.imageUrl != null) ClipRRect(borderRadius: BorderRadius.circular(16), child: FadeInImage.assetNetwork(placeholder: AppAssets.placeholder_png, image: schedule.imageUrl!)),
+                              if (schedule.imageUrl != null) Gap.k16.height else SizedBox.shrink(),
+                              PText(schedule.title),
+                              Gap.k16.height,
                               PSmallText(
                                 schedule.description,
                                 color: AppColors.greyColor,

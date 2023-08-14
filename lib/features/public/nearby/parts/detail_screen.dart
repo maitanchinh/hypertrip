@@ -35,6 +35,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final url =
+        'http://maps.google.com/maps?q=${widget.place.geocodes!.main!.latitude},${widget.place.geocodes!.main!.longitude}&iwloc=A';
+    final parsedUrl = Uri.parse(url);
     return Scaffold(
       backgroundColor: AppColors.bgLightColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -46,16 +49,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 color: AppColors.primaryLightColor,
                 borderRadius: BorderRadius.circular(16)),
             child: AppButton(
-              // onTap: () {
-              //   showDialog(
-              //       context: context,
-              //       builder: (BuildContext context) => (MapDialog(
-              //             lat: widget.place.geocodes!.main!.latitude,
-              //             lng: widget.place.geocodes!.main!.longitude,
-              //             placeNearby: widget.place,
-              //           )));
-              //   setState(() {});
-              // },
+              onTap: () {
+                print(parsedUrl);
+                launchUrl(parsedUrl);
+              },
               color: AppColors.primaryColor,
               elevation: 0,
               child: Row(

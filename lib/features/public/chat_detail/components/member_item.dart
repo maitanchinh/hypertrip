@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatview/chatview.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:hypertrip/features/public/account/parts/share_location_map.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/widgets/image/image.dart';
@@ -17,16 +20,17 @@ class MemberItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(data.profilePhoto.toString());
     return Container(
       padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
       child: Row(
         children: [
           Container(
-            width: 56,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), border: Border.all(width: 2, color: AppColors.textGreyColor)),
-              child:
-                  commonCachedNetworkImage(data.profilePhoto, type: 'avatar',radius: 100)),
+              width: 56,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(width: 2, color: AppColors.textGreyColor)),
+              child: commonCachedNetworkImage(data.profilePhoto,
+                  type: 'avatar', radius: 100)),
           // CircleAvatar(
           //   radius: 23,
           //   backgroundColor: Colors.white,
@@ -85,10 +89,35 @@ class MemberItem extends StatelessWidget {
           //   ),
           // ),
           Gap.k16.width,
-          PSmallText(
-            data.name,
-            color: AppColors.textColor,
+          Expanded(
+            child: PSmallText(
+              data.name,
+              color: AppColors.textColor,
+            ),
           ),
+          StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance.collection('location').snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  bool profileExists =
+                      snapshot.data!.docs.any((doc) => doc.id == data.id);
+                  if (profileExists) {
+                    return SvgPicture.asset(
+                      AppAssets.icons_location_arrow_solid_svg,
+                      width: 20,
+                      color: AppColors.primaryColor,
+                    ).onTap((){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ShareLocationMap(userId: data.id)));
+                    });
+                  }
+                  return SizedBox.shrink();
+                } else if (snapshot.hasError) {
+                  return Text("Error: ${snapshot.error}");
+                } else {
+                  return CircularProgressIndicator();
+                }
+              })
         ],
       ),
     );

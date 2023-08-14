@@ -77,6 +77,7 @@ AppBar _buildAppBar(BuildContext context) {
                         child: PSmallText(
                           '$value',
                           color: white,
+                          size: 10,
                         ),
                       ),
                     ),
