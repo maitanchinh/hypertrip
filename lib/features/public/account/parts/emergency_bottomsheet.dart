@@ -29,19 +29,13 @@ class EmergencyBottomSheet extends StatefulWidget {
 }
 
 class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
-  final TextEditingController _textCurrentPassController =
-      TextEditingController();
-  final TextEditingController _textNewPassController = TextEditingController();
-  final TextEditingController _textConfirmPassController =
-      TextEditingController();
   StreamSubscription<Position>? _locationSubscription;
+
+  bool isGetLocation = false;
 
   @override
   void dispose() {
-    _textCurrentPassController.dispose();
-    _textNewPassController.dispose();
-    _textConfirmPassController.dispose();
-
+    _locationSubscription?.cancel();
     super.dispose();
   }
 
@@ -59,20 +53,25 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
   }
 
   void _listenLocation(UserProfile user) {
+    setState(() {
+      isGetLocation = true;
+    });
+
     _locationSubscription =
         Geolocator.getPositionStream().listen((Position position) async {
-      await FirebaseFirestore.instance.collection('location').doc(user.id).set(
+          if(isGetLocation) {
+            await FirebaseFirestore.instance.collection('location').doc(user.id).set(
           {'lat': position.latitude, 'lng': position.longitude},
           SetOptions(merge: true));
+          }
     });
   }
 
   void _stopListeningLocation(UserProfile user) {
-    print(_locationSubscription);
-    _locationSubscription?.cancel();
     setState(() {
-      _locationSubscription = null;
+      isGetLocation = false;
     });
+
     FirebaseFirestore.instance.collection('location').doc(user.id).delete();
   }
 
@@ -207,7 +206,7 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
                             } else if (snapshot.hasError) {
                               return Text("Error: ${snapshot.error}");
                             } else {
-                              return CircularProgressIndicator();
+                              return const CircularProgressIndicator();
                             }
                           })
                     ],
