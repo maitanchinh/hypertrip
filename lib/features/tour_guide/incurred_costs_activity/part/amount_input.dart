@@ -13,19 +13,19 @@ class AmountInput extends StatelessWidget {
     return Center(
       child: IntrinsicWidth(
         child: TextField(
+          maxLength: IncurredCostsActivityState.maxAmountLength,
           controller: BlocProvider.of<IncurredCostsActivityCubit>(context)
               .state
               .amountController,
+          inputFormatters: [CurrencyFormatter.vi],
           style: textStyle,
-          decoration: const InputDecoration(
-            hintText: '0',
+          decoration: InputDecoration(
+            hintText: CurrencyFormatter.vi.format('0'),
             hintStyle: textStyle,
-            suffixIcon: Text(
-              'đ',
-              style: textStyle,
-            ),
-            suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
-            border: UnderlineInputBorder(),
+            counterText: '',
+            suffixIconConstraints:
+                const BoxConstraints(minWidth: 0, minHeight: 0),
+            border: const UnderlineInputBorder(),
           ),
           keyboardType: TextInputType.number,
         ),

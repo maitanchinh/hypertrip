@@ -1,10 +1,8 @@
 import 'package:chatview/chatview.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
-import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/widgets/button/action_button.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:hypertrip/widgets/text/p_small_text.dart';
@@ -75,7 +73,9 @@ class ShareLocation extends StatelessWidget {
                         builder: (context) =>
                             ShareLocationMap(userId: message.id)));
                   },
-                  child: PText('View location',),
+                  child: PText(
+                    'View location',
+                  ),
                 );
               })
         ],

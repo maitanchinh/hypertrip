@@ -2,7 +2,7 @@ name: hypertrip
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: ">=2.19.6 <3.0.0"
 
 dependencies:
   flutter:
@@ -57,7 +57,8 @@ dependencies:
   firebase_database: ^10.2.4
 
   # Image Picker
-  image_picker: ^0.8.6
+  image_picker: ^0.8.9
+  image_cropper: ^4.0.1
 
   flutter_local_notifications: ^14.1.1
 
@@ -69,7 +70,6 @@ dependencies:
   cloud_firestore: ^4.8.2
   firebase_auth: ^4.6.3
 
-
   chatview:
     git:
       url: https://github.com/DokhaiTrinh/flutter_chatview.git
@@ -80,6 +80,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   permission_handler: ^10.4.3
   system_date_time_format: ^0.7.0
+  currency_text_input_formatter: ^2.1.10
 
   # PageView
   smooth_page_indicator: ^1.0.0+2
@@ -110,7 +111,6 @@ assets_gen:
   exclude:
 
 flutter:
-
   uses-material-design: true
 
   assets:

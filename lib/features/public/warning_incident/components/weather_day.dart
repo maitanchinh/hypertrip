@@ -58,12 +58,11 @@ class WeatherDay extends StatelessWidget {
                 )
             ],
           ),
-          if (weatherForecastDay.first.hours.isNotEmpty)
             SizedBox(
               height: 120,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: weatherForecastDay.first.hours.length,
+                itemCount: weatherForecastDay.isNotEmpty && weatherForecastDay.first.hours.isNotEmpty ? weatherForecastDay.first.hours.length : 0,
                 itemBuilder: (context, index) {
                   final weatherHour = weatherForecastDay.first.hours[index];
                   return ItemTempHour(

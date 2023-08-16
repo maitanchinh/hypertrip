@@ -35,8 +35,7 @@ class _NoteState extends State<Note> {
       minLines: 3,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
-        labelText:
-            'Note ($noteLength/${IncurredCostsActivityState.maxNoteLength})',
+        labelText: '($noteLength/${IncurredCostsActivityState.maxNoteLength})',
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

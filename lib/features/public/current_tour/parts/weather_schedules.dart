@@ -11,7 +11,8 @@ class WeatherSchedules extends StatefulWidget {
 
 class _WeatherSchedulesState extends State<WeatherSchedules> {
   bool isExpanded = true;
-  final PageController _pageController = PageController(initialPage: 4);
+  final PageController _pageController = PageController(initialPage: 0);
+  int index = 0;
 
 
   @override
@@ -19,8 +20,8 @@ class _WeatherSchedulesState extends State<WeatherSchedules> {
     return AnimatedContainer(
       height: widget.state.dataWeatherTour.isNotEmpty
           ? isExpanded
-              ? 275
-              : 48
+              ? 461
+              : 230
           : 0,
       duration: const Duration(milliseconds: 300),
       decoration: const BoxDecoration(
@@ -28,6 +29,17 @@ class _WeatherSchedulesState extends State<WeatherSchedules> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
+          10.height,
+          WeatherDay(
+            weatherForecastDay: widget.state.dataWeatherTour[index]!.forecast.forecastDay,
+            color: Colors.white,
+            callback: () {
+              Navigator.of(context).pushNamed(
+                WeatherDetailPage.routeName,
+                arguments: widget.state.dataWeatherTour[index],
+              );
+            },
+          ),
           Flexible(
             child: SizedBox(
               height: isExpanded ? 250 : 48,
@@ -35,6 +47,10 @@ class _WeatherSchedulesState extends State<WeatherSchedules> {
                 controller: _pageController,
                 itemCount: widget.state.dataWeatherTour.length,
                 onPageChanged: (value) {
+                  setState(() {
+                    index = value;
+                  });
+
                   final currentTourCubit = BlocProvider.of<CurrentTourCubit>(context);
                   currentTourCubit.fetchDataWeather(value);
                 },
@@ -80,7 +96,7 @@ class _WeatherSchedulesState extends State<WeatherSchedules> {
                             temp: weatherResponse?.current.tempC.toInt() ?? 0,
                             conditionText: weatherResponse?.current.condition?.text ?? ''),
                       ),
-                      Flexible(child: 25.height),
+                      Flexible(child: 22.height),
                       Flexible(
                         flex: 1,
                         child: ItemWind(
@@ -100,7 +116,7 @@ class _WeatherSchedulesState extends State<WeatherSchedules> {
           SmoothPageIndicator(
             controller: _pageController, // PageController
             count: widget.state.dataWeatherTour.length,
-            effect: const WormEffect(activeDotColor: AppColors.primaryColor), // your preferred effect
+            effect: const WormEffect(activeDotColor: AppColors.primaryColor,dotHeight: 12,dotWidth: 12), // your preferred effect
           )
         ],
       ),

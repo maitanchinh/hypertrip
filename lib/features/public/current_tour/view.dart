@@ -29,7 +29,9 @@ import 'package:hypertrip/features/public/warning_incident/components/address.da
 import 'package:hypertrip/features/public/warning_incident/components/item_wind.dart';
 import 'package:hypertrip/features/public/warning_incident/components/termp.dart';
 import 'package:hypertrip/features/public/warning_incident/components/time_address.dart';
+import 'package:hypertrip/features/public/warning_incident/components/weather_day.dart';
 import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
+import 'package:hypertrip/features/public/weather_detail/weather_detail_page.dart';
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';

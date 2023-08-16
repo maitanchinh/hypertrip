@@ -118,8 +118,8 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
                                   bgColor: AppColors.primaryLightColor,
                                   iconColor: AppColors.primaryColor,
                                   onPressed: () {
-                                    launchUrl(
-                                        Uri.parse(widget.place.website.toString()));
+                                    launchUrl(Uri.parse(
+                                        widget.place.website.toString()));
                                   })
                               : const SizedBox.shrink(),
                           Gap.k8.width,
@@ -189,44 +189,44 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
             ],
           ),
         ),
-              SizedBox(
-                height: 150,
-                width: context.width(),
-                child: PageView.builder(
-                    controller: _controller,
-                    itemCount: widget.place.tips!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: widget.place.tips!.length > 1
-                            ? const EdgeInsets.only(right: 8)
-                            : const EdgeInsets.only(right: 0),
-                        child: Stack(alignment: Alignment.center, children: [
-                          Container(
-                            width: context.width(),
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                                color: white,
-                                borderRadius: BorderRadius.circular(16)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                PSmallText(
-                                  intl.DateFormat('dd/MM/yyyy').format(DateTime.parse(
-                                      widget.place.tips![index].createdAt
-                                          .toString())),
-                                ),
-                                8.height,
-                                PSmallText(
-                                  '${widget.place.tips![index].text}',
-                                  color: AppColors.textColor,
-                                ),
-                              ],
-                            ),
+        SizedBox(
+          height: 150,
+          width: context.width(),
+          child: PageView.builder(
+              controller: _controller,
+              itemCount: widget.place.tips!.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: widget.place.tips!.length > 1
+                      ? const EdgeInsets.only(right: 8)
+                      : const EdgeInsets.only(right: 0),
+                  child: Stack(alignment: Alignment.center, children: [
+                    Container(
+                      width: context.width(),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          color: white,
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PSmallText(
+                            intl.DateFormat('dd/MM/yyyy').format(DateTime.parse(
+                                widget.place.tips![index].createdAt
+                                    .toString())),
                           ),
-                        ]),
-                      );
-                    }),
-              ),
+                          8.height,
+                          PSmallText(
+                            '${widget.place.tips![index].text}',
+                            color: AppColors.textColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+                );
+              }),
+        ),
       ],
     );
   }
