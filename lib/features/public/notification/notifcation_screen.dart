@@ -86,11 +86,12 @@ class NotificationScreen extends StatelessWidget {
                           size: 16,
                         ),
                       ),
+                      itemComparator: (item1, item2) =>
+                          item2.timestamp!.compareTo(item1.timestamp!),
                       itemBuilder: (context, message) {
                         return NotificationItem(
                           item: message,
                           callback: () {
-                            print(message.id);
                             context
                                 .read<NotificationBloc>()
                                 .add(ItemNotificationClick(item: message));

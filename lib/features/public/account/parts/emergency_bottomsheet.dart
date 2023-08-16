@@ -108,7 +108,6 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
           context.read<ProfileBloc>().add(const OnClearPageCommand());
         }
       }, builder: (context, state) {
-        print(state.userProfile.id);
         return LoadableWidget(
           status: state.status,
           errorText: '',
