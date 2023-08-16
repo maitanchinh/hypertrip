@@ -55,10 +55,13 @@ class _PlaceItemState extends State<PlaceItem> {
                       ),
                     ],
                   ).expand(),
-                  SvgPicture.asset(
-                    AppAssets.icons_share_svg,
-                    width: 16,
-                    color: AppColors.primaryColor,
+                  InkWell(
+                    onTap: () => _sendMessageGroupChat(context),
+                    child: SvgPicture.asset(
+                      AppAssets.icons_share_svg,
+                      width: 16,
+                      color: AppColors.primaryColor,
+                    ),
                   )
                 ],
               ).paddingOnly(left: 3),
@@ -113,5 +116,38 @@ class _PlaceItemState extends State<PlaceItem> {
         place: widget.place,
       ).launch(context);
     });
+  }
+
+
+  FutureOr<void> _sendMessageGroupChat(BuildContext context) async {
+    var rootCubit = BlocProvider.of<RootCubit>(context);
+    var rootState = rootCubit.state as RootSuccessState;
+
+    final firestoreRepository = GetIt.I.get<FirestoreRepository>();
+    // final firebaseMessagingManager = GetIt.I.get<FirebaseMessagingManager>();
+
+    final groupId = rootState.group?.id ?? '';
+    final userId = UserRepo.profile?.id ?? '';
+
+    if (widget.place.geocodes == null) return toast("Not found location");
+
+    String message =
+        "http://maps.google.com/maps?q=${widget.place.geocodes?.main?.latitude ?? 0.0},${widget.place.geocodes?.main?.longitude}&iwloc=A";
+
+    final result = await firestoreRepository.saveMessage(
+        userId, MessageType.text, message, DateTime.now(), groupId);
+
+    if (result == null) {
+      toast(currentNotSendMessage);
+    } else {
+      toast(sendSuccess);
+    }
+    // TODO: send noti for member group chat
+
+    // String content = UserRepo.profile?.displayName ?? '';
+    // content += ' đã chia sẻ vị trí hiện tại';
+    // firebaseMessagingManager.sendFCMNotifications(state.deviceTokens, event.groupName, content);
+    //
+    // if (result == null) toast(msg.currentNotSendMessage);
   }
 }

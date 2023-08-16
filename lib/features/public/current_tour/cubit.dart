@@ -92,7 +92,7 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
 
         if(index == -1) index = 0;
 
-        fetchDataWeather(index);
+        fetchDataWeather(0);
       }
     }
   }
