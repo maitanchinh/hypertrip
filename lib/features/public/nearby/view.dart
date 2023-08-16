@@ -1,14 +1,23 @@
+import 'dart:async';
+
+import 'package:chatview/chatview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hypertrip/domain/models/nearby/nearby_place.dart';
+import 'package:hypertrip/domain/repositories/firestore_repository.dart';
+import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/features/public/nearby/cubit.dart';
 import 'package:hypertrip/features/public/nearby/state.dart';
 import 'package:hypertrip/features/public/permission/cubit.dart';
 import 'package:hypertrip/features/public/permission/state.dart';
+import 'package:hypertrip/features/root/cubit.dart';
+import 'package:hypertrip/features/root/state.dart';
 import 'package:hypertrip/generated/resource.dart';
+import 'package:hypertrip/managers/firebase_messaging_manager.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/widgets/app_bar.dart';

@@ -90,7 +90,8 @@ const String errorSystem = 'System error, please contact support!';
 const String notReadFile = 'Error, can\'t read file size';
 const String maxSizeFile = 'The size must not exceed 100MB';
 const String notSendFile = 'Error can\'t send file';
-const String currentNotSendMessage = 'Hiện tại không thể gửi message';
+const String currentNotSendMessage = 'Can\'t send messages at the moment';
+const String sendSuccess = 'Share success';
 
 // Activity
 const String label_activity_title = 'Activity';
