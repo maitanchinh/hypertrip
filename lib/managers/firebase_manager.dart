@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hypertrip/domain/repositories/firestore_repository.dart';
 import 'package:hypertrip/domain/repositories/notification_repo.dart';
+import 'package:hypertrip/features/public/account/parts/emergency_bottomsheet.dart';
 import 'package:hypertrip/firebase_options.dart';
 import 'package:hypertrip/managers/firebase_messaging_manager.dart';
 
@@ -33,4 +34,6 @@ void registerManager() async {
   getIt.registerFactory(() =>
       FirebaseMessagingManager(getIt<NotificationRepo>())..setupFirebaseFCM());
   getIt.registerFactory(() => FirestoreRepository());
+
+  getIt.registerFactory(() => LocationManager());
 }

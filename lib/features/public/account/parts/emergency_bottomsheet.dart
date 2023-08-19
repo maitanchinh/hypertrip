@@ -21,6 +21,42 @@ import '../../../../widgets/text/p_text.dart';
 import '../../permission/cubit.dart';
 import '../../permission/state.dart';
 
+class LocationManager{
+  LocationManager(){
+    _init();
+  }
+  StreamSubscription<Position>? _locationSubscription;
+  bool isGetLocation = false;
+
+
+  void _init() {
+    _listenLocation();
+  }
+
+  void _listenLocation() {
+      _locationSubscription ??= Geolocator.getPositionStream().listen((Position position) async {
+              if (isGetLocation && UserRepo.profile?.id != null) {
+                await Future.delayed(const Duration(milliseconds: 100));
+                await FirebaseFirestore.instance.collection('location').doc(UserRepo.profile?.id).set(
+                    {'lat': position.latitude, 'lng': position.longitude},
+                    SetOptions(merge: true));
+              }
+            });
+  }
+
+  void startListenLocation(){
+    isGetLocation = true;
+  }
+
+  void stopListeningLocation() {
+      isGetLocation = false;
+
+      if(UserRepo.profile?.id != null) {
+        FirebaseFirestore.instance.collection('location').doc(UserRepo.profile?.id).delete();
+      }
+  }
+}
+
 class EmergencyBottomSheet extends StatefulWidget {
   const EmergencyBottomSheet({Key? key}) : super(key: key);
 
@@ -29,13 +65,11 @@ class EmergencyBottomSheet extends StatefulWidget {
 }
 
 class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
-  StreamSubscription<Position>? _locationSubscription;
 
-  bool isGetLocation = false;
+  final locationManager = GetIt.I<LocationManager>();
 
   @override
   void dispose() {
-    _locationSubscription?.cancel();
     super.dispose();
   }
 
@@ -53,26 +87,11 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
   }
 
   void _listenLocation(UserProfile user) {
-    setState(() {
-      isGetLocation = true;
-    });
-
-    _locationSubscription =
-        Geolocator.getPositionStream().listen((Position position) async {
-          if(isGetLocation) {
-            await FirebaseFirestore.instance.collection('location').doc(user.id).set(
-          {'lat': position.latitude, 'lng': position.longitude},
-          SetOptions(merge: true));
-          }
-    });
+    locationManager.startListenLocation();
   }
 
   void _stopListeningLocation(UserProfile user) {
-    setState(() {
-      isGetLocation = false;
-    });
-
-    FirebaseFirestore.instance.collection('location').doc(user.id).delete();
+    locationManager.stopListeningLocation();
   }
 
   Future<void> checkDocumentExists() async {
