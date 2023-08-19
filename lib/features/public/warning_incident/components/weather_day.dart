@@ -24,59 +24,49 @@ class WeatherDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration:
-          BoxDecoration(color: color, borderRadius: const BorderRadius.all(Radius.circular(16))),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const PText(
-                "Today",
-                size: 16,
-              ),
-              if (showAllDay)
-                SizedBox(
-                  width: 100,
-                  child: TextButton(
-                    onPressed: callback,
-                    child: PText(
-                      "Next ${weatherForecastDay.length} Days",
-                      size: 16,
-                      decoration: TextDecoration.underline,
-                      color: AppColors.primaryColor,
-                      // style: AppStyle.fontOpenSanSemiBold.copyWith(
-                      //   fontSize: 16,
-                      //   color: AppColors.primaryColor,
-                      //   decorationStyle: TextDecorationStyle.solid,
-                      //   decoration: TextDecoration.underline,
-                      // ),
-                    ),
-                  ),
-                )
-            ],
-          ),
-            SizedBox(
-              height: 120,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: weatherForecastDay.isNotEmpty && weatherForecastDay.first.hours.isNotEmpty ? weatherForecastDay.first.hours.length : 0,
-                itemBuilder: (context, index) {
-                  final weatherHour = weatherForecastDay.first.hours[index];
-                  return ItemTempHour(
-                      hour: weatherHour.time,
-                      temp: weatherHour.tempC.toInt(),
-                      icon: 'https:${weatherHour.condition?.icon}');
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return 16.width;
-                },
-              ),
-            )
-        ],
-      ),
+    return Column(
+      children: [
+        // const PText(
+        //   "Today",
+        //   size: 16,
+        // ),
+        // if (showAllDay)
+        //   SizedBox(
+        //     width: 100,
+        //     child: TextButton(
+        //       onPressed: callback,
+        //       child: PText(
+        //         "Next ${weatherForecastDay.length} Days",
+        //         size: 16,
+        //         decoration: TextDecoration.underline,
+        //         color: AppColors.primaryColor,
+        //         // style: AppStyle.fontOpenSanSemiBold.copyWith(
+        //         //   fontSize: 16,
+        //         //   color: AppColors.primaryColor,
+        //         //   decorationStyle: TextDecorationStyle.solid,
+        //         //   decoration: TextDecoration.underline,
+        //         // ),
+        //       ),
+        //     ),
+        //   ),
+          SizedBox(
+            height: 90,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: weatherForecastDay.isNotEmpty && weatherForecastDay.first.hours.isNotEmpty ? weatherForecastDay.first.hours.length : 0,
+              itemBuilder: (context, index) {
+                final weatherHour = weatherForecastDay.first.hours[index];
+                return ItemTempHour(
+                    hour: weatherHour.time,
+                    temp: weatherHour.tempC.toInt(),
+                    icon: 'https:${weatherHour.condition?.icon}');
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return Gap.k8.width;
+              },
+            ),
+          )
+      ],
     );
   }
 }

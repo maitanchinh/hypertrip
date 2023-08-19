@@ -69,16 +69,16 @@ class _ShareLocationMapState extends State<ShareLocationMap> {
                   },
                 );
               }
-              return Center(
+              return const Center(
                 child: PText('Users no longer share their location directly'),
               );
             }
             if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           }),
     );
   }

@@ -60,7 +60,15 @@ class _FormState extends State<Form> {
         if (state is LoginByPhoneSuccessState) {
           Navigator.of(context).pushNamedAndRemoveUntil(
               RootPage.routeName, (route) => false);
-        } else if (state is LoginByPhoneFailedState) {}
+        } else if (state is LoginByPhoneFailedState) {
+          showCupertinoModalPopup(context: context, builder: (context) => CupertinoAlertDialog(
+            title: const Text(msg_login_failed_title),
+            content: const Text(msg_login_failed_content),
+            actions: [
+              CupertinoDialogAction(child: const Text('OK'),onPressed: () => Navigator.of(context).pop(),)
+            ],
+          ));
+        }
       },
       builder: (context, state) {
         return Column(
@@ -83,16 +91,16 @@ class _FormState extends State<Form> {
               onPressed: _login,
               child: const Text('Login'),
             ),
-            TextButton(
-              onPressed: () {},
-              child: const Text(
-                'Forgot password?',
-                style: TextStyle(
-                  color: AppColors.textGreyColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () {},
+            //   child: const Text(
+            //     'Forgot password?',
+            //     style: TextStyle(
+            //       color: AppColors.textGreyColor,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
             const SizedBox(height: 70),
           ],
         );

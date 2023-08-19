@@ -15,7 +15,7 @@ class Information extends StatelessWidget {
         text: TextSpan(children: [
           TextSpan(
             text: "$count\n",
-            style: AppStyle.fontOpenSanBold.copyWith(fontSize: 20, color: AppColors.textColor),
+            style: AppStyle.fontOpenSanBold.copyWith(fontSize: 40, color: AppColors.textColor),
           ),
           TextSpan(
             text: status,

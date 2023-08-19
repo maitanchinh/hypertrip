@@ -75,19 +75,19 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
     FirebaseFirestore.instance.collection('location').doc(user.id).delete();
   }
 
-  Future<void> checkDocumentExists() async {
-    DocumentReference docRef = FirebaseFirestore.instance
-        .collection('yourCollection')
-        .doc('yourDocumentId');
+  // Future<void> checkDocumentExists() async {
+  //   DocumentReference docRef = FirebaseFirestore.instance
+  //       .collection('yourCollection')
+  //       .doc('yourDocumentId');
 
-    DocumentSnapshot docSnapshot = await docRef.get();
+  //   DocumentSnapshot docSnapshot = await docRef.get();
 
-    if (docSnapshot.exists) {
-      print('Document exists');
-    } else {
-      print('Document does not exist');
-    }
-  }
+  //   if (docSnapshot.exists) {
+  //     print('Document exists');
+  //   } else {
+  //     print('Document does not exist');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

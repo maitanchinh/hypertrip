@@ -35,6 +35,7 @@ import 'package:hypertrip/features/public/weather_detail/weather_detail_page.dar
 import 'package:hypertrip/generated/resource.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/theme/theme.dart';
+import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_shared.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/message.dart';
@@ -126,7 +127,7 @@ class CurrentTourPage extends StatelessWidget {
                     children: [
                       Gap.kSection.height,
                       Partner(state: state),
-                      Gap.k8.height,
+                      Gap.k16.height,
                       // TrackingSchedule(state: state)
                     ],
                   ),
@@ -139,7 +140,16 @@ class CurrentTourPage extends StatelessWidget {
                     child: Builder(
                         builder: (context) => TrackingSchedule(state: state)),
                   ),
-                )
+                ),
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      Gap.k16.height,
+                      WeatherSchedules(state: state),
+                      // TrackingSchedule(state: state)
+                    ],
+                  ),
+                ),
               ],
             ),
           );

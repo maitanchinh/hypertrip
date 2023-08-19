@@ -13,7 +13,7 @@ class Termp extends StatelessWidget {
     return Column(
       children: [
         Text('$temp°C',
-            style: AppStyle.fontOpenSanSemiBold.copyWith(fontSize: 64, color: AppColors.textColor)),
+            style: AppStyle.fontOpenSanSemiBold.copyWith(fontSize: 40, color: AppColors.textColor)),
         Text(conditionText,
             style: AppStyle.fontOpenSanRegular.copyWith(fontSize: 14, color: AppColors.textColor)),
       ],

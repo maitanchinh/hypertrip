@@ -52,7 +52,13 @@ class _FormState extends State<Form> {
               (route) => false); // remove all previous routes
           return;
         } else if (state is LoginByEmailFailedState) {
-          //todo: show error
+         showCupertinoModalPopup(context: context, builder: (context) => CupertinoAlertDialog(
+            title: const Text(msg_login_failed_title),
+            content: const Text(msg_login_failed_content),
+            actions: [
+              CupertinoDialogAction(child: const Text('OK'),onPressed: () => Navigator.of(context).pop(),)
+            ],
+          ));
         }
       },
       builder: (context, state) {
@@ -73,16 +79,16 @@ class _FormState extends State<Form> {
               keyboardType: TextInputType.text,
             ),
             ElevatedButton(onPressed: _login, child: const Text('Login')),
-            TextButton(
-              onPressed: () {},
-              child: const Text(
-                'Forgot password?',
-                style: TextStyle(
-                  color: AppColors.textGreyColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () {},
+            //   child: const Text(
+            //     'Forgot password?',
+            //     style: TextStyle(
+            //       color: AppColors.textGreyColor,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
             const SizedBox(height: 70),
           ],
         );
