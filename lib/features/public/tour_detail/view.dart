@@ -100,9 +100,13 @@ class TourDetailPage extends StatelessWidget {
                       Gap.kSection.height,
                       _buildCarousel(state.tour),
                       Gap.kSection.height,
-                      const PText(label_schedule),
-                      Gap.k8.height,
-                      Schedule(state: state)
+                      state.tour.schedules!.isNotEmpty ? Column(
+                        children: [
+                          const PText(label_schedule),
+                          Gap.k8.height,
+                          Schedule(state: state),
+                        ],
+                      ): const SizedBox.shrink()
                     ],
                   ),
                 ),

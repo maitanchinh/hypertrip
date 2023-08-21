@@ -94,19 +94,19 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
     locationManager.stopListeningLocation();
   }
 
-  Future<void> checkDocumentExists() async {
-    DocumentReference docRef = FirebaseFirestore.instance
-        .collection('yourCollection')
-        .doc('yourDocumentId');
+  // Future<void> checkDocumentExists() async {
+  //   DocumentReference docRef = FirebaseFirestore.instance
+  //       .collection('yourCollection')
+  //       .doc('yourDocumentId');
 
-    DocumentSnapshot docSnapshot = await docRef.get();
+  //   DocumentSnapshot docSnapshot = await docRef.get();
 
-    if (docSnapshot.exists) {
-      print('Document exists');
-    } else {
-      print('Document does not exist');
-    }
-  }
+  //   if (docSnapshot.exists) {
+  //     print('Document exists');
+  //   } else {
+  //     print('Document does not exist');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +123,6 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
           context.read<ProfileBloc>().add(const OnClearPageCommand());
         }
       }, builder: (context, state) {
-        print(state.userProfile.id);
         return LoadableWidget(
           status: state.status,
           errorText: '',

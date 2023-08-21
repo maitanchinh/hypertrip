@@ -176,10 +176,25 @@ class _AttendanceActivityState extends State<AttendanceActivity> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        _saved = true;
-                        Navigator.pop(context);
-                        _attendanceActivityCubit!
-                            .saveAttendance(title: _titleController.text);
+                        if (_titleController.text.isNotEmpty) {
+                          _saved = true;
+                          Navigator.pop(context);
+                          _attendanceActivityCubit!
+                              .saveAttendance(title: _titleController.text);
+                        } else {
+                          Fluttertoast.showToast(
+                            msg: "Title is required",
+                            toastLength: Toast
+                                .LENGTH_SHORT, 
+                            gravity: ToastGravity
+                                .BOTTOM, 
+                            timeInSecForIosWeb:
+                                1,
+                            backgroundColor:
+                                Colors.grey, 
+                            textColor: Colors.white,
+                          );
+                        }
                       },
                       child: const Text('Save'),
                     ),

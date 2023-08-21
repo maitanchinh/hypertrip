@@ -26,7 +26,7 @@ class UserRepo {
       await setValue(AppConstant.TOKEN_KEY, token);
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
-        throw Exception(msg_login_failed);
+        throw Exception(msg_login_failed_title);
       }
 
       throw Exception(msg_server_error);
@@ -99,4 +99,6 @@ class UserRepo {
       return null;
     }
   }
+
+  
 }

@@ -21,6 +21,8 @@ import 'package:hypertrip/features/public/account/profile_bloc.dart';
 import 'package:hypertrip/features/public/edit_profile/edit_profile_screen.dart';
 import 'package:hypertrip/features/public/permission/cubit.dart';
 import 'package:hypertrip/features/public/permission/state.dart';
+import 'package:hypertrip/features/tour_guide/history/view.dart';
+import 'package:hypertrip/features/traveler/history/view.dart';
 import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_style.dart';
@@ -72,17 +74,23 @@ class AccountPage extends StatelessWidget {
                         color: AppColors.greyColor,
                       ),
                     ),
-                    30.height,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Information(count: state.tourCount, status: 'Joined Tour'),
-                        ],
-                      ),
-                    ),
-                    30.height,
+                    Gap.kSection.height,
+                    state.tourCount > 0 ? Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Information(count: state.tourCount, status: 'Joined Tour'),
+                            ],
+                          ),
+                        ).onTap((){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => state.userProfile.role == 'Traveler' ? TravelerHistory(travelerId: state.userProfile.id!) : TourGuideHistory(tourGuideId: state.userProfile.id!)));
+                        }),
+                        Gap.kSection.height,
+                      ],
+                    ) : const SizedBox.shrink(),
                     SettingItem(
                       icon: AppAssets.icons_ic_setting_svg,
                       greyColor: AppColors.primaryColor.withOpacity(0.2),
@@ -120,8 +128,8 @@ class AccountPage extends StatelessWidget {
                               .snapshots(),
                       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         return SettingItem(
-                          icon: AppAssets.icons_ic_emergency_svg,
-                          greyColor: AppColors.yellow_2Color.withOpacity(0.2),
+                          icon: AppAssets.icons_siren_on_svg,
+                          greyColor: AppColors.redColor.withOpacity(0.2),
                           iconColor: AppColors.redColor,
                           content: emergency,
                           callBack: () {

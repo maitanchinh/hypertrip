@@ -92,7 +92,6 @@ class NotificationScreen extends StatelessWidget {
                         return NotificationItem(
                           item: message,
                           callback: () {
-                            print(message.id);
                             context
                                 .read<NotificationBloc>()
                                 .add(ItemNotificationClick(item: message));

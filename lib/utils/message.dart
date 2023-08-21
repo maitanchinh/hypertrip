@@ -32,7 +32,8 @@ const String msg_alert_password_empty_content =
 const String msg_server_error = 'Server error';
 const String msg_login_token_invalid = 'Token is invalid';
 const String msg_login_bad_request = 'Login by Phone or Email';
-const String msg_login_failed = 'Login failed';
+const String msg_login_failed_title = 'Login failed';
+const String msg_login_failed_content = 'Username or password is wrong, please check again';
 
 /// exception
 const String msg_tour_group_not_found = "You haven't joined any of our tours";
