@@ -21,12 +21,15 @@ import '../../../../widgets/text/p_text.dart';
 import '../../permission/cubit.dart';
 import '../../permission/state.dart';
 
-class LocationManager{
-  LocationManager(){
+bool isGetLocation = false;
+
+class LocationManager {
+  LocationManager() {
     _init();
   }
+
   StreamSubscription<Position>? _locationSubscription;
-  bool isGetLocation = false;
+
 
 
   void _init() {
@@ -34,26 +37,42 @@ class LocationManager{
   }
 
   void _listenLocation() {
-      _locationSubscription ??= Geolocator.getPositionStream().listen((Position position) async {
-              if (isGetLocation && UserRepo.profile?.id != null) {
-                await Future.delayed(const Duration(milliseconds: 100));
-                await FirebaseFirestore.instance.collection('location').doc(UserRepo.profile?.id).set(
-                    {'lat': position.latitude, 'lng': position.longitude},
-                    SetOptions(merge: true));
-              }
-            });
+    _locationSubscription ??= Geolocator.getPositionStream().listen((Position position) async {
+      if (isGetLocation && UserRepo.profile?.id != null) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        await FirebaseFirestore.instance
+            .collection('location')
+            .doc(UserRepo.profile!.id!)
+            .set({'lat': position.latitude, 'lng': position.longitude}, SetOptions(merge: true));
+      }
+    });
   }
 
-  void startListenLocation(){
-    isGetLocation = true;
+  void startListenLocation() {
+    updateLocation(true);
+    _listenLocation(); // Start listening to location updates
   }
 
   void stopListeningLocation() {
-      isGetLocation = false;
+    updateLocation(false);
+    _locationSubscription?.cancel(); // Stop listening to location updates
 
-      if(UserRepo.profile?.id != null) {
-        FirebaseFirestore.instance.collection('location').doc(UserRepo.profile?.id).delete();
-      }
+    if (UserRepo.profile?.id != null) {
+      FirebaseFirestore.instance.collection('location').doc(UserRepo.profile!.id!).delete();
+    }
+  }
+
+  // Function to update the isGetLocation variable and notify listeners
+  void updateLocation(bool newLocation) {
+    isGetLocation = newLocation;
+    _locationStreamController.add(isGetLocation);
+  }
+
+  final StreamController<bool> _locationStreamController = StreamController<bool>();
+  Stream<bool> get locationStream => _locationStreamController.stream;
+
+  void dispose() {
+    _locationStreamController.close();
   }
 }
 
@@ -65,7 +84,6 @@ class EmergencyBottomSheet extends StatefulWidget {
 }
 
 class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
-
   final locationManager = GetIt.I<LocationManager>();
 
   @override
@@ -73,11 +91,25 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
     super.dispose();
   }
 
+
+  bool isSharing = false;
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      isSharing = isGetLocation;
+    });
+    locationManager.locationStream.listen((value) {
+      setState(() {
+        isSharing = value;
+      });
+    });
+  }
+
   _getLocation(BuildContext context, UserProfile user) async {
     try {
       final cubit = BlocProvider.of<CurrentLocationCubit>(context);
-      Position currentLocation =
-          (cubit.state as LoadCurrentLocationSuccessState).location;
+      Position currentLocation = (cubit.state as LoadCurrentLocationSuccessState).location;
       await FirebaseFirestore.instance.collection('location').doc(user.id).set(
           {'lat': currentLocation.latitude, 'lng': currentLocation.longitude},
           SetOptions(merge: true));
@@ -94,31 +126,16 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
     locationManager.stopListeningLocation();
   }
 
-  // Future<void> checkDocumentExists() async {
-  //   DocumentReference docRef = FirebaseFirestore.instance
-  //       .collection('yourCollection')
-  //       .doc('yourDocumentId');
-
-  //   DocumentSnapshot docSnapshot = await docRef.get();
-
-  //   if (docSnapshot.exists) {
-  //     print('Document exists');
-  //   } else {
-  //     print('Document does not exist');
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     var rootCubit = BlocProvider.of<RootCubit>(context);
     var rootState = rootCubit.state as RootSuccessState;
     print("rootState ${rootState.group?.id ?? ''}");
     return BlocProvider.value(
-      value: ProfileBloc(GetIt.I.get<UserRepo>(), GetIt.I.get<FoursquareRepo>(),
-          GetIt.I.get<GroupRepo>())
+      value: ProfileBloc(
+          GetIt.I.get<UserRepo>(), GetIt.I.get<FoursquareRepo>(), GetIt.I.get<GroupRepo>())
         ..add(const FetchProfile()),
-      child:
-          BlocConsumer<ProfileBloc, ProfileState>(listener: (context, state) {
+      child: BlocConsumer<ProfileBloc, ProfileState>(listener: (context, state) {
         if (state.pageCommand != null) {
           context.read<ProfileBloc>().add(const OnClearPageCommand());
         }
@@ -147,8 +164,7 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
                       const PText(emergency),
                       40.height,
                       GestureDetector(
-                        onTap: () =>
-                            context.read<ProfileBloc>().add(const OnOpenMap()),
+                        onTap: () => context.read<ProfileBloc>().add(const OnOpenMap()),
                         child: const PText(
                           sendEmergency,
                           size: 16,
@@ -156,77 +172,52 @@ class _PrivacyBottomSheetState extends State<EmergencyBottomSheet> {
                         ),
                       ),
                       60.height,
-                      StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('location')
-                              .snapshots(),
-                          builder:
-                              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (snapshot.hasData) {
-                              bool profileExists = snapshot.data!.docs
-                                  .any((doc) => doc.id == state.userProfile.id);
-
-                              return !profileExists
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        context.read<ProfileBloc>().add(
-                                            OnSubmitSendEmergency(
-                                                groupId:
-                                                    rootState.group?.id ?? ''));
-                                        _getLocation(
-                                            context, state.userProfile);
-                                        _listenLocation(state.userProfile);
-                                      },
-                                      child: Container(
-                                        height: 56,
-                                        // width: 136,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 100),
-                                        decoration: BoxDecoration(
-                                            color: AppColors.primaryColor
-                                                .withOpacity(0.2),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(16))),
-                                        child: const Center(
-                                          child: PText(
-                                            send,
-                                            color: AppColors.primaryColor,
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ).paddingSymmetric(horizontal: 16)
-                                  : GestureDetector(
-                                      onTap: () {
-                                        _stopListeningLocation(
-                                            state.userProfile);
-                                      },
-                                      child: Container(
-                                        height: 56,
-                                        // width: 136,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 100),
-                                        decoration: BoxDecoration(
-                                            color: redColor.withOpacity(0.2),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(16))),
-                                        child: const Center(
-                                          child: PText(
-                                            stopShareLocation,
-                                            color: redColor,
-                                            size: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ).paddingSymmetric(horizontal: 16);
-                            } else if (snapshot.hasError) {
-                              return Text("Error: ${snapshot.error}");
-                            } else {
-                              return const CircularProgressIndicator();
-                            }
-                          })
+                      !isSharing
+                          ? GestureDetector(
+                        onTap: () {
+                          context.read<ProfileBloc>().add(OnSubmitSendEmergency(
+                              groupId: rootState.group?.id ?? ''));
+                          _getLocation(context, state.userProfile);
+                          _listenLocation(state.userProfile);
+                        },
+                        child: Container(
+                          height: 56,
+                          // width: 136,
+                          padding: const EdgeInsets.symmetric(horizontal: 100),
+                          decoration: BoxDecoration(
+                              color: AppColors.primaryColor.withOpacity(0.2),
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(16))),
+                          child: const Center(
+                            child: PText(
+                              send,
+                              color: AppColors.primaryColor,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                      ).paddingSymmetric(horizontal: 16)
+                          : GestureDetector(
+                        onTap: () {
+                          _stopListeningLocation(state.userProfile);
+                        },
+                        child: Container(
+                          height: 56,
+                          // width: 136,
+                          padding: const EdgeInsets.symmetric(horizontal: 100),
+                          decoration: BoxDecoration(
+                              color: redColor.withOpacity(0.2),
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(16))),
+                          child: const Center(
+                            child: PText(
+                              stopShareLocation,
+                              color: redColor,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                      ).paddingSymmetric(horizontal: 16)
                     ],
                   )),
             ),
