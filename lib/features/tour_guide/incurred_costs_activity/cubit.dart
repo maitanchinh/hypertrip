@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hypertrip/domain/repositories/activity_repo.dart';
+import 'package:hypertrip/exceptions/request_exception.dart';
 import 'package:hypertrip/features/root/cubit.dart';
 import 'package:hypertrip/features/root/state.dart';
 import 'package:hypertrip/features/tour_guide/activity/cubit.dart';
 import 'package:hypertrip/features/tour_guide/incurred_costs_activity/state.dart';
+import 'package:hypertrip/widgets/popup/p_error_popup.dart';
 
 class IncurredCostsActivityCubit extends Cubit<IncurredCostsActivityState> {
   final ActivityRepo _activityRepo = ActivityRepo();
@@ -13,19 +15,27 @@ class IncurredCostsActivityCubit extends Cubit<IncurredCostsActivityState> {
   IncurredCostsActivityCubit(this.context)
       : super(IncurredCostsActivityState.initial());
 
-  void submit() {
+  Future<bool> submit() async {
     try {
       final rootState = context.read<RootCubit>().state as RootSuccessState;
       final activityState = context.read<ActivityCubit>().state;
 
-      _activityRepo.createNewIncurredCostsActivity(
+      await _activityRepo.createNewIncurredCostsActivity(
         tourGroupId: rootState.group!.id!,
-        imagePaths: state.imagePaths,
+        imagePath: state.imagePaths[0],
         amount: state.amountFormatter.getUnformattedValue().toInt(),
-        dayNo: activityState.selectedDay,
+        dayNo: activityState.selectedDay + 1,
         note: state.noteController.text,
       );
-    } catch (e) {}
+
+      return true;
+    } on RequestException catch (e) {
+      showErrorPopup(context, content: e.message);
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+
+    return false;
   }
 
   // void reset() {}

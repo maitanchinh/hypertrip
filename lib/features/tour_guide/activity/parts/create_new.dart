@@ -74,8 +74,7 @@ void _action(BuildContext context, {required ActivityType type}) {
   if (type == ActivityType.All) return;
   if (type == ActivityType.Attendance) return _onCreateAttendance(context);
   if (type == ActivityType.CheckIn) return _onCreateCheckIn(context);
-  if (type == ActivityType.IncurredCosts)
-    return _onCreateIncurredCosts(context);
+  if (type == ActivityType.IncurredCost) return _onCreateIncurredCosts(context);
 }
 
 void _onCreateAttendance(BuildContext context) {

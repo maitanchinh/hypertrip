@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/activity/activity.dart';
+import 'package:hypertrip/domain/models/attachment/upload_attachment_response.dart';
+import 'package:hypertrip/domain/repositories/attachment_repo.dart';
 import 'package:hypertrip/exceptions/request_exception.dart';
 import 'package:hypertrip/utils/currency_formatter.dart';
 import 'package:hypertrip/utils/get_it.dart';
@@ -8,6 +11,7 @@ import 'package:hypertrip/utils/message.dart';
 
 class ActivityRepo {
   final Dio apiClient = getIt.get<Dio>();
+  final AttachmentRepo _attachmentRepo = getIt.get<AttachmentRepo>();
 
   ActivityRepo();
 
@@ -84,20 +88,30 @@ class ActivityRepo {
   //#region IncurredCostsActivity
   Future<String> createNewIncurredCostsActivity({
     required String tourGroupId,
-    required List<String> imagePaths,
+    required String? imagePath,
     required int amount,
     required int dayNo,
     required String note,
   }) async {
     try {
-      //todo upload images
+      /// Upload images
+      UploadAttachmentResponse? uploadedImage;
+      if (imagePath != null && imagePath.isNotEmpty) {
+        uploadedImage = await _attachmentRepo.postAttachment(imagePath);
+
+        if (uploadedImage == null) {
+          throw RequestException(msg_upload_image_failed);
+        }
+      }
 
       var res = await apiClient.post('/activities', data: {
-        'type': ActivityType.IncurredCosts.name,
+        'type': ActivityType.IncurredCost.name,
         'incurredCostActivity': {
           'tourGroupId': tourGroupId,
           'cost': amount,
           'currency': CurrencyName.vi,
+          // ignore: dead_code
+          'imageId': uploadedImage?.id,
           'title': '',
           'note': note,
           'dayNo': dayNo,
@@ -109,6 +123,7 @@ class ActivityRepo {
       if (e.response != null && e.response!.statusCode == 404) {
         throw RequestException(msg_tour_group_not_found);
       }
+      debugPrint(e.toString());
       throw RequestException(msg_server_error);
     }
   }
