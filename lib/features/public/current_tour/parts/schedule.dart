@@ -52,8 +52,8 @@ class _TrackingScheduleState extends State<TrackingSchedule> with TickerProvider
                     1,
                 child: Column(
                   children: [
-                    WeatherSchedules(state: widget.state),
-                    // Day tabs
+                    // WeatherSchedules(state: widget.state),
+                    // // Day tabs
                     TabBar(
                       isScrollable: true,
                       labelColor: AppColors.primaryColor,
