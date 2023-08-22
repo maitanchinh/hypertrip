@@ -22,12 +22,14 @@ class _ImageCollectionState extends State<ImageCollection> {
           BorderSide(color: AppColors.cardBorderColor),
         ),
       ),
-      child: const Gallery(
-        allowAdd: true,
-        allowRemove: true,
-        limit: 1,
-        // onImagePathsChanged: (imagePaths) {},
-        imagePaths: [],
+      child: Column(
+        children: [
+          ImageVerticalList(
+            imagePaths: [],
+            limit: 5,
+            onChanged: (imagePaths) => cubit.setImagePaths(imagePaths),
+          ),
+        ],
       ),
       // SizedBox(
       //   width: double.infinity,

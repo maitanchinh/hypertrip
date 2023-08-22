@@ -10,17 +10,17 @@ class AmountInput extends StatelessWidget {
     const textStyle =
         TextStyle(color: color, fontSize: 30, fontWeight: FontWeight.w500);
 
+    final state = BlocProvider.of<IncurredCostsActivityCubit>(context).state;
+
     return Center(
       child: IntrinsicWidth(
         child: TextField(
           maxLength: IncurredCostsActivityState.maxAmountLength,
-          controller: BlocProvider.of<IncurredCostsActivityCubit>(context)
-              .state
-              .amountController,
-          inputFormatters: [CurrencyFormatter.vi],
+          controller: state.amountController,
+          inputFormatters: [state.amountFormatter],
           style: textStyle,
           decoration: InputDecoration(
-            hintText: CurrencyFormatter.vi.format('0'),
+            hintText: state.amountFormatter.format('0'),
             hintStyle: textStyle,
             counterText: '',
             suffixIconConstraints:
