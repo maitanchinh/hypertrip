@@ -31,18 +31,58 @@ class _LocationTrackingState extends State<LocationTracking> {
   // String googleApiKey = 'AIzaSyCrnkFUjP4YhaT9OPfRyP_3trttqauSHlY';
   String googleApiKey = '';
   Key _childKey = UniqueKey();
+  late Slot currentPlaceOnSchedule = widget.slots.first;
+    
   @override
   void initState() {
     // _latlng = _getCurrentLocation();
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
     _position = (cubit.state as LoadCurrentLocationSuccessState).location;
+    _currentPlaceOnSchedule();
     setCustomMarkerIcon();
     getPolypoints();
     getDirection();
     super.initState();
   }
 
-void _resetChildState() {
+  void _currentPlaceOnSchedule(){
+    final currentTourCubit = BlocProvider.of<CurrentTourCubit>(context);
+
+    var currentScheduleId =
+        (currentTourCubit.state as LoadCurrentTourSuccessState)
+            .group
+            .currentScheduleId;
+    var slots =
+        (currentTourCubit.state as LoadCurrentTourSuccessState).schedule;
+    Slot? desiredSlot =
+        slots.firstWhereOrNull((slot) => slot.id == currentScheduleId);
+    if (desiredSlot != null) {
+      if (desiredSlot.longitude == null || desiredSlot.latitude == null) {
+        int desiredSequence = desiredSlot.sequence!;
+        Slot? nearestSlot = slots.reversed.firstWhereOrNull((slot) =>
+            slot.sequence! < desiredSequence &&
+            slot.longitude != null &&
+            slot.latitude != null);
+
+        if (nearestSlot != null) {
+          currentPlaceOnSchedule = nearestSlot;
+          List<Slot> tourSubList = widget.slots
+              .toList()
+              .sublist(1, widget.slots.toList().length - 1);
+              _currentLocationIndex = tourSubList.indexWhere((element) => element.id == nearestSlot.id) + 1;
+          print('Nearest point : ${currentPlaceOnSchedule.sequence}');
+        } else {
+          print('No previous point with valid longitude and latitude found');
+        }
+      } else {
+        currentPlaceOnSchedule = desiredSlot;
+      }
+    } else {
+      print('Slot with ID $currentScheduleId not found');
+    }
+  }
+
+  void _resetChildState() {
     setState(() {
       _childKey = UniqueKey(); // Update the key to trigger a rebuild
     });
@@ -87,6 +127,17 @@ void _resetChildState() {
     _mapController.animateCamera(
       CameraUpdate.newLatLngZoom(
         LatLng(_position.latitude, _position.longitude),
+        12,
+      ),
+    );
+  }
+
+  void _moveCameraToCurrentSchedule() {
+    getPolypoints();
+    // _resetChildState();
+    _mapController.animateCamera(
+      CameraUpdate.newLatLngZoom(
+        LatLng(currentPlaceOnSchedule.latitude!, currentPlaceOnSchedule.longitude!),
         12,
       ),
     );
@@ -141,13 +192,13 @@ void _resetChildState() {
         setState(() {
           LatLng latLng = LatLng(lat.toDouble(), lng.toDouble());
           _markers.add(Marker(
-              markerId: MarkerId('tour_location: ${position.id}'),
-              infoWindow: InfoWindow(
-                  snippet: position.description,
-                  title: 'Day ${position.dayNo}'),
-              position: latLng,
-              icon: BitmapDescriptor.fromBytes(canvas),
-              anchor: const Offset(0.5, 1.0),));
+            markerId: MarkerId('tour_location: ${position.id}'),
+            infoWindow: InfoWindow(
+                snippet: position.description, title: 'Day ${position.dayNo}'),
+            position: latLng,
+            icon: BitmapDescriptor.fromBytes(canvas),
+            anchor: const Offset(0.5, 1.0),
+          ));
         });
       }
     });
@@ -236,19 +287,25 @@ void _resetChildState() {
     //       } else {
     //         final latlng = snapshot.data!;
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
+    final currentTourCubit = BlocProvider.of<CurrentTourCubit>(context);
     // final nearbyPlaceSuggestionCubit = BlocProvider.of<NearbyPlaceSuggestionCubit>(context);
     int indexOfSchedule = _currentLocationIndex < 0
         ? _currentLocationIndex + 1
         : _currentLocationIndex;
     Slot schedule = widget.slots[indexOfSchedule];
-    return _buildePage(cubit, context, schedule, _currentLocationIndex);
+    return _buildePage(
+        cubit, currentTourCubit, context, schedule, _currentLocationIndex);
     //   }
     // });
   }
 
-  Scaffold _buildePage(CurrentLocationCubit cubit, BuildContext context,
-      Slot schedule, int index) {
-
+  Scaffold _buildePage(
+      CurrentLocationCubit cubit,
+      CurrentTourCubit currentTourCubit,
+      BuildContext context,
+      Slot schedule,
+      int index) {
+    
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: SearchBar(
@@ -286,6 +343,16 @@ void _resetChildState() {
               ),
             ),
             FloatingActionButton.small(
+              onPressed: _moveCameraToCurrentSchedule,
+              // onPressed: () {},
+              backgroundColor: AppColors.primaryColor,
+              child: SvgPicture.asset(
+                AppAssets.icons_map_pin_svg,
+                width: 18,
+                color: white,
+              ),
+            ),
+            FloatingActionButton.small(
               onPressed: _moveToPreviousLocation,
               backgroundColor: AppColors.primaryColor,
               child: SvgPicture.asset(
@@ -306,13 +373,8 @@ void _resetChildState() {
             child: GoogleMap(
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                        (cubit.state as LoadCurrentLocationSuccessState)
-                            .location
-                            .latitude,
-                        (cubit.state as LoadCurrentLocationSuccessState)
-                            .location
-                            .longitude),
+                    target: LatLng(currentPlaceOnSchedule.latitude!,
+                        currentPlaceOnSchedule.longitude!),
                     zoom: 12.0),
                 polylines:
                     // route.routes,
@@ -366,12 +428,21 @@ void _resetChildState() {
                               child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (schedule.imageUrl != null) ClipRRect(borderRadius: BorderRadius.circular(16), child: FadeInImage.assetNetwork(placeholder: AppAssets.placeholder_png, image: schedule.imageUrl!)),
-                              if (schedule.imageUrl != null) Gap.k16.height else SizedBox.shrink(),
-                              PText(schedule.title),
+                              if (currentPlaceOnSchedule.imageUrl != null)
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: FadeInImage.assetNetwork(
+                                        placeholder: AppAssets.placeholder_png,
+                                        image:
+                                            currentPlaceOnSchedule.imageUrl!)),
+                              if (currentPlaceOnSchedule.imageUrl != null)
+                                Gap.k16.height
+                              else
+                                const SizedBox.shrink(),
+                              PText(currentPlaceOnSchedule.title),
                               Gap.k16.height,
                               PSmallText(
-                                schedule.description,
+                                currentPlaceOnSchedule.description,
                                 color: AppColors.greyColor,
                               ),
                               Gap.k16.height,
@@ -392,23 +463,28 @@ void _resetChildState() {
                                             color: AppColors.greyColor),
                                         Gap.k4.width,
                                         PSmallText(
-                                          schedule.dayNo.toString(),
+                                          currentPlaceOnSchedule.dayNo
+                                              .toString(),
                                           color: AppColors.greyColor,
                                         ),
-                                        schedule.vehicle != null
+                                        currentPlaceOnSchedule.vehicle != null
                                             ? Row(
                                                 children: [
                                                   Gap.k8.width,
                                                   Container(
                                                     height: 3,
                                                     width: 3,
-                                                    decoration: const BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: AppColors
-                                                            .greyColor),
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: AppColors
+                                                                .greyColor),
                                                   ),
                                                   Gap.k8.width,
-                                                  schedule.vehicle == 'Airplane'
+                                                  currentPlaceOnSchedule
+                                                              .vehicle ==
+                                                          'Airplane'
                                                       ? SvgPicture.asset(
                                                           AppAssets
                                                               .icons_plane_departure_svg,
@@ -416,7 +492,8 @@ void _resetChildState() {
                                                           color: AppColors
                                                               .greyColor,
                                                         )
-                                                      : schedule.vehicle ==
+                                                      : currentPlaceOnSchedule
+                                                                  .vehicle ==
                                                               'Motorbike'
                                                           ? SvgPicture.asset(
                                                               AppAssets
@@ -425,7 +502,8 @@ void _resetChildState() {
                                                               color: AppColors
                                                                   .greyColor,
                                                             )
-                                                          : schedule.vehicle ==
+                                                          : currentPlaceOnSchedule
+                                                                      .vehicle ==
                                                                   'Car'
                                                               ? SvgPicture
                                                                   .asset(
@@ -435,7 +513,8 @@ void _resetChildState() {
                                                                   color: AppColors
                                                                       .greyColor,
                                                                 )
-                                                              : schedule.vehicle ==
+                                                              : currentPlaceOnSchedule
+                                                                          .vehicle ==
                                                                       'Bus'
                                                                   ? SvgPicture
                                                                       .asset(
@@ -446,7 +525,8 @@ void _resetChildState() {
                                                                       color: AppColors
                                                                           .greyColor,
                                                                     )
-                                                                  : schedule.vehicle ==
+                                                                  : currentPlaceOnSchedule
+                                                                              .vehicle ==
                                                                           'Boat'
                                                                       ? SvgPicture
                                                                           .asset(
@@ -469,7 +549,8 @@ void _resetChildState() {
                                                   Gap.k8.width,
                                                   PSmallText(
                                                     'Come by ' +
-                                                        schedule.vehicle
+                                                        currentPlaceOnSchedule
+                                                            .vehicle
                                                             .toString(),
                                                     color: AppColors.greyColor,
                                                   ),
@@ -487,7 +568,16 @@ void _resetChildState() {
                               NearbyPlaceSuggestion(
                                 key: _childKey,
                                 query: '',
-                                location: Position(longitude: schedule.longitude!, latitude: schedule.latitude!, timestamp: null, accuracy: 0, altitude: 0, heading: 0, speed: 0, speedAccuracy: 0),
+                                location: Position(
+                                    longitude:
+                                        currentPlaceOnSchedule.longitude!,
+                                    latitude: currentPlaceOnSchedule.latitude!,
+                                    timestamp: null,
+                                    accuracy: 0,
+                                    altitude: 0,
+                                    heading: 0,
+                                    speed: 0,
+                                    speedAccuracy: 0),
                               )
                             ],
                           ))
