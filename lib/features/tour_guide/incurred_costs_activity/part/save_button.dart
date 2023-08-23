@@ -30,7 +30,8 @@ class _SaveButtonState extends State<SaveButton> {
     );
   }
 
-  void _onPressed() {
-    var cubit = BlocProvider.of<IncurredCostsActivityCubit>(context);
+  Future<void> _onPressed() async {
+    var cubit = context.read<IncurredCostsActivityCubit>();
+    if (await cubit.submit()) Navigator.of(context).pop();
   }
 }

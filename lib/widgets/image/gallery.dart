@@ -86,8 +86,12 @@ class _GalleryState extends State<Gallery> {
         }
 
         final path = _imagePaths[index];
-        final hasOverlay = _imagePaths.length > widget.visibleAmount &&
-            index == widget.visibleAmount - 1;
+
+        /// Ignore overlay for last item if allowRemove is true
+        final hasOverlay = widget.allowRemove
+            ? false
+            : _imagePaths.length > widget.visibleAmount &&
+                index == widget.visibleAmount - 1;
         final moreItem = _imagePaths.length - widget.visibleAmount + 1;
 
         /// Last item overlay
@@ -110,6 +114,19 @@ Widget _buildAddButton({void Function()? onTap}) {
     ),
     child: const Icon(
       Icons.add,
+      color: AppColors.textGreyColor,
+    ),
+  ).onTap(onTap);
+}
+
+Widget _buildRemoveButton({void Function()? onTap}) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+      color: AppColors.lightGreyColor,
+    ),
+    child: const Icon(
+      Icons.remove,
       color: AppColors.textGreyColor,
     ),
   ).onTap(onTap);
