@@ -24,10 +24,15 @@ class _ImageCollectionState extends State<ImageCollection> {
       ),
       child: Column(
         children: [
-          ImageVerticalList(
-            imagePaths: [],
-            limit: 1,
-            onChanged: (imagePaths) => cubit.setImagePaths(imagePaths),
+          BlocBuilder<IncurredCostsActivityCubit, IncurredCostsActivityState>(
+            builder: (context, state) {
+              return ImageVerticalList(
+                key: UniqueKey(),
+                imagePaths: state.imagePaths,
+                limit: 1,
+                onChanged: (imagePaths) => cubit.setImagePaths(imagePaths),
+              );
+            },
           ),
         ],
       ),

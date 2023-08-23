@@ -98,7 +98,8 @@ PageRoute? generateRoute(RouteSettings settings) {
     /// Tour guide
     case TourGuide.IncurredCostsActivity.routeName:
       return MaterialPageRoute(
-          builder: (_) => const TourGuide.IncurredCostsActivity());
+          builder: (_) => TourGuide.IncurredCostsActivity(
+              id: settings.arguments?.toString()));
 
     /// Traveler
     case Traveler.Attendance.routeName:

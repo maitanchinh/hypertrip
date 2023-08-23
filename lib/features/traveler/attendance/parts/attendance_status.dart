@@ -24,8 +24,6 @@ class _AttendanceStatusState extends State<AttendanceStatus> {
   Widget build(BuildContext context) {
     return BlocBuilder<TravelerAttendanceCubit, TravelerAttendanceState>(
       builder: (context, state) {
-        debugPrint(state.toString());
-
         var text =
             state.attendanceSuccess ? label_attended : label_not_attendance;
         var bg = state.attendanceSuccess

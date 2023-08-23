@@ -1,38 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hypertrip/domain/enums/activity_type.dart';
+import 'package:hypertrip/domain/models/activity/incurred_cost_activity.dart';
+import 'package:hypertrip/domain/models/attachment/upload_attachment_response.dart';
 import 'package:hypertrip/domain/repositories/activity_repo.dart';
+import 'package:hypertrip/domain/repositories/attachment_repo.dart';
 import 'package:hypertrip/exceptions/request_exception.dart';
 import 'package:hypertrip/features/root/cubit.dart';
 import 'package:hypertrip/features/root/state.dart';
 import 'package:hypertrip/features/tour_guide/activity/cubit.dart';
 import 'package:hypertrip/features/tour_guide/incurred_costs_activity/state.dart';
+import 'package:hypertrip/utils/currency_formatter.dart';
+import 'package:hypertrip/utils/get_it.dart';
+import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/popup/p_error_popup.dart';
 
 class IncurredCostsActivityCubit extends Cubit<IncurredCostsActivityState> {
-  final ActivityRepo _activityRepo = ActivityRepo();
-  final BuildContext context;
+  final ActivityRepo _activityRepo = getIt.get<ActivityRepo>();
+  final AttachmentRepo _attachmentRepo = getIt.get<AttachmentRepo>();
+  final BuildContext _context;
 
-  IncurredCostsActivityCubit(this.context)
+  IncurredCostsActivityCubit(this._context)
       : super(IncurredCostsActivityState.initial());
 
-  Future<bool> submit() async {
+  Future<bool> create() async {
     try {
-      final rootState = context.read<RootCubit>().state as RootSuccessState;
-      final activityState = context.read<ActivityCubit>().state;
+      final rootState = _context.read<RootCubit>().state as RootSuccessState;
+      final activityState = _context.read<ActivityCubit>().state;
 
-      debugPrint(
-          state.amountFormatter.getUnformattedValue().toInt().toString());
       await _activityRepo.createNewIncurredCostsActivity(
         tourGroupId: rootState.group!.id!,
         imagePath: state.imagePaths.isNotEmpty ? state.imagePaths[0] : null,
-        amount: state.amountFormatter.getUnformattedValue().toInt(),
+        amount: state.amount,
         dayNo: activityState.selectedDay + 1,
-        note: state.noteController.text,
+        note: state.note,
+        dateTime: state.dateTime,
       );
 
       return true;
     } on RequestException catch (e) {
-      showErrorPopup(context, content: e.message);
+      debugPrint(e.toString());
+      showErrorPopup(_context, content: e.message);
     } on Exception catch (e) {
       debugPrint(e.toString());
     }
@@ -40,48 +48,84 @@ class IncurredCostsActivityCubit extends Cubit<IncurredCostsActivityState> {
     return false;
   }
 
-  // void reset() {}
+  Future<bool> update() async {
+    try {
+      /// Upload image variable
+      UploadAttachmentResponse? uploadedImage;
 
-  void init() {
-    state.amountController.addListener(() {
-      /// emit onStateChanged
-      onStateChanged(state);
-    });
+      /// Check image changed
+      if (state.preImagePath != null &&
+          state.preImagePath != state.imagePaths[0]) {
+        /// Begin upload image
+        var imagePath =
+            state.imagePaths.isNotEmpty ? state.imagePaths[0] : null;
+        if (imagePath != null && imagePath.isNotEmpty) {
+          uploadedImage = await _attachmentRepo.postAttachment(imagePath);
 
-    state.noteController.addListener(() {
-      /// emit onStateChanged
-      onStateChanged(state);
-
-      /// limit note length
-      if (state.noteController.text.length >
-          IncurredCostsActivityState.maxNoteLength) {
-        state.noteController.text = state.noteController.text
-            .substring(0, IncurredCostsActivityState.maxNoteLength);
-        state.noteController.selection = TextSelection.fromPosition(
-          TextPosition(offset: state.noteController.text.length),
-        );
+          if (uploadedImage == null) {
+            throw RequestException(msg_upload_image_failed);
+          }
+        }
       }
-    });
+
+      await _activityRepo.patchUpdate({
+        "type": ActivityType.IncurredCost.name,
+        "incurredCostActivity": {
+          "id": state.id,
+          "cost": state.amount,
+          "createdAt": state.dateTime.toIso8601String(),
+          "note": state.note,
+          "imageId": uploadedImage?.id,
+          'currency': CurrencyName.vi,
+        }
+      });
+
+      return true;
+    } on RequestException catch (e) {
+      debugPrint(e.toString());
+      showErrorPopup(_context, content: e.message);
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+
+    /// Fallback result
+    return false;
   }
 
-  IncurredCostsActivityState validate(IncurredCostsActivityState newState) {
-    bool isValid = true;
+  Future<void> load(String id) async {
+    emit(
+        IncurredCostsActivityState.initial().copyWith(isLoading: true, id: id));
+    try {
+      var res = await _activityRepo.get(id);
+      var activity = IncurredCostActivityModel.fromJson(res.data);
 
-    /// validate amount
-    if (state.amountFormatter.getUnformattedValue() <= 0) {
-      isValid = false;
+      onStateChanged(state.copyWith(
+        amount: activity.cost,
+        note: activity.note,
+        dateTime: activity.createdAt,
+        imagePaths: activity.imageUrl != null ? [activity.imageUrl!] : [],
+        isLoading: false,
+        isAmountValid: true,
+        isNoteValid: true,
+        preImagePath: activity.imageUrl,
+      ));
+    } on Exception catch (e) {
+      emit(IncurredCostsActivityState.initial().copyWith(isLoading: false));
+      if (e is RequestException) {
+        debugPrint(e.toString());
+        showErrorPopup(_context, content: e.message);
+      } else {
+        debugPrint(e.toString());
+      }
     }
+  }
 
-    /// validate note
-    if (state.noteController.text.isEmpty) {
-      isValid = false;
-    }
-
-    return newState.copyWith(isValid: isValid);
+  void init() {
+    emit(IncurredCostsActivityState.initial());
   }
 
   void onStateChanged(IncurredCostsActivityState newState) {
-    emit(validate(newState));
+    emit(newState);
   }
 
   void setDate(DateTime value) {
@@ -102,5 +146,9 @@ class IncurredCostsActivityCubit extends Cubit<IncurredCostsActivityState> {
     var newState = state.copyWith(imagePaths: imagePaths);
 
     onStateChanged(newState);
+  }
+
+  Future<void> removeDraft(String id) async {
+    await _activityRepo.removeDraft(id);
   }
 }

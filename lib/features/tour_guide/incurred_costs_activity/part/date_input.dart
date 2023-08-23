@@ -30,7 +30,7 @@ class _DateInputState extends State<DateInput> {
                     onPressed: () {
                       showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: state.dateTime,
                         firstDate: DateTime(2010),
                         lastDate: DateTime(2050),
                       ).then((value) {

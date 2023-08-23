@@ -81,8 +81,7 @@ class _ActivityPageState extends State<ActivityPage> {
         title: 'Activity',
         implyLeading: false,
       ),
-      bottomNavigationBar:
-          _buildCreateNew(context, onReload: () => fetchData()),
+      bottomNavigationBar: _buildCreateNew(context, onReload: fetchData),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,8 +120,8 @@ class _ActivityPageState extends State<ActivityPage> {
                             children: [
                               const DayPicker(),
                               16.height,
-                              const Expanded(
-                                child: ListActivity(),
+                              Expanded(
+                                child: ListActivity(onReload: fetchData),
                               ),
                             ],
                           );
