@@ -39,7 +39,6 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
     try {
       var group = await _groupRepo.getCurrentGroup();
       if (group == null) {
-        emit(LoadCurrentGroupNotFoundState() as CurrentTourState);
         emit(LoadCurrentTourNotFoundState());
         return;
       }
@@ -55,6 +54,8 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
     }
   }
 
+
+  int _previousIndex = 0;
   FutureOr<void> _fetchAllLocationTour() {
     if (state is LoadCurrentTourSuccessState) {
       final loadCurrentTourSuccessState = state as LoadCurrentTourSuccessState;
@@ -90,9 +91,11 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
 
         int index = locationTour.indexWhere((element) => element.lat == schedule?.latitude && element.lng == schedule?.longitude);
 
-        if(index == -1) index = 0;
-
-        fetchDataWeather(index);
+        // If previous != 0 and currentIndex not found inside locationTour
+        if(index != -1) {
+          _previousIndex = index;
+          fetchDataWeather(_previousIndex);
+        }
       }
     }
   }

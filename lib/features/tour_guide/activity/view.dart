@@ -12,6 +12,7 @@ import 'package:hypertrip/domain/models/activity/attendance_activity.dart';
 import 'package:hypertrip/domain/models/activity/check_in_activity.dart';
 import 'package:hypertrip/domain/models/activity/custom_activity.dart';
 import 'package:hypertrip/domain/models/activity/incurred_cost_activity.dart';
+import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/extensions/datetime.dart';
 import 'package:hypertrip/extensions/enum.dart';
 import 'package:hypertrip/features/root/cubit.dart';
@@ -83,7 +84,7 @@ class _ActivityPageState extends State<ActivityPage> {
         title: 'Activity',
         implyLeading: false,
       ),
-      bottomNavigationBar: _buildCreateNew(context),
+      bottomNavigationBar: (UserRepo.profile?.role == 'TourGuide') ? _buildCreateNew(context) : const SizedBox.shrink(),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -8,6 +8,7 @@ class FirebaseMessage {
   DateTime? timestamp;
   bool isRead;
   String imageUrl;
+  String tripId;
 
   FirebaseMessage({
     this.id = "0",
@@ -17,6 +18,7 @@ class FirebaseMessage {
     this.timestamp,
     this.isRead = true,
     this.imageUrl = '',
+    this.tripId = '',
   });
 
   FirebaseMessage.fromJson(Map<String, dynamic> json)
@@ -24,21 +26,21 @@ class FirebaseMessage {
         title = json['title'] ?? '',
         payload = json['payload'] ?? '',
         type = _parseMessageType(json['type']),
-        timestamp = json['timestamp'] != null
-            ? DateTime.parse(json['timestamp'])
-            : null,
+        timestamp = json['timestamp'] != null ? DateTime.parse(json['timestamp']) : null,
         isRead = json['isRead'] ?? true,
-        imageUrl = json['imageUrl'] ?? '';
+        imageUrl = json['imageUrl'] ?? '',
+        tripId = json['tripId'] ?? '';
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'title': title,
-    'payload': payload,
-    'type': _getMessageTypeString(type),
-    'timestamp': timestamp?.toIso8601String(),
-    'isRead': isRead,
-    'imageUrl': imageUrl,
-  };
+        'id': id,
+        'title': title,
+        'payload': payload,
+        'type': _getMessageTypeString(type),
+        'timestamp': timestamp?.toIso8601String(),
+        'isRead': isRead,
+        'imageUrl': imageUrl,
+        'tripId': tripId,
+      };
 
   FirebaseMessage copyWith({
     String? id,
@@ -48,6 +50,7 @@ class FirebaseMessage {
     DateTime? timestamp,
     bool? isRead,
     String? imageUrl,
+    String? tripId,
   }) {
     return FirebaseMessage(
       id: id ?? this.id,
@@ -57,6 +60,7 @@ class FirebaseMessage {
       timestamp: timestamp ?? this.timestamp,
       isRead: isRead ?? this.isRead,
       imageUrl: imageUrl ?? this.imageUrl,
+      tripId: tripId ?? this.tripId,
     );
   }
 
@@ -64,12 +68,8 @@ class FirebaseMessage {
     switch (value) {
       case 'AttendanceActivity':
         return FirebaseMessageType.AttendanceActivity;
-      case 'TourStarted':
-        return FirebaseMessageType.TourStarted;
-      case 'CheckInAcitvity':
-        return FirebaseMessageType.CheckInAcitvity;
-      case 'CustomActivity':
-        return FirebaseMessageType.CustomActivity;
+      case 'WeatherAlert':
+        return FirebaseMessageType.WeatherAlert;
       case 'Emergency':
         return FirebaseMessageType.Emergency;
       default:
@@ -81,15 +81,10 @@ class FirebaseMessage {
     switch (type) {
       case FirebaseMessageType.AttendanceActivity:
         return 'AttendanceActivity';
-      case FirebaseMessageType.TourStarted:
-        return 'TourStarted';
-      case FirebaseMessageType.CheckInAcitvity:
-        return 'CheckInAcitvity';
-      case FirebaseMessageType.CustomActivity:
-        return 'CustomActivity';
+      case FirebaseMessageType.WeatherAlert:
+        return 'WeatherAlert';
       case FirebaseMessageType.Emergency:
         return 'Emergency';
-      
       default:
         return 'AttendanceActivity';
     }
@@ -98,21 +93,17 @@ class FirebaseMessage {
 
 enum FirebaseMessageType {
   AttendanceActivity,
-  TourStarted,
-  CheckInAcitvity,
-  CustomActivity,
-  Emergency
-}
+  WeatherAlert,
+  Emergency;
 
-extension FirebaseMessageTypeExtension on FirebaseMessageType {
   String get image {
     switch (this) {
       case FirebaseMessageType.AttendanceActivity:
         return AppAssets.icons_attendance_svg;
-      case FirebaseMessageType.TourStarted:
-        return AppAssets.icons_finish_flag_svg;
-      case FirebaseMessageType.CheckInAcitvity:
-        return AppAssets.icons_destination_svg;
+      // case FirebaseMessageType.TourStarted:
+      //   return AppAssets.icons_finish_flag_svg;
+      // case FirebaseMessageType.CheckInAcitvity:
+      //   return AppAssets.icons_destination_svg;
       default:
         return AppAssets.icons_bell_color_svg;
     }

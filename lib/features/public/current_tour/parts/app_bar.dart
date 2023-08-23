@@ -1,7 +1,7 @@
 part of '../view.dart';
 
 AppBar _buildAppBar(BuildContext context) {
-          final cubit = BlocProvider.of<CurrentTourCubit>(context);
+  final cubit = BlocProvider.of<CurrentTourCubit>(context);
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
@@ -18,32 +18,43 @@ AppBar _buildAppBar(BuildContext context) {
     //   ],
     // ),
     actions: [
-      // ActionButton(
-      //   icon: Resource.iconsCloud,
-      //   onPressed: () {
-      //     List<LocationTour> locationTour = [];
-      //     String tripId = '';
-      //     if (cubit.state is LoadCurrentTourSuccessState) {
-      //       locationTour = (cubit.state as LoadCurrentTourSuccessState)
-      //           .schedule
-      //           .map((e) => LocationTour(lat: e.latitude ?? 0.0, lng: e.longitude ?? 0.0))
-      //           .toList();
+      ActionButton(
+        icon: Resource.iconsCloud,
+        onPressed: () {
+          List<LocationTour> locationTour = [];
+          String tripId = '';
+          if (cubit.state is LoadCurrentTourSuccessState) {
+            locationTour = (cubit.state as LoadCurrentTourSuccessState)
+                .schedule
+                .map((e) => LocationTour(
+                    lat: e.latitude ?? 0.0, lng: e.longitude ?? 0.0))
+                .toList();
 
-      //       tripId = (cubit.state as LoadCurrentTourSuccessState).group.trip?.id ?? '';
-      //     }
-      //     if (locationTour.isEmpty) return;
-      //     // Remove LocationTour objects with lat and lng equal to 0.0
-      //     locationTour.removeWhere((tour) => tour.lat == 0.0 && tour.lng == 0.0);
+            tripId =
+                (cubit.state as LoadCurrentTourSuccessState).group.trip?.id ??
+                    '';
+          }
+          if (locationTour.isEmpty) return;
+          // Remove LocationTour objects with lat and lng equal to 0.0
+          locationTour
+              .removeWhere((tour) => tour.lat == 0.0 && tour.lng == 0.0);
 
-      //     Navigator.of(context).pushNamed(WarningIncidentPage.routeName,
-      //         arguments: WarningArgument(locationTour, tripId));
-      //   },
-      // ),
-      // Gap.k16.width,
+          Navigator.of(context).pushNamed(WarningIncidentPage.routeName,
+              arguments: WarningArgument(locationTour, tripId));
+        },
+      ),
+      Gap.k16.width,
       ActionButton(
         icon: Resource.iconsInfo,
-        onPressed: () { Navigator.pushNamed(context, TourDetailPage.routeName,
-                            arguments: {'tourId': (cubit.state as LoadCurrentTourSuccessState).group.trip?.tour?.id});},
+        onPressed: () {
+          Navigator.pushNamed(context, TourDetailPage.routeName, arguments: {
+            'tourId': (cubit.state as LoadCurrentTourSuccessState)
+                .group
+                .trip
+                ?.tour
+                ?.id
+          });
+        },
       ),
       Gap.k16.width,
       Stack(
