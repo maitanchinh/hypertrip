@@ -9,8 +9,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/activity/activity.dart';
 import 'package:hypertrip/domain/models/activity/attendance_activity.dart';
-import 'package:hypertrip/domain/models/activity/check_in_activity.dart';
-import 'package:hypertrip/domain/models/activity/custom_activity.dart';
 import 'package:hypertrip/domain/models/activity/incurred_cost_activity.dart';
 import 'package:hypertrip/extensions/datetime.dart';
 import 'package:hypertrip/extensions/enum.dart';
@@ -83,7 +81,8 @@ class _ActivityPageState extends State<ActivityPage> {
         title: 'Activity',
         implyLeading: false,
       ),
-      bottomNavigationBar: _buildCreateNew(context),
+      bottomNavigationBar:
+          _buildCreateNew(context, onReload: () => fetchData()),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

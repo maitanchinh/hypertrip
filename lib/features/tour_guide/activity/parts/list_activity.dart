@@ -34,42 +34,42 @@ class _ListActivityState extends State<ListActivity> {
 Widget _buildSlidable(BuildContext context, Activity activitiy) {
   return Slidable(
     // key: activities[index].data['id'],
-    //* Left side
-    startActionPane: ActionPane(
-      motion: const DrawerMotion(),
-      extentRatio: 0.25,
-      // dismissible: DismissiblePane(onDismissed: () {}),
-      children: [
-        CustomSlidableAction(
-          onPressed: null,
-          backgroundColor: AppColors.lightGreenColor,
-          foregroundColor: Colors.white,
-          child: SvgPicture.asset(
-            AppAssets.icons_circle_check_regular_1_svg,
-            width: 24,
-            height: 24,
-          ),
-        ),
-      ],
-    ),
-    //* Right side
-    endActionPane: ActionPane(
-      motion: const DrawerMotion(),
-      extentRatio: 0.25,
-      // dismissible: DismissiblePane(onDismissed: () {}),
-      children: [
-        CustomSlidableAction(
-          onPressed: null,
-          backgroundColor: AppColors.lightGreenColor,
-          foregroundColor: Colors.white,
-          child: SvgPicture.asset(
-            AppAssets.icons_circle_check_regular_1_svg,
-            width: 24,
-            height: 24,
-          ),
-        ),
-      ],
-    ),
+    // //* Left side
+    // startActionPane: ActionPane(
+    //   motion: const DrawerMotion(),
+    //   extentRatio: 0.25,
+    //   // dismissible: DismissiblePane(onDismissed: () {}),
+    //   children: [
+    //     CustomSlidableAction(
+    //       onPressed: null,
+    //       backgroundColor: AppColors.lightGreenColor,
+    //       foregroundColor: Colors.white,
+    //       child: SvgPicture.asset(
+    //         AppAssets.icons_circle_check_regular_1_svg,
+    //         width: 24,
+    //         height: 24,
+    //       ),
+    //     ),
+    //   ],
+    // ),
+    // //* Right side
+    // endActionPane: ActionPane(
+    //   motion: const DrawerMotion(),
+    //   extentRatio: 0.25,
+    //   // dismissible: DismissiblePane(onDismissed: () {}),
+    //   children: [
+    //     CustomSlidableAction(
+    //       onPressed: null,
+    //       backgroundColor: AppColors.lightGreenColor,
+    //       foregroundColor: Colors.white,
+    //       child: SvgPicture.asset(
+    //         AppAssets.icons_circle_check_regular_1_svg,
+    //         width: 24,
+    //         height: 24,
+    //       ),
+    //     ),
+    //   ],
+    // ),
     child: _buildActivity(context, activitiy),
   );
 }

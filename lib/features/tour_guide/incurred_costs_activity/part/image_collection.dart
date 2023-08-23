@@ -26,7 +26,7 @@ class _ImageCollectionState extends State<ImageCollection> {
         children: [
           ImageVerticalList(
             imagePaths: [],
-            limit: 5,
+            limit: 1,
             onChanged: (imagePaths) => cubit.setImagePaths(imagePaths),
           ),
         ],
