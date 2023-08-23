@@ -10,6 +10,7 @@ import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/activity/activity.dart';
 import 'package:hypertrip/domain/models/activity/attendance_activity.dart';
 import 'package:hypertrip/domain/models/activity/incurred_cost_activity.dart';
+import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/extensions/datetime.dart';
 import 'package:hypertrip/extensions/enum.dart';
 import 'package:hypertrip/features/root/cubit.dart';

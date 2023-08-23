@@ -21,7 +21,7 @@ class _WeatherSchedulesState extends State<WeatherSchedules> {
         child: Column(
           children: [
             SizedBox(
-              height: 233,
+              height: 244,
               child: PageView.builder(
                 controller: _pageController,
                 itemCount: widget.state.dataWeatherTour.length,

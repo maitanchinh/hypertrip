@@ -47,9 +47,11 @@ class _TrackingScheduleState extends State<TrackingSchedule> with TickerProvider
                 length: days.length,
                 initialIndex: state.tour.schedules!
                         .firstWhereOrNull(
-                            (schedule) => schedule.id == widget.state.group.currentScheduleId)!
-                        .dayNo! -
-                    1,
+                            (schedule) => schedule.id == widget.state.group.currentScheduleId) != null ?
+                        state.tour.schedules!
+                        .firstWhereOrNull(
+                            (schedule) => schedule.id == widget.state.group.currentScheduleId)!.dayNo! -
+                    1 : 0,
                 child: Column(
                   children: [
                     // WeatherSchedules(state: widget.state),
@@ -98,24 +100,30 @@ class _TrackingScheduleState extends State<TrackingSchedule> with TickerProvider
                                     indicatorStyle: IndicatorStyle(
                                       width: 15,
                                       color: state.tour.schedules!
-                                                  .firstWhere((schedule) =>
+                                                  .firstWhereOrNull((schedule) =>
                                                       schedule.id ==
-                                                      widget.state.group.currentScheduleId)
-                                                  .sequence! >=
+                                                      widget.state.group.currentScheduleId) != null ?
+                                                  (state.tour.schedules!
+                                                  .firstWhereOrNull((schedule) =>
+                                                      schedule.id ==
+                                                      widget.state.group.currentScheduleId)!.sequence! >=
                                               sortedSchedule[index].sequence!
                                           ? AppColors.primaryColor
-                                          : AppColors.textGreyColor,
+                                          : AppColors.textGreyColor) : AppColors.textGreyColor,
                                       padding: const EdgeInsets.all(6),
                                     ),
                                     beforeLineStyle: LineStyle(
                                         color: state.tour.schedules!
-                                                    .firstWhere((schedule) =>
-                                                        schedule.id ==
-                                                        widget.state.group.currentScheduleId)
-                                                    .sequence! >=
-                                                sortedSchedule[index].sequence!
-                                            ? AppColors.primaryColor
-                                            : AppColors.textGreyColor,
+                                                  .firstWhereOrNull((schedule) =>
+                                                      schedule.id ==
+                                                      widget.state.group.currentScheduleId) != null ?
+                                                  (state.tour.schedules!
+                                                  .firstWhereOrNull((schedule) =>
+                                                      schedule.id ==
+                                                      widget.state.group.currentScheduleId)!.sequence! >=
+                                              sortedSchedule[index].sequence!
+                                          ? AppColors.primaryColor
+                                          : AppColors.textGreyColor) : AppColors.textGreyColor,
                                         thickness: 1),
                                     isFirst: index == 0,
                                     isLast: index == scheduleByDay[e]!.length - 1,
