@@ -20,9 +20,11 @@ class IncurredCostsActivityCubit extends Cubit<IncurredCostsActivityState> {
       final rootState = context.read<RootCubit>().state as RootSuccessState;
       final activityState = context.read<ActivityCubit>().state;
 
+      debugPrint(
+          state.amountFormatter.getUnformattedValue().toInt().toString());
       await _activityRepo.createNewIncurredCostsActivity(
         tourGroupId: rootState.group!.id!,
-        imagePath: state.imagePaths[0],
+        imagePath: state.imagePaths.isNotEmpty ? state.imagePaths[0] : null,
         amount: state.amountFormatter.getUnformattedValue().toInt(),
         dayNo: activityState.selectedDay + 1,
         note: state.noteController.text,

@@ -182,10 +182,12 @@ Widget _buildIncurredCostActivity(
                       _buildBadge(context, 3)
                     ],
                   ),
-                  Text(
-                    CurrencyFormatter.vi.format(activity.cost.toString()),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  )
+                  if (activity.cost != null)
+                    Text(
+                      CurrencyFormatter.vi
+                          .format(activity.cost!.toInt().toString()),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    )
                 ],
               ),
             ],
