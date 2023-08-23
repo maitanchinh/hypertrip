@@ -33,6 +33,38 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
     super.dispose();
   }
 
+  FutureOr<void> _sendMessageGroupChat(BuildContext context) async {
+    var rootCubit = BlocProvider.of<RootCubit>(context);
+    var rootState = rootCubit.state as RootSuccessState;
+
+    final firestoreRepository = GetIt.I.get<FirestoreRepository>();
+    // final firebaseMessagingManager = GetIt.I.get<FirebaseMessagingManager>();
+
+    final groupId = rootState.group?.id ?? '';
+    final userId = UserRepo.profile?.id ?? '';
+
+    if (widget.place.geocodes == null) return toast("Not found location");
+
+    String message =
+        "http://maps.google.com/maps?q=${widget.place.geocodes?.main?.latitude ?? 0.0},${widget.place.geocodes?.main?.longitude}&iwloc=A";
+
+    final result = await firestoreRepository.saveMessage(
+        userId, MessageType.text, message, DateTime.now(), groupId);
+
+    if (result == null) {
+      toast(currentNotSendMessage);
+    } else {
+      toast(sendSuccess);
+    }
+    // TODO: send noti for member group chat
+
+    // String content = UserRepo.profile?.displayName ?? '';
+    // content += ' đã chia sẻ vị trí hiện tại';
+    // firebaseMessagingManager.sendFCMNotifications(state.deviceTokens, event.groupName, content);
+    //
+    // if (result == null) toast(msg.currentNotSendMessage);
+  }
+
   @override
   Widget build(BuildContext context) {
     final url =
@@ -91,7 +123,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
                   child: ActionButton(
                       icon: AppAssets.icons_share_svg,
                       onPressed: () {
-                        finish(context);
+                        _sendMessageGroupChat(context);
                       }),
                 ),
               ],

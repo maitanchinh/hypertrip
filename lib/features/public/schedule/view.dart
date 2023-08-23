@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:chatview/chatview.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
@@ -97,6 +98,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
     return BlocBuilder<CurrentTourCubit, CurrentTourState>(
         builder: (context, state) {
+          if (state is LoadCurrentTourNotFoundState) {
+            return Scaffold(
+            extendBodyBehindAppBar: true,
+            body: BlocProvider(
+              create: (BuildContext context) => NearbyPlaceCubit(locationState.location, ''),
+              child: SizedBox(
+                height: context.height(),
+                child: Image.asset(AppAssets.tour_not_found_png),
+              ),
+            ));
+          }
       if (state is LoadCurrentTourSuccessState) {
         return Scaffold(
             extendBodyBehindAppBar: true,
