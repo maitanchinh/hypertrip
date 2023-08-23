@@ -15,6 +15,8 @@ const String label_search = 'Search';
 const String label_create_new_activity = 'New activity';
 const String label_cancel = 'Cancel';
 const String label_cropper = 'Cropper';
+const String label_remove = 'Delete';
+const String label_save = 'Save';
 
 /// alert
 const String msg_error = 'Error';
@@ -101,10 +103,13 @@ const String label_activity_title = 'Activity';
 const String label_activity_create_new = 'Create new activity';
 const String msg_activity_empty = 'No activity found';
 const String msg_cannot_load_attendance_member = 'No member';
-const String msg_save_attendance_activity_failed = 'Save activity failed';
+const String msg_save_activity_failed = 'Save activity failed';
 const String msg_attendance_invalid_code = 'Invalid code';
 const String label_not_attendance = 'waiting...';
 const String label_attended = 'Success';
+const String msg_activity_not_found = 'Activity not found';
+const String msg_confirm_remove_activity =
+    'Do you want to delete this activity?';
 
 // attendance
 const String label_attendance = 'Attendance';

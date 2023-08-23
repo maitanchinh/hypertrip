@@ -23,6 +23,7 @@ class _TimeInputState extends State<TimeInput> {
               ),
             ),
             child: CupertinoDatePicker(
+              key: UniqueKey(),
               use24hFormat: true,
               mode: CupertinoDatePickerMode.time,
               initialDateTime: state.dateTime,

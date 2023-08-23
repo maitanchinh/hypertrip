@@ -8,35 +8,51 @@ class Note extends StatefulWidget {
 }
 
 class _NoteState extends State<Note> {
-  int noteLength = 0;
+  final TextEditingController _controller = TextEditingController();
   IncurredCostsActivityCubit? _cubit;
+  int length = 0;
 
   @override
   void initState() {
-    _cubit = BlocProvider.of<IncurredCostsActivityCubit>(context);
-    noteLength = _cubit?.state.noteController.text.length ?? noteLength;
-
-    _cubit?.state.noteController.addListener(() {
-      setState(() {
-        noteLength = _cubit?.state.noteController.text.length ?? noteLength;
-      });
-    });
-
     super.initState();
+
+    _controller.addListener(_onChange);
+
+    _cubit = context.read<IncurredCostsActivityCubit>();
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_onChange);
+    super.dispose();
+  }
+
+  void _onChange() {
+    _cubit?.onStateChanged(_cubit!.state.copyWith(
+      note: _controller.text,
+      isNoteValid: _controller.text.isNotEmpty,
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
-    var state = BlocProvider.of<IncurredCostsActivityCubit>(context).state;
-
-    return TextField(
-      controller: state.noteController,
-      maxLines: 5,
-      minLines: 3,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: '($noteLength/${IncurredCostsActivityState.maxNoteLength})',
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+    return BlocListener<IncurredCostsActivityCubit, IncurredCostsActivityState>(
+      listener: (context, state) {
+        if (state.note != _controller.text) {
+          _controller.text = state.note;
+          length = state.note.length;
+          _controller.selection =
+              TextSelection.collapsed(offset: state.note.length);
+        }
+      },
+      child: TextFormField(
+        controller: _controller,
+        maxLength: IncurredCostsActivityState.maxNoteLength,
+        maxLines: 5,
+        minLines: 3,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+        ),
       ),
     );
   }

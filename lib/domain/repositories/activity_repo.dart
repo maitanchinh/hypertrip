@@ -15,6 +15,19 @@ class ActivityRepo {
 
   ActivityRepo();
 
+  Future<Activity> get(String id) async {
+    try {
+      final response = await apiClient.get('/activities/$id');
+
+      return Activity.fromJson(response.data);
+    } on DioException catch (e) {
+      if (e.response != null && e.response!.statusCode == 404) {
+        throw RequestException(msg_activity_not_found);
+      }
+      throw RequestException(msg_server_error);
+    }
+  }
+
   //#region AttendanceActivity
 
   Future<List<Activity>> getActivities(String tourGroupId) async {
@@ -50,7 +63,7 @@ class ActivityRepo {
           'title': title,
           'note': note,
           'dayNo': dayNo,
-          'items': items
+          'items': items,
         }
       });
 
@@ -67,7 +80,7 @@ class ActivityRepo {
     try {
       await apiClient.patch('/activities', data: payload);
     } on DioException catch (e) {
-      throw RequestException(msg_save_attendance_activity_failed);
+      throw RequestException(msg_save_activity_failed);
     }
   }
 
@@ -89,9 +102,10 @@ class ActivityRepo {
   Future<String> createNewIncurredCostsActivity({
     required String tourGroupId,
     required String? imagePath,
-    required int amount,
+    required double amount,
     required int dayNo,
     required String note,
+    required DateTime dateTime,
   }) async {
     try {
       /// Upload images
@@ -115,6 +129,7 @@ class ActivityRepo {
           'title': '',
           'note': note,
           'dayNo': dayNo,
+          'createdAt': dateTime.toIso8601String(),
         }
       });
 

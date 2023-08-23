@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/widgets/image/image.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -26,7 +25,14 @@ class ImageVerticalList extends StatefulWidget {
 
 class _ImageVerticalListState extends State<ImageVerticalList> {
   List<String> _imagePaths = [];
-  int? limit;
+  int limit = 20;
+
+  @override
+  void initState() {
+    super.initState();
+    limit = widget.limit ?? limit;
+    _imagePaths = widget.imagePaths;
+  }
 
   void _onRemove(int index) {
     /// update state
@@ -61,26 +67,28 @@ class _ImageVerticalListState extends State<ImageVerticalList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.separated(
-        separatorBuilder: (context, index) => 16.height,
-        scrollDirection: Axis.vertical,
-        physics: const ClampingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: _imagePaths.length + 1,
-        itemBuilder: (context, index) {
-          return index == _imagePaths.length
-              ? AddNewButton(
-                  onTap: _onAdd,
-                )
-              : ImageVerticalListTile(
-                  imagePath: _imagePaths[index],
-                  onRemove: () {
-                    _onRemove(index);
-                  },
-                );
-        },
-      ),
+    return ListView.separated(
+      separatorBuilder: (context, index) => 16.height,
+      scrollDirection: Axis.vertical,
+      physics: const ClampingScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: _imagePaths.length < limit
+          ? _imagePaths.length + 1
+          : _imagePaths.length,
+      itemBuilder: (context, index) {
+        if (_imagePaths.length < limit && index == _imagePaths.length) {
+          return AddNewButton(
+            onTap: _onAdd,
+          );
+        }
+
+        return ImageVerticalListTile(
+          imagePath: _imagePaths[index],
+          onRemove: () {
+            _onRemove(index);
+          },
+        );
+      },
     );
   }
 }
