@@ -31,14 +31,14 @@ class FirebaseMessage {
         imageUrl = json['imageUrl'] ?? '';
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'title': title,
-    'payload': payload,
-    'type': _getMessageTypeString(type),
-    'timestamp': timestamp?.toIso8601String(),
-    'isRead': isRead,
-    'imageUrl': imageUrl,
-  };
+        'id': id,
+        'title': title,
+        'payload': payload,
+        'type': _getMessageTypeString(type),
+        'timestamp': timestamp?.toIso8601String(),
+        'isRead': isRead,
+        'imageUrl': imageUrl,
+      };
 
   FirebaseMessage copyWith({
     String? id,
@@ -64,12 +64,8 @@ class FirebaseMessage {
     switch (value) {
       case 'AttendanceActivity':
         return FirebaseMessageType.AttendanceActivity;
-      case 'TourStarted':
-        return FirebaseMessageType.TourStarted;
-      case 'CheckInAcitvity':
-        return FirebaseMessageType.CheckInAcitvity;
-      case 'CustomActivity':
-        return FirebaseMessageType.CustomActivity;
+      case 'WeatherAlert':
+        return FirebaseMessageType.WeatherAlert;
       case 'Emergency':
         return FirebaseMessageType.Emergency;
       default:
@@ -81,38 +77,27 @@ class FirebaseMessage {
     switch (type) {
       case FirebaseMessageType.AttendanceActivity:
         return 'AttendanceActivity';
-      case FirebaseMessageType.TourStarted:
-        return 'TourStarted';
-      case FirebaseMessageType.CheckInAcitvity:
-        return 'CheckInAcitvity';
-      case FirebaseMessageType.CustomActivity:
-        return 'CustomActivity';
+      case FirebaseMessageType.WeatherAlert:
+        return 'WeatherAlert';
       case FirebaseMessageType.Emergency:
         return 'Emergency';
-      
       default:
         return 'AttendanceActivity';
     }
   }
 }
 
-enum FirebaseMessageType {
-  AttendanceActivity,
-  TourStarted,
-  CheckInAcitvity,
-  CustomActivity,
-  Emergency
-}
+enum FirebaseMessageType { AttendanceActivity, WeatherAlert, Emergency }
 
 extension FirebaseMessageTypeExtension on FirebaseMessageType {
   String get image {
     switch (this) {
       case FirebaseMessageType.AttendanceActivity:
         return AppAssets.icons_attendance_svg;
-      case FirebaseMessageType.TourStarted:
-        return AppAssets.icons_finish_flag_svg;
-      case FirebaseMessageType.CheckInAcitvity:
-        return AppAssets.icons_destination_svg;
+      // case FirebaseMessageType.TourStarted:
+      //   return AppAssets.icons_finish_flag_svg;
+      // case FirebaseMessageType.CheckInAcitvity:
+      //   return AppAssets.icons_destination_svg;
       default:
         return AppAssets.icons_bell_color_svg;
     }
