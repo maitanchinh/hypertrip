@@ -3,17 +3,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hypertrip/extensions/datetime.dart';
 import 'package:hypertrip/features/tour_guide/incurred_costs_activity/cubit.dart';
 import 'package:hypertrip/features/tour_guide/incurred_costs_activity/state.dart';
 import 'package:hypertrip/theme/color.dart';
-import 'package:hypertrip/utils/app_assets.dart';
-import 'package:hypertrip/utils/currency_formatter.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/utils/picture.dart';
 import 'package:hypertrip/widgets/base_page.dart';
-import 'package:hypertrip/widgets/image/gallery.dart';
+import 'package:hypertrip/widgets/image/vertical/image_vertical_list.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -41,10 +38,10 @@ class _IncurredCostsActivityState extends State<IncurredCostsActivity> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.bgLightColor,
       body: BasePage(
         child: BlocProvider(
-          create: (context) => IncurredCostsActivityCubit(),
+          create: (context) => IncurredCostsActivityCubit(context)..init(),
           child: _buildBody(context),
         ),
       ),
@@ -73,7 +70,7 @@ class _IncurredCostsActivityState extends State<IncurredCostsActivity> {
                         topLeft: Radius.circular(24),
                         topRight: Radius.circular(24),
                       ),
-                      color: Colors.white,
+                      color: AppColors.bgLightColor,
                     ),
                     child: SafeArea(
                       child: SafeSpace(
@@ -86,7 +83,8 @@ class _IncurredCostsActivityState extends State<IncurredCostsActivity> {
                             16.height,
                             const DateInput(),
                             16.height,
-                            const Label(label_incurred_costs_note),
+                            const Label(label_incurred_costs_note,
+                                isRequired: true),
                             const Note(),
                             32.height,
                             const Label(
