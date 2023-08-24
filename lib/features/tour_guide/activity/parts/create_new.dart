@@ -1,6 +1,29 @@
 part of '../view.dart';
 
-Widget _buildCreateNew(BuildContext context) {
+Widget _buildCreateNew(BuildContext context, {required Function onReload}) {
+  void onCreateAttendance(BuildContext context) {
+    showAppModalBottomSheet(
+        context: context, builder: (context) => const AttendanceActivity());
+  }
+
+  void onCreateIncurredCosts(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(IncurredCostsActivity.routeName)
+        .then((_) => onReload());
+  }
+
+  void onCreateCheckIn(BuildContext context) {}
+
+  void action(BuildContext context, {required ActivityType type}) {
+    Navigator.of(context).pop();
+    if (type == ActivityType.All) return;
+    if (type == ActivityType.Attendance) return onCreateAttendance(context);
+    if (type == ActivityType.CheckIn) return onCreateCheckIn(context);
+    if (type == ActivityType.IncurredCost) {
+      return onCreateIncurredCosts(context);
+    }
+  }
+
   return Row(
     children: [
       Expanded(
@@ -29,7 +52,7 @@ Widget _buildCreateNew(BuildContext context) {
                     title: const Text("Select new activity type"),
                     actions: items
                         .map((e) => CupertinoActionSheetAction(
-                              onPressed: () => _action(context, type: e.type),
+                              onPressed: () => action(context, type: e.type),
                               child: Text(e.label),
                             ))
                         .toList(),

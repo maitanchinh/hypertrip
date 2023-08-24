@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 void showPickupImageSource(
   BuildContext context, {
   Function(List<String> imagePaths)? onImagePathsAdded,
+  bool multiple = false,
 }) {
   showCupertinoModalPopup(
     context: context,
@@ -24,9 +25,18 @@ void showPickupImageSource(
           onPressed: () async {
             Navigator.pop(context);
             try {
-              var images = await pickMultipleImages();
-              onImagePathsAdded
-                  ?.call(images.map((image) => image.path).toList());
+              if (multiple) {
+                final images = await pickMultipleImages();
+                if (images.isNotEmpty) {
+                  onImagePathsAdded
+                      ?.call(images.map((image) => image.path).toList());
+                }
+                return;
+              } else {
+                final image = await pickImage(ImageSource.gallery);
+                if (image != null) onImagePathsAdded?.call([image.path]);
+                return;
+              }
             } catch (e) {
               // Todo: handle error
               throw e;

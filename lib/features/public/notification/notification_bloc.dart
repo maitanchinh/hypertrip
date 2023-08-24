@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hypertrip/domain/models/incidents/warning_argument.dart';
 import 'package:hypertrip/domain/models/notification/firebase_message.dart';
 import 'package:hypertrip/domain/repositories/notification_repo.dart';
 import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
@@ -35,7 +36,6 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       final response = await _notificationRepo.fetchNotificationList();
 
       emit(state.copyWith(notifications: response, status: PageState.success));
-
     } catch (ex) {
       emit(state.copyWith(status: PageState.failure, error: ex.toString()));
     }
@@ -47,14 +47,15 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     var argument;
     switch (event.item.type) {
       case FirebaseMessageType.AttendanceActivity:
-        // page = Routers.CURRRENT_TOUR_PAGE;
-        break;
-      case FirebaseMessageType.TourStarted:
-        // TODO: Handle this case.
+        //page = ;
         break;
       case FirebaseMessageType.Emergency:
-      page = ChatPageScreen.routeName;
-      // argument = 
+        page = ChatPageScreen.routeName;
+        // argument =
+        break;
+      case FirebaseMessageType.WeatherAlert:
+        // page = WarningIncidentPage.routeName;
+        // argument = WarningArgument(locationTour, tripId)
         break;
     }
 

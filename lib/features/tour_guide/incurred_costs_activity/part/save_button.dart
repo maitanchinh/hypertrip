@@ -16,12 +16,15 @@ class _SaveButtonState extends State<SaveButton> {
       builder: (context, state) {
         return BlocBuilder<IncurredCostsActivityCubit,
             IncurredCostsActivityState>(
-          buildWhen: (previous, current) => previous.isValid != current.isValid,
+          buildWhen: (previous, current) =>
+              previous.isAmountValid != current.isAmountValid ||
+              previous.isNoteValid != current.isNoteValid,
           builder: (context, state) {
             return ElevatedButton(
-              onPressed: state.isValid ? _onPressed : null,
-              child: const Text(
-                label_incurred_button_save,
+              onPressed:
+                  state.isAmountValid && state.isNoteValid ? _onPressed : null,
+              child: Text(
+                state.id == null ? label_incurred_button_save : label_save,
               ),
             );
           },
@@ -32,6 +35,10 @@ class _SaveButtonState extends State<SaveButton> {
 
   Future<void> _onPressed() async {
     var cubit = context.read<IncurredCostsActivityCubit>();
-    if (await cubit.submit()) Navigator.of(context).pop();
+    if (cubit.state.id != null && await cubit.update()) {
+      Navigator.of(context).pop();
+    } else if (await cubit.create()) {
+      Navigator.of(context).pop();
+    }
   }
 }

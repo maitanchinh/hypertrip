@@ -1,7 +1,8 @@
 part of '../view.dart';
 
 class ListActivity extends StatefulWidget {
-  const ListActivity({super.key});
+  final Function onReload;
+  const ListActivity({super.key, required this.onReload});
 
   @override
   State<ListActivity> createState() => _ListActivityState();
@@ -29,56 +30,55 @@ class _ListActivityState extends State<ListActivity> {
       },
     );
   }
-}
 
-Widget _buildSlidable(BuildContext context, Activity activitiy) {
-  return Slidable(
-    // key: activities[index].data['id'],
-    //* Left side
-    startActionPane: ActionPane(
-      motion: const DrawerMotion(),
-      extentRatio: 0.25,
-      // dismissible: DismissiblePane(onDismissed: () {}),
-      children: [
-        CustomSlidableAction(
-          onPressed: null,
-          backgroundColor: AppColors.lightGreenColor,
-          foregroundColor: Colors.white,
-          child: SvgPicture.asset(
-            AppAssets.icons_circle_check_regular_1_svg,
-            width: 24,
-            height: 24,
-          ),
-        ),
-      ],
-    ),
-    //* Right side
-    endActionPane: ActionPane(
-      motion: const DrawerMotion(),
-      extentRatio: 0.25,
-      // dismissible: DismissiblePane(onDismissed: () {}),
-      children: [
-        CustomSlidableAction(
-          onPressed: null,
-          backgroundColor: AppColors.lightGreenColor,
-          foregroundColor: Colors.white,
-          child: SvgPicture.asset(
-            AppAssets.icons_circle_check_regular_1_svg,
-            width: 24,
-            height: 24,
-          ),
-        ),
-      ],
-    ),
-    child: _buildActivity(context, activitiy),
-  );
-}
+  Widget _buildSlidable(BuildContext context, Activity activitiy) {
+    return Slidable(
+      // key: activities[index].data['id'],
+      // //* Left side
+      // startActionPane: ActionPane(
+      //   motion: const DrawerMotion(),
+      //   extentRatio: 0.25,
+      //   // dismissible: DismissiblePane(onDismissed: () {}),
+      //   children: [
+      //     CustomSlidableAction(
+      //       onPressed: null,
+      //       backgroundColor: AppColors.lightGreenColor,
+      //       foregroundColor: Colors.white,
+      //       child: SvgPicture.asset(
+      //         AppAssets.icons_circle_check_regular_1_svg,
+      //         width: 24,
+      //         height: 24,
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      // //* Right side
+      // endActionPane: ActionPane(
+      //   motion: const DrawerMotion(),
+      //   extentRatio: 0.25,
+      //   // dismissible: DismissiblePane(onDismissed: () {}),
+      //   children: [
+      //     CustomSlidableAction(
+      //       onPressed: null,
+      //       backgroundColor: AppColors.lightGreenColor,
+      //       foregroundColor: Colors.white,
+      //       child: SvgPicture.asset(
+      //         AppAssets.icons_circle_check_regular_1_svg,
+      //         width: 24,
+      //         height: 24,
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      child: _buildActivity(context, activitiy),
+    );
+  }
 
-Widget _buildActivity(BuildContext context, Activity activity) {
-  var config = {
-    "height": 80.0,
-  };
-  var type = activity.type ?? "";
+  Widget _buildActivity(BuildContext context, Activity activity) {
+    var config = {
+      "height": 80.0,
+    };
+    var type = activity.type ?? "";
 
   if (ActivityType.Attendance.compareWithString(type)) {
     return _buildAttendanceActivity(
@@ -89,13 +89,13 @@ Widget _buildActivity(BuildContext context, Activity activity) {
         context, CheckInActivity.fromJson(activity.data), config);
   }
 
-  if (ActivityType.IncurredCost.compareWithString(type)) {
-    return _buildIncurredCostActivity(
-        context, IncurredCostActivityModel.fromJson(activity.data), config);
-  }
+    if (ActivityType.IncurredCost.compareWithString(type)) {
+      return _buildIncurredCostActivity(
+          context, IncurredCostActivityModel.fromJson(activity.data), config);
+    }
 
-  return const SizedBox();
-}
+    return const SizedBox();
+  }
 
 Widget _buildAttendanceActivity(
     BuildContext context, AttendanceActivityModel activity, config) {
@@ -246,20 +246,20 @@ Widget _buildCheckInActivity(
   );
 }
 
-Widget _buildTileIcon(BuildContext context, int type) {
-  return Container(
-    width: 24,
-    height: 24,
-    padding: const EdgeInsets.symmetric(horizontal: 2),
-    child: Center(
-      child: SvgPicture.asset(
-        activitiesTypeData[type].icon,
-        colorFilter:
-            ColorFilter.mode(activitiesTypeData[type].color, BlendMode.srcIn),
+  Widget _buildTileIcon(BuildContext context, int type) {
+    return Container(
+      width: 24,
+      height: 24,
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Center(
+        child: SvgPicture.asset(
+          activitiesTypeData[type].icon,
+          colorFilter:
+              ColorFilter.mode(activitiesTypeData[type].color, BlendMode.srcIn),
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
 Widget _buildBadge(BuildContext context, int type) {
   return Container(
@@ -279,10 +279,10 @@ Widget _buildBadge(BuildContext context, int type) {
   );
 }
 
-Widget _buildDate(BuildContext context, DateTime? date) {
-  const height = 11;
+  Widget _buildDate(BuildContext context, DateTime? date) {
+    const height = 11;
 
-  if (date == null) return height.height;
+    if (date == null) return height.height;
 
   return SizedBox(
     // height: height.toDouble(),
@@ -294,4 +294,5 @@ Widget _buildDate(BuildContext context, DateTime? date) {
       // ),
     ),
   );
+}
 }
