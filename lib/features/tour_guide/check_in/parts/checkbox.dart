@@ -57,7 +57,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         ),
         duration: const Duration(milliseconds: 300),
         child: _isChecked
-            ? Transform.scale(scale: 0.8, child: SvgPicture.asset(AppAssets.icons_check_svg, color: white,))
+            ? Transform.scale(scale: 0.7, child: SvgPicture.asset(AppAssets.icons_check_svg, color: white,))
             : const SizedBox.shrink(),
       ),
     );
