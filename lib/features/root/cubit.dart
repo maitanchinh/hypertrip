@@ -20,4 +20,5 @@ class RootCubit extends Cubit<RootState> {
       emit(RootErrorState(e.toString()));
     }
   }
+  
 }

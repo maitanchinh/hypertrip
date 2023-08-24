@@ -86,4 +86,6 @@ void _onCreateIncurredCosts(BuildContext context) {
   Navigator.of(context).pushNamed(IncurredCostsActivity.routeName);
 }
 
-void _onCreateCheckIn(BuildContext context) {}
+void _onCreateCheckIn(BuildContext context) {
+  showAppModalBottomSheet(context: context, builder: (context) =>  BlocProvider(create: (context) =>  CheckInActivityCubit(), child: const CheckInActivityScreen(),));
+}

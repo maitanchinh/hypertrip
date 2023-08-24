@@ -9,11 +9,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/activity/activity.dart';
 import 'package:hypertrip/domain/models/activity/attendance_activity.dart';
-import 'package:hypertrip/domain/models/activity/check_in_activity.dart';
-import 'package:hypertrip/domain/models/activity/custom_activity.dart';
 import 'package:hypertrip/domain/models/activity/incurred_cost_activity.dart';
 import 'package:hypertrip/extensions/datetime.dart';
 import 'package:hypertrip/extensions/enum.dart';
+import 'package:hypertrip/features/public/current_tour/cubit.dart';
+import 'package:hypertrip/features/public/current_tour/state.dart';
 import 'package:hypertrip/features/root/cubit.dart';
 import 'package:hypertrip/features/root/root_guard.dart';
 import 'package:hypertrip/features/root/state.dart';
@@ -30,8 +30,13 @@ import 'package:hypertrip/widgets/modals/show_bottom_sheet.dart';
 import 'package:hypertrip/widgets/popup/p_error_popup.dart';
 import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
+import 'package:hypertrip/widgets/text/p_small_text.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../domain/models/activity/check_in_activity.dart';
+import '../../../widgets/text/p_text.dart';
+import '../check_in/cubit.dart';
+import '../check_in/view.dart';
 import 'common/activity_data.dart';
 import 'common/config.dart';
 
@@ -77,68 +82,82 @@ class _ActivityPageState extends State<ActivityPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bgLightColor,
-      appBar: const MainAppBar(
-        title: 'Activity',
-        implyLeading: false,
-      ),
-      bottomNavigationBar: _buildCreateNew(context),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            16.height,
-            const Search(),
-            Expanded(
-              flex: 1,
-              child: RefreshIndicator(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: RootGuard(
-                    errorWidget: const ActivityError(),
-                    child: BlocConsumer<ActivityCubit, ActivityState>(
-                      listener: (context, state) {
-                        if (state is ActivityErrorState) {
-                          showErrorPopup(context, content: state.message);
-                          return;
-                        }
-                      },
-                      builder: (context, state) {
-                        // Loading
-                        if (state is ActivityLoadingState) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-
-                        // Error
-                        if (state is ActivityErrorState) {
-                          return const ActivityEmpty();
-                        }
-
-                        // Success
-                        if (state is ActivitySuccessState) {
-                          return Column(
-                            children: [
-                              const DayPicker(),
-                              16.height,
-                              const Expanded(
-                                child: ListActivity(),
-                              ),
-                            ],
-                          );
-                        }
-
-                        return const ActivityEmpty();
-                      },
+    return BlocProvider(
+      create: (context) => CurrentTourCubit(),
+      child: BlocBuilder<CurrentTourCubit, CurrentTourState>(
+        builder: (context, state) {
+          if (state is LoadCurrentTourSuccessState) {
+            
+          return Scaffold(
+            backgroundColor: AppColors.bgLightColor,
+            appBar: const MainAppBar(
+              title: 'Activity',
+              implyLeading: false,
+            ),
+            bottomNavigationBar: _buildCreateNew(context),
+            body: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  16.height,
+                  const Search(),
+                  Expanded(
+                    flex: 1,
+                    child: RefreshIndicator(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: RootGuard(
+                          errorWidget: const ActivityError(),
+                          child: BlocConsumer<ActivityCubit, ActivityState>(
+                            listener: (context, state) {
+                              if (state is ActivityErrorState) {
+                                showErrorPopup(context, content: state.message);
+                                return;
+                              }
+                            },
+                            builder: (context, state) {
+                              // Loading
+                              if (state is ActivityLoadingState) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+    
+                              // Error
+                              if (state is ActivityErrorState) {
+                                return const ActivityEmpty();
+                              }
+    
+                              // Success
+                              if (state is ActivitySuccessState) {
+                                return Column(
+                                  children: [
+                                    const DayPicker(),
+                                    16.height,
+                                    const Expanded(
+                                      child: ListActivity(),
+                                    ),
+                                  ],
+                                );
+                              }
+    
+                              return const ActivityEmpty();
+                            },
+                          ),
+                        ),
+                      ),
+                      onRefresh: () async => await fetchData(),
                     ),
                   ),
-                ),
-                onRefresh: () async => await fetchData(),
+                ],
               ),
             ),
-          ],
-        ),
+          );
+          }
+          if (state is LoadCurrentTourNotFoundState) {
+            return Image.asset(AppAssets.not_found_png);
+          }
+          return const SizedBox.shrink();
+        }
       ),
     );
   }

@@ -84,10 +84,10 @@ Widget _buildActivity(BuildContext context, Activity activity) {
     return _buildAttendanceActivity(
         context, AttendanceActivityModel.fromJson(activity.data), config);
   }
-  // if (ActivityType.CheckIn.compareWithString(type)) {
-  //   return _buildCheckInActivity(
-  //       context, CheckInActivity.fromJson(activity.data), config);
-  // }
+  if (ActivityType.CheckIn.compareWithString(type)) {
+    return _buildCheckInActivity(
+        context, CheckInActivity.fromJson(activity.data), config);
+  }
 
   if (ActivityType.IncurredCost.compareWithString(type)) {
     return _buildIncurredCostActivity(
@@ -114,15 +114,16 @@ Widget _buildAttendanceActivity(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            PText(
               activity.title ?? "",
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: AppColors.textColor,
-                    fontWeight: FontWeight.w600,
-                  ),
+              // style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              //       color: AppColors.textColor,
+              //       fontWeight: FontWeight.w600,
+              //     ),
             ),
+            Gap.k4.height,
             _buildDate(context, activity.createdAt),
-            8.height,
+            Gap.k4.height,
             // Text(
             //   activity.createdAt.readableDateTimeValue,
             //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -163,13 +164,14 @@ Widget _buildIncurredCostActivity(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              PText(
                 activity.note ?? "",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: AppColors.textColor,
-                      fontWeight: FontWeight.w600,
-                    ),
+                // style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                //       color: AppColors.textColor,
+                //       fontWeight: FontWeight.w600,
+                //     ),
               ),
+              Gap.k4.height,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -178,7 +180,7 @@ Widget _buildIncurredCostActivity(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _buildDate(context, activity.createdAt),
-                      8.height,
+                      Gap.k4.height,
                       _buildBadge(context, 3)
                     ],
                   ),
@@ -200,6 +202,48 @@ Widget _buildIncurredCostActivity(
       builder: (context) => AttendanceActivity(attendanceId: activity.id),
     );
   });
+}
+
+Widget _buildCheckInActivity(
+    BuildContext context, CheckInActivity activity, config) {
+  return Container(
+    color: Colors.white,
+    width: double.infinity,
+    height: config['height'],
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: _buildTileIcon(context, 2),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            PText(
+              activity.title ?? "",
+              // style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              //       color: AppColors.textColor,
+              //       fontWeight: FontWeight.w600,
+              //     ),
+            ),
+            Gap.k4.height,
+
+            _buildDate(context, activity.createdAt),
+            Gap.k4.height,
+            // Text(
+            //   activity.createdAt.readableDateTimeValue,
+            //   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            //         color: AppColors.textColor,
+            //       ),
+            // )
+            _buildBadge(context, 2)
+          ],
+        ),
+      ],
+    ),
+  );
 }
 
 Widget _buildTileIcon(BuildContext context, int type) {
@@ -224,13 +268,13 @@ Widget _buildBadge(BuildContext context, int type) {
       color: activitiesTypeData[type].color,
       borderRadius: BorderRadius.circular(8),
     ),
-    child: Text(
-      activitiesTypeData[type].label.toLowerCase(),
-      style: const TextStyle(
-        fontSize: 8,
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
+    child: PSmallText(
+      activitiesTypeData[type].label.toLowerCase(), size: 8, color: white,
+      // style: const TextStyle(
+      //   fontSize: 8,
+      //   color: Colors.white,
+      //   fontWeight: FontWeight.bold,
+      // ),
     ),
   );
 }
@@ -241,13 +285,13 @@ Widget _buildDate(BuildContext context, DateTime? date) {
   if (date == null) return height.height;
 
   return SizedBox(
-    height: height.toDouble(),
-    child: Text(
+    // height: height.toDouble(),
+    child: PSmallText(
       date.readableDateTimeValue,
-      style: const TextStyle(
-        color: AppColors.textGreyColor,
-        fontSize: 10,
-      ),
+      // style: const TextStyle(
+      //   color: AppColors.textGreyColor,
+      //   fontSize: 10,
+      // ),
     ),
   );
 }
