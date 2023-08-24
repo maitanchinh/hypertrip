@@ -69,12 +69,21 @@ Future<void> _initialApp() async {
 
 Future<String> _fetchProfileAndReturnInitialRoute() async {
   final UserRepo userRepo = getIt.get<UserRepo>();
-  var initialRoute = RootPage.routeName;
 
+
+  String initialRoute = '';
   try {
-    await userRepo.getProfile();
-  } catch (e) {
-    initialRoute = LoginByEmailPage.routeName;
+    var token = getStringAsync(AppConstant.TOKEN_KEY);
+    print("_fetchProfileAndReturnInitialRoute $token");
+    if (token.isNotEmpty) {
+      await userRepo.getProfile();
+      initialRoute = RootPage.routeName;
+    }
+    else{
+      initialRoute = LoginByEmailPage.routeName;
+    }
+  } catch (ex) {
+    debugPrint("ex ${ex.toString()}");
   }
 
   return initialRoute;
