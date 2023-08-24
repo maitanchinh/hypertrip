@@ -44,7 +44,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   FutureOr<void> _itemNotificationClick(
       ItemNotificationClick event, Emitter<NotificationState> emit) async {
     String page = '';
-    var argument;
+    WarningArgument? argument;
     switch (event.item.type) {
       case FirebaseMessageType.AttendanceActivity:
         //page = ;
@@ -54,8 +54,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         // argument =
         break;
       case FirebaseMessageType.WeatherAlert:
-        // page = WarningIncidentPage.routeName;
-        // argument = WarningArgument(locationTour, tripId)
+        page = WarningIncidentPage.routeName;
+        argument = WarningArgument([], event.item.tripId);
         break;
     }
 
@@ -70,7 +70,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       emit(state.copyWith(
           notifications: notificationsClone,
           status: PageState.success,
-          pageCommand: PageCommandNavigatorPage(page: page, argument: '')));
+          pageCommand: PageCommandNavigatorPage(page: page, argument: argument)));
 
       // Read the notification
       final result = await _notificationRepo.readNotification(event.item.id);

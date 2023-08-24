@@ -13,6 +13,7 @@ class LoginByPhoneCubit extends Cubit<LoginByPhoneState> {
     try {
       emit(LoginByPhoneLoadingState());
       await _userRepo.login(username: phone, password: password);
+      await _userRepo.getProfile();
       emit(LoginByPhoneSuccessState());
     } on Exception catch (e) {
       emit(LoginByPhoneFailedState(message: e.toString()));
