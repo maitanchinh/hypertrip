@@ -196,11 +196,9 @@ Widget _buildIncurredCostActivity(
       ],
     ),
   ).onTap(() {
-    showAppModalBottomSheet(
-      expand: true,
-      context: context,
-      builder: (context) => AttendanceActivity(attendanceId: activity.id),
-    );
+    Navigator.pushNamed(context, IncurredCostsActivity.routeName,
+              arguments: activity.id)
+          .then((_) => widget.onReload());
   });
 }
 
