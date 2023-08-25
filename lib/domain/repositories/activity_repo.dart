@@ -5,7 +5,6 @@ import 'package:hypertrip/domain/models/activity/activity.dart';
 import 'package:hypertrip/domain/models/attachment/upload_attachment_response.dart';
 import 'package:hypertrip/domain/repositories/attachment_repo.dart';
 import 'package:hypertrip/exceptions/request_exception.dart';
-import 'package:hypertrip/utils/currency_formatter.dart';
 import 'package:hypertrip/utils/get_it.dart';
 import 'package:hypertrip/utils/message.dart';
 
@@ -123,7 +122,7 @@ class ActivityRepo {
         'incurredCostActivity': {
           'tourGroupId': tourGroupId,
           'cost': amount,
-          'currency': CurrencyName.vi,
+          'currency': 'đ',
           // ignore: dead_code
           'imageId': uploadedImage?.id,
           'title': '',
