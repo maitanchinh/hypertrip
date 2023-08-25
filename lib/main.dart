@@ -55,7 +55,7 @@ Future<void> _initialApp() async {
   await initialize();
 
   /// Initial get_it lib
-  initialGetIt();
+  await initialGetIt();
 
   /// Fetch Profile
   var initialRoute = await _fetchProfileAndReturnInitialRoute();

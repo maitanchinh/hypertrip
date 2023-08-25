@@ -11,7 +11,7 @@ import 'package:hypertrip/managers/firebase_messaging_manager.dart';
 
 final getIt = GetIt.instance;
 
-void registerManager() async {
+Future<void> registerManager() async {
   await Firebase.initializeApp(
     options: Platform.isIOS
         ? DefaultFirebaseOptions.ios
