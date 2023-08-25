@@ -25,25 +25,34 @@ class _LocationTrackingState extends State<LocationTracking> {
       timestamp: null);
   final List<LatLng> _polylineCoordinate = [];
   final Set<Marker> _markers = {};
-  int _currentLocationIndex = -1;
+  int _currentLocationIndex = 0;
   MapsRoutes route = MapsRoutes();
   DistanceCalculator distanceCalculator = DistanceCalculator();
   // String googleApiKey = 'AIzaSyCrnkFUjP4YhaT9OPfRyP_3trttqauSHlY';
   String googleApiKey = '';
   Key _childKey = UniqueKey();
   late Slot currentPlaceOnSchedule = widget.slots.first;
-    
+  late Slot targetPlace;
+  late List<Slot> placeList = widget.slots.where((element) => element.latitude != null && element.longitude != null).toList();
+      
   @override
   void initState() {
     // _latlng = _getCurrentLocation();
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
     _position = (cubit.state as LoadCurrentLocationSuccessState).location;
+    targetPlace = currentPlaceOnSchedule;
     _currentPlaceOnSchedule();
     setCustomMarkerIcon();
     getPolypoints();
     getDirection();
     super.initState();
   }
+
+  // void _updatePlaceOnSchedule(){
+  //   setState(() {
+  //     currentPlaceOnSchedule = 
+  //   });
+  // }
 
   void _currentPlaceOnSchedule(){
     final currentTourCubit = BlocProvider.of<CurrentTourCubit>(context);
@@ -69,12 +78,13 @@ class _LocationTrackingState extends State<LocationTracking> {
           List<Slot> tourSubList = widget.slots
               .toList()
               .sublist(1, widget.slots.toList().length - 1);
-              _currentLocationIndex = tourSubList.indexWhere((element) => element.id == nearestSlot.id) + 1;
+              // _currentLocationIndex = tourSubList.indexWhere((element) => element.id == nearestSlot.id) + 1;
         }
       } else {
         currentPlaceOnSchedule = desiredSlot;
       }
     }
+    placeList.add(currentPlaceOnSchedule);
   }
 
   void _resetChildState() {
@@ -84,11 +94,13 @@ class _LocationTrackingState extends State<LocationTracking> {
   }
 
   void _moveToNextLocation() {
-    // _resetChildState();
+    _resetChildState();
     setState(() {
       if (_currentLocationIndex < widget.slots.length - 1) {
         _currentLocationIndex++;
+        targetPlace = placeList[_currentLocationIndex];
         _moveCamera();
+
       }
     });
   }
@@ -97,6 +109,7 @@ class _LocationTrackingState extends State<LocationTracking> {
     setState(() {
       if (_currentLocationIndex > 0) {
         _currentLocationIndex--;
+        targetPlace = placeList[_currentLocationIndex];
         _moveCamera();
       }
     });
@@ -128,7 +141,11 @@ class _LocationTrackingState extends State<LocationTracking> {
   }
 
   void _moveCameraToCurrentSchedule() {
+    print(currentPlaceOnSchedule.description);
     getPolypoints();
+    setState(() {
+      _currentLocationIndex = placeList.indexWhere((element) => element.id == currentPlaceOnSchedule.id);
+    });
     // _resetChildState();
     _mapController.animateCamera(
       CameraUpdate.newLatLngZoom(
@@ -282,21 +299,19 @@ class _LocationTrackingState extends State<LocationTracking> {
     //       } else {
     //         final latlng = snapshot.data!;
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
-    final currentTourCubit = BlocProvider.of<CurrentTourCubit>(context);
     // final nearbyPlaceSuggestionCubit = BlocProvider.of<NearbyPlaceSuggestionCubit>(context);
     int indexOfSchedule = _currentLocationIndex < 0
         ? _currentLocationIndex + 1
         : _currentLocationIndex;
     Slot schedule = widget.slots[indexOfSchedule];
     return _buildePage(
-        cubit, currentTourCubit, context, schedule, _currentLocationIndex);
+        cubit, context, schedule, _currentLocationIndex);
     //   }
     // });
   }
 
   Scaffold _buildePage(
       CurrentLocationCubit cubit,
-      CurrentTourCubit currentTourCubit,
       BuildContext context,
       Slot schedule,
       int index) {
@@ -319,7 +334,9 @@ class _LocationTrackingState extends State<LocationTracking> {
               backgroundColor: AppColors.secondaryColor),
           children: [
             FloatingActionButton.small(
-              onPressed: _moveToNextLocation,
+              onPressed: (){
+                _moveToNextLocation();
+              },
               backgroundColor: AppColors.primaryColor,
               child: SvgPicture.asset(
                 AppAssets.icons_angle_right_svg,
@@ -368,8 +385,8 @@ class _LocationTrackingState extends State<LocationTracking> {
             child: GoogleMap(
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
-                    target: LatLng(currentPlaceOnSchedule.latitude!,
-                        currentPlaceOnSchedule.longitude!),
+                    target: LatLng(targetPlace.latitude!,
+                        targetPlace.longitude!),
                     zoom: 12.0),
                 polylines:
                     // route.routes,
@@ -423,21 +440,21 @@ class _LocationTrackingState extends State<LocationTracking> {
                               child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (currentPlaceOnSchedule.imageUrl != null)
+                              if (targetPlace.imageUrl != null)
                                 ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: FadeInImage.assetNetwork(
                                         placeholder: AppAssets.placeholder_png,
                                         image:
-                                            currentPlaceOnSchedule.imageUrl!)),
-                              if (currentPlaceOnSchedule.imageUrl != null)
+                                            targetPlace.imageUrl!)),
+                              if (targetPlace.imageUrl != null)
                                 Gap.k16.height
                               else
                                 const SizedBox.shrink(),
-                              PText(currentPlaceOnSchedule.title),
+                              PText(targetPlace.title),
                               Gap.k16.height,
                               PSmallText(
-                                currentPlaceOnSchedule.description,
+                                targetPlace.description,
                                 color: AppColors.greyColor,
                               ),
                               Gap.k16.height,
@@ -458,11 +475,11 @@ class _LocationTrackingState extends State<LocationTracking> {
                                             color: AppColors.greyColor),
                                         Gap.k4.width,
                                         PSmallText(
-                                          currentPlaceOnSchedule.dayNo
+                                          targetPlace.dayNo
                                               .toString(),
                                           color: AppColors.greyColor,
                                         ),
-                                        currentPlaceOnSchedule.vehicle != null
+                                        targetPlace.vehicle != null
                                             ? Row(
                                                 children: [
                                                   Gap.k8.width,
@@ -477,7 +494,7 @@ class _LocationTrackingState extends State<LocationTracking> {
                                                                 .greyColor),
                                                   ),
                                                   Gap.k8.width,
-                                                  currentPlaceOnSchedule
+                                                  targetPlace
                                                               .vehicle ==
                                                           'Airplane'
                                                       ? SvgPicture.asset(
@@ -487,7 +504,7 @@ class _LocationTrackingState extends State<LocationTracking> {
                                                           color: AppColors
                                                               .greyColor,
                                                         )
-                                                      : currentPlaceOnSchedule
+                                                      : targetPlace
                                                                   .vehicle ==
                                                               'Motorbike'
                                                           ? SvgPicture.asset(
@@ -497,7 +514,7 @@ class _LocationTrackingState extends State<LocationTracking> {
                                                               color: AppColors
                                                                   .greyColor,
                                                             )
-                                                          : currentPlaceOnSchedule
+                                                          : targetPlace
                                                                       .vehicle ==
                                                                   'Car'
                                                               ? SvgPicture
@@ -508,7 +525,7 @@ class _LocationTrackingState extends State<LocationTracking> {
                                                                   color: AppColors
                                                                       .greyColor,
                                                                 )
-                                                              : currentPlaceOnSchedule
+                                                              : targetPlace
                                                                           .vehicle ==
                                                                       'Bus'
                                                                   ? SvgPicture
@@ -520,7 +537,7 @@ class _LocationTrackingState extends State<LocationTracking> {
                                                                       color: AppColors
                                                                           .greyColor,
                                                                     )
-                                                                  : currentPlaceOnSchedule
+                                                                  : targetPlace
                                                                               .vehicle ==
                                                                           'Boat'
                                                                       ? SvgPicture
@@ -544,7 +561,7 @@ class _LocationTrackingState extends State<LocationTracking> {
                                                   Gap.k8.width,
                                                   PSmallText(
                                                     'Come by ' +
-                                                        currentPlaceOnSchedule
+                                                        targetPlace
                                                             .vehicle
                                                             .toString(),
                                                     color: AppColors.greyColor,
@@ -558,15 +575,15 @@ class _LocationTrackingState extends State<LocationTracking> {
                                 ],
                               ),
                               Gap.kSection.height,
-                              PText('Nearby Suggestion'),
+                              const PText('Nearby Suggestion'),
                               Gap.k16.height,
                               NearbyPlaceSuggestion(
                                 key: _childKey,
                                 query: '',
                                 location: Position(
                                     longitude:
-                                        currentPlaceOnSchedule.longitude!,
-                                    latitude: currentPlaceOnSchedule.latitude!,
+                                        targetPlace.longitude!,
+                                    latitude: targetPlace.latitude!,
                                     timestamp: null,
                                     accuracy: 0,
                                     altitude: 0,

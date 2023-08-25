@@ -65,6 +65,7 @@ class _CheckInActivityScreenState extends State<CheckInActivityScreen> {
               );
             }
             if (state is LoadCurrentTourSuccessState) {
+              print(state.group.currentScheduleId);
               Map<int, List<Slot>> groupedSchedules = {};
               for (var schedule in state.schedule) {
                 if (!groupedSchedules.containsKey(schedule.dayNo)) {
@@ -131,7 +132,7 @@ class _CheckInActivityScreenState extends State<CheckInActivityScreen> {
                                     color: AppColors.textColor,
                                   ),
                                   subtitle: PSmallText(schedule.description),
-                                  trailing: schedule.sequence! >
+                                  trailing: state.group.currentScheduleId != null ? schedule.sequence! >
                                           state.schedule
                                               .firstWhere((element) =>
                                                   element.id ==
@@ -185,6 +186,38 @@ class _CheckInActivityScreenState extends State<CheckInActivityScreen> {
                                                 AppAssets.icons_check_svg,
                                                 color: white,
                                               )),
+                                        ) : CustomCheckbox(
+                                          value: isSelected,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              // Update selected state for the current checkbox
+                                              selectedCheckboxes[dayNo]![
+                                                  scheduleIndex] = newValue!;
+    
+                                              // Update selected state for checkboxes after the current checkbox
+                                              if (isSelected) {
+                                                for (int i = scheduleIndex + 1;
+                                                    i < daySchedules.length;
+                                                    i++) {
+                                                  selectedCheckboxes[dayNo]![i] =
+                                                      false;
+                                                }
+                                              } else {
+                                                for (int i = 0;
+                                                    i < scheduleIndex;
+                                                    i++) {
+                                                  selectedCheckboxes[dayNo]![i] =
+                                                      newValue;
+                                                }
+                                              }
+    
+                                              if (newValue) {
+                                                checkInScheduleId = schedule.id!;
+                                                checkInScheduleTitle =
+                                                    schedule.title!;
+                                              }
+                                            });
+                                          },
                                         ),
                                 ).paddingLeft(8);
                               },
