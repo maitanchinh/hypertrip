@@ -1,7 +1,6 @@
 part of '../view.dart';
 
-AppBar _buildAppBar(BuildContext context) {
-  final cubit = BlocProvider.of<CurrentTourCubit>(context);
+AppBar _buildAppBar(CurrentTourState state,BuildContext context) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
@@ -24,12 +23,12 @@ AppBar _buildAppBar(BuildContext context) {
           List<LocationTour> locationTour = [];
           String tripId = '';
           // if (cubit.state is LoadCurrentTourSuccessState) {
-          locationTour = (cubit.state)
+          locationTour = (state)
               .schedule
               .map((e) => LocationTour(lat: e.latitude ?? 0.0, lng: e.longitude ?? 0.0))
               .toList();
 
-          tripId = (cubit.state).group.trip?.id ?? '';
+          tripId = (state).group.trip?.id ?? '';
           // }
           if (locationTour.isEmpty) return;
           // Remove LocationTour objects with lat and lng equal to 0.0
@@ -44,7 +43,7 @@ AppBar _buildAppBar(BuildContext context) {
         icon: Resource.iconsInfo,
         onPressed: () {
           Navigator.pushNamed(context, TourDetailPage.routeName,
-              arguments: {'tourId': (cubit.state).group.trip?.tour?.id});
+              arguments: {'tourId': (state).group.trip?.tour?.id});
         },
       ),
       Gap.k16.width,

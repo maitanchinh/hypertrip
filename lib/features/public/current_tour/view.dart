@@ -84,19 +84,19 @@ class CurrentTourPage extends StatelessWidget {
     final cubit = BlocProvider.of<CurrentTourCubit>(context);
     return BlocProvider(
       create: (context) => CurrentTourCubit()..refresh(),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: _buildAppBar(context),
-        backgroundColor: AppColors.bgLightColor,
-        body: BlocConsumer<CurrentTourCubit, CurrentTourState>(
-          listener: (context, state) {
-            // if (cubit.state is LoadCurrentTourFailedState) {
-            //   var errorMsg = (cubit.state as LoadCurrentTourFailedState).message;
-            //   showErrorPopup(context, content: errorMsg);
-            // }
-          },
-          builder: (context, state) {
-            return LoadableWidget(
+      child: BlocConsumer<CurrentTourCubit, CurrentTourState>(
+        listener: (context, state) {
+          // if (cubit.state is LoadCurrentTourFailedState) {
+          //   var errorMsg = (cubit.state as LoadCurrentTourFailedState).message;
+          //   showErrorPopup(context, content: errorMsg);
+          // }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: _buildAppBar(state, context),
+            backgroundColor: AppColors.bgLightColor,
+            body: LoadableWidget(
               status: state.status,
               errorText: state.message,
               failureOnPress: () {},
@@ -145,9 +145,9 @@ class CurrentTourPage extends StatelessWidget {
                   ],
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
