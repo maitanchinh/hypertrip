@@ -87,14 +87,6 @@ class _ActivityPageState extends State<ActivityPage> {
       create: (context) => CurrentTourCubit(),
       child: BlocBuilder<CurrentTourCubit, CurrentTourState>(
         builder: (context, state) {
-          if (state is LoadingCurrentTourState) {
-            return Center(child: CircularProgressIndicator(),);
-          }
-          if (state is LoadCurrentTourNotFoundState) {
-            return Center(child: Image.asset(AppAssets.tour_not_found_png));
-          }
-          if (state is LoadCurrentTourSuccessState) {
-            
           return Scaffold(
             backgroundColor: AppColors.bgLightColor,
             appBar: const MainAppBar(
@@ -128,12 +120,12 @@ class _ActivityPageState extends State<ActivityPage> {
                                 return const Center(
                                     child: CircularProgressIndicator());
                               }
-    
+
                               // Error
                               if (state is ActivityErrorState) {
                                 return const ActivityEmpty();
                               }
-    
+
                               // Success
                               if (state is ActivitySuccessState) {
                                 return Column(
@@ -146,7 +138,7 @@ class _ActivityPageState extends State<ActivityPage> {
                                   ],
                                 );
                               }
-    
+
                               return const ActivityEmpty();
                             },
                           ),
@@ -159,7 +151,6 @@ class _ActivityPageState extends State<ActivityPage> {
               ),
             ),
           );
-          } return const SizedBox.shrink();
         }
       ),
     );
