@@ -31,6 +31,11 @@ import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../domain/models/activity/check_in_activity.dart';
+import '../../../widgets/text/p_small_text.dart';
+import '../../../widgets/text/p_text.dart';
+import '../check_in/cubit.dart';
+import '../check_in/view.dart';
 import 'common/activity_data.dart';
 import 'common/config.dart';
 

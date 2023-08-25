@@ -10,7 +10,6 @@ import 'package:hypertrip/features/root/cubit.dart';
 import 'package:hypertrip/features/root/state.dart';
 import 'package:hypertrip/features/tour_guide/activity/cubit.dart';
 import 'package:hypertrip/features/tour_guide/incurred_costs_activity/state.dart';
-import 'package:hypertrip/utils/currency_formatter.dart';
 import 'package:hypertrip/utils/get_it.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/popup/p_error_popup.dart';
@@ -76,7 +75,7 @@ class IncurredCostsActivityCubit extends Cubit<IncurredCostsActivityState> {
           "createdAt": state.dateTime.toIso8601String(),
           "note": state.note,
           "imageId": uploadedImage?.id,
-          'currency': CurrencyName.vi,
+          'currency': 'đ',
         }
       });
 

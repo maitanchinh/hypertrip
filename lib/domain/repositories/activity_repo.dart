@@ -5,7 +5,6 @@ import 'package:hypertrip/domain/models/activity/activity.dart';
 import 'package:hypertrip/domain/models/attachment/upload_attachment_response.dart';
 import 'package:hypertrip/domain/repositories/attachment_repo.dart';
 import 'package:hypertrip/exceptions/request_exception.dart';
-import 'package:hypertrip/utils/currency_formatter.dart';
 import 'package:hypertrip/utils/get_it.dart';
 import 'package:hypertrip/utils/message.dart';
 
@@ -123,7 +122,7 @@ class ActivityRepo {
         'incurredCostActivity': {
           'tourGroupId': tourGroupId,
           'cost': amount,
-          'currency': CurrencyName.vi,
+          'currency': 'đ',
           // ignore: dead_code
           'imageId': uploadedImage?.id,
           'title': '',
@@ -143,5 +142,46 @@ class ActivityRepo {
     }
   }
 
+  //#endregion
+
+  //#region CheckInActivity
+  Future<dynamic> setCurrentSchedule(
+      String tourGroupId, String scheduleId) async {
+    try {
+      final response = await apiClient.put(
+          '/tour-groups/$tourGroupId/current-schedule',
+          data: {"scheduleId": "$scheduleId"});
+      return response;
+    } on DioException catch (e) {
+      print('e ${e}');
+    }
+  }
+
+  Future<String> createNewCheckIn({
+    required String tourGroupId,
+    required String title,
+    required int dayNo,
+    String note = '',
+  }) async {
+    try {
+      var res = await apiClient.post('/activities', data: {
+        'type': ActivityType.CheckIn.name,
+        'checkInActivity': {
+          'tourGroupId': tourGroupId,
+          'title': title,
+          'note': note,
+          'dayNo': dayNo,
+        }
+      });
+
+      return res.data.toString();
+    } on DioException catch (e) {
+      if (e.response != null && e.response!.statusCode == 404) {
+        throw RequestException(msg_tour_group_not_found);
+      }
+      debugPrint(e.toString());
+      throw RequestException(msg_server_error);
+    }
+  }
   //#endregion
 }

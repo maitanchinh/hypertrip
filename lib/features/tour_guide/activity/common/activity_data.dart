@@ -33,7 +33,7 @@ final List<ActivityTypeData> activitiesTypeData = [
   ActivityTypeData(
     type: ActivityType.CheckIn,
     label: "Check-In",
-    icon: AppAssets.icons_circle_check_svg,
+    icon: AppAssets.icons_plane_arrival_svg,
     color: AppColors.purpleColor,
   ),
   ActivityTypeData(

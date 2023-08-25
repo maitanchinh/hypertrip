@@ -70,15 +70,10 @@ class _LocationTrackingState extends State<LocationTracking> {
               .toList()
               .sublist(1, widget.slots.toList().length - 1);
               _currentLocationIndex = tourSubList.indexWhere((element) => element.id == nearestSlot.id) + 1;
-          print('Nearest point : ${currentPlaceOnSchedule.sequence}');
-        } else {
-          print('No previous point with valid longitude and latitude found');
         }
       } else {
         currentPlaceOnSchedule = desiredSlot;
       }
-    } else {
-      print('Slot with ID $currentScheduleId not found');
     }
   }
 
