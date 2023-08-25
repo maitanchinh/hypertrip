@@ -7,6 +7,7 @@ import 'package:hypertrip/domain/models/notification/firebase_message.dart';
 import 'package:hypertrip/domain/repositories/notification_repo.dart';
 import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
 import 'package:hypertrip/features/public/page.dart';
+import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/page_command.dart';
 import 'package:hypertrip/utils/page_states.dart';
