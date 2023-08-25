@@ -36,20 +36,6 @@ class GroupRepo {
       var res = await apiClient.get("/tour-groups/$groupId/members");
       var rs = (res.data as List).map((e) => Member.fromJson(e)).toList();
       return rs;
-      // var clone =
-      //     rs.first.copyWith(firstName: 'asdasd asd asd asd as dasd asd ');
-      // return [
-      //   clone,
-      //   clone,
-      //   ...rs,
-      //   clone,
-      //   ...rs,
-      //   clone,
-      //   ...rs,
-      //   ...rs,
-      //   clone,
-      //   ...rs
-      // ];
     } on DioException catch (_) {
       return [];
     }
