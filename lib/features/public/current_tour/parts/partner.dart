@@ -1,7 +1,7 @@
 part of '../view.dart';
 
 class Partner extends StatelessWidget {
-  final LoadCurrentTourSuccessState state;
+  final CurrentTourState state;
 
   const Partner({super.key, required this.state});
 
@@ -36,6 +36,7 @@ class Partner extends StatelessWidget {
         PSmallText(
           '${member.firstName} ${member.lastName}',
           color: AppColors.textColor,
+          textAlign: TextAlign.center,
         ),
       ],
     );

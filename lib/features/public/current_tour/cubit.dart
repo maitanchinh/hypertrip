@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:hypertrip/domain/models/group/group.dart';
 import 'package:hypertrip/domain/models/incidents/weather_alerts.dart';
 import 'package:hypertrip/domain/models/incidents/weather_current.dart';
 import 'package:hypertrip/domain/models/incidents/weather_forecast.dart';
@@ -17,6 +18,7 @@ import 'package:hypertrip/managers/firebase_messaging_manager.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/get_it.dart';
 import 'package:hypertrip/utils/message.dart';
+import 'package:hypertrip/utils/page_states.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import 'state.dart';
@@ -29,7 +31,18 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
   final FirebaseMessagingManager _firebaseMessagingManager = getIt<FirebaseMessagingManager>();
   final WarningIncidentRepository _warningIncidentRepository = getIt<WarningIncidentRepository>();
 
-  CurrentTourCubit() : super(LoadingCurrentTourState()) {
+  CurrentTourCubit()
+      : super(
+          CurrentTourState(
+            group: Group(),
+            members: const [],
+            schedule: const [],
+          ),
+        ) {
+
+  }
+
+  void init(){
     getCurrentTour();
     _registerFCMToken();
     _countNotification();
@@ -39,102 +52,98 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
     try {
       var group = await _groupRepo.getCurrentGroup();
       if (group == null) {
-        emit(LoadCurrentTourNotFoundState());
+        emit(state.copyWith(status: PageState.failure));
         return;
       }
 
       var members = await _groupRepo.getMembers(group.id);
       var schedule = await _tourRepo.getSchedule(group.trip?.tourId);
 
-      emit(LoadCurrentTourSuccessState(group: group, members: members, schedule: schedule));
+      emit(state.copyWith(group: group, members: members, schedule: schedule,status: PageState.success));
 
       _fetchAllLocationTour();
     } on Exception catch (_) {
-      emit(LoadCurrentTourFailedState(message: msg_server_error));
+      emit(state.copyWith(status: PageState.failure, message: msg_server_error));
     }
   }
 
-
   int _previousIndex = 0;
+
   FutureOr<void> _fetchAllLocationTour() {
-    if (state is LoadCurrentTourSuccessState) {
-      final loadCurrentTourSuccessState = state as LoadCurrentTourSuccessState;
-      final Map<int, WeatherResponse> dataWeatherTour = {};
+    final loadCurrentTourSuccessState = state;
+    final Map<int, WeatherResponse> dataWeatherTour = {};
 
-      loadCurrentTourSuccessState.schedule.sort((a, b) => a.dayNo!.compareTo(b.dayNo!));
+    loadCurrentTourSuccessState.schedule.sort((a, b) => a.dayNo!.compareTo(b.dayNo!));
 
-      List<LocationTour> locationTour = loadCurrentTourSuccessState.schedule
-          .map((e) => LocationTour(lat: e.latitude ?? 0.0, lng: e.longitude ?? 0.0))
-          .toList();
+    List<LocationTour> locationTour = loadCurrentTourSuccessState.schedule
+        .map((e) => LocationTour(lat: e.latitude ?? 0.0, lng: e.longitude ?? 0.0))
+        .toList();
 
-      if (locationTour.isNotEmpty) {
-        // Remove LocationTour objects with lat and lng equal to 0.0
-        locationTour.removeWhere((tour) => tour.lat == 0.0 && tour.lng == 0.0);
-        for (int i = 0; i < locationTour.length; i++) {
-          dataWeatherTour[i] = WeatherResponse(
-            location: WeatherLocation(),
-            alerts: WeatherAlerts(),
-            current: WeatherCurrent(),
-            forecast: WeatherForecast(),
-          );
-        }
-
-        emit(loadCurrentTourSuccessState.copyWith(
-            dataWeatherTour: dataWeatherTour, locationTour: locationTour));
-
-        // Find index weather
-        // If lat,lng = 0 return index = 0
-
-        final currentScheduleId = loadCurrentTourSuccessState.group.currentScheduleId;
-        final schedule = loadCurrentTourSuccessState.schedule
-            .firstWhereOrNull((element) => element.id == currentScheduleId);
-
-        int index = locationTour.indexWhere((element) => element.lat == schedule?.latitude && element.lng == schedule?.longitude);
-
-        // If previous != 0 and currentIndex not found inside locationTour
-        if(index != -1) {
-          _previousIndex = index;
-          fetchDataWeather(_previousIndex);
-        }
+    if (locationTour.isNotEmpty) {
+      // Remove LocationTour objects with lat and lng equal to 0.0
+      locationTour.removeWhere((tour) => tour.lat == 0.0 && tour.lng == 0.0);
+      for (int i = 0; i < locationTour.length; i++) {
+        dataWeatherTour[i] = WeatherResponse(
+          location: WeatherLocation(),
+          alerts: WeatherAlerts(),
+          current: WeatherCurrent(),
+          forecast: WeatherForecast(),
+        );
       }
+
+      emit(loadCurrentTourSuccessState.copyWith(
+          dataWeatherTour: dataWeatherTour, locationTour: locationTour));
+
+      // Find index weather
+      // If lat,lng = 0 return index = 0
+
+      final currentScheduleId = loadCurrentTourSuccessState.group.currentScheduleId;
+      final schedule = loadCurrentTourSuccessState.schedule
+          .firstWhereOrNull((element) => element.id == currentScheduleId);
+
+      int index = locationTour.indexWhere(
+          (element) => element.lat == schedule?.latitude && element.lng == schedule?.longitude);
+
+      // If previous != 0 and currentIndex not found inside locationTour
+      if (index != -1) {
+        _previousIndex = index;
+      }
+      fetchDataWeather(_previousIndex);
     }
   }
 
   FutureOr<Map<int, WeatherResponse>> fetchDataWeather(int index) async {
     final Map<int, WeatherResponse> dataWeatherTour = {};
 
-    if (state is LoadCurrentTourSuccessState) {
-      final loadCurrentTourSuccessState = state as LoadCurrentTourSuccessState;
-      try {
-        final result = await _warningIncidentRepository.fetchDataWeather(
-          lat: loadCurrentTourSuccessState.locationTour[index].lat,
-          lng: loadCurrentTourSuccessState.locationTour[index].lng,
-        );
+    final loadCurrentTourSuccessState = state;
+    try {
+      final result = await _warningIncidentRepository.fetchDataWeather(
+        lat: loadCurrentTourSuccessState.locationTour[index].lat,
+        lng: loadCurrentTourSuccessState.locationTour[index].lng,
+      );
 
-        final updatedDataWeatherTour =
-            loadCurrentTourSuccessState.dataWeatherTour.map((key, value) {
-          if (key == index) {
-            return MapEntry(
-                key,
-                value.copyWith(
-                    forecast: result.forecast,
-                    current: result.current,
-                    alerts: result.alerts,
-                    location: result.location));
-          }
-          return MapEntry(key, value);
-        });
+      final updatedDataWeatherTour = loadCurrentTourSuccessState.dataWeatherTour.map((key, value) {
+        if (key == index) {
+          return MapEntry(
+              key,
+              value.copyWith(
+                  forecast: result.forecast,
+                  current: result.current,
+                  alerts: result.alerts,
+                  location: result.location));
+        }
+        return MapEntry(key, value);
+      });
 
-        emit(loadCurrentTourSuccessState.copyWith(dataWeatherTour: updatedDataWeatherTour));
-      } catch (e) {
-        print("ex ${e.toString()}");
-      }
+      emit(loadCurrentTourSuccessState.copyWith(dataWeatherTour: updatedDataWeatherTour));
+    } catch (e) {
+      print("ex ${e.toString()}");
     }
     return dataWeatherTour;
   }
 
   void refresh() {
-    emit(LoadingCurrentTourState());
+    emit(state.copyWith(status: PageState.loading));
     getCurrentTour();
   }
 

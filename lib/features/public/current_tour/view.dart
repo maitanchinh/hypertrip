@@ -39,6 +39,7 @@ import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_shared.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/message.dart';
+import 'package:hypertrip/widgets/app_widget.dart';
 import 'package:hypertrip/widgets/button/action_button.dart';
 import 'package:hypertrip/widgets/card/card_section.dart';
 import 'package:hypertrip/widgets/image/image.dart';
@@ -56,9 +57,13 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'cubit.dart';
 
 part 'parts/app_bar.dart';
+
 part 'parts/custom_sliver_app_bar_delegate.dart';
+
 part 'parts/partner.dart';
+
 part 'parts/schedule.dart';
+
 part 'parts/weather_schedules.dart';
 
 part 'parts/map_screen.dart';
@@ -77,83 +82,72 @@ class CurrentTourPage extends StatelessWidget {
 
   Widget _buildPage(BuildContext context) {
     final cubit = BlocProvider.of<CurrentTourCubit>(context);
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: _buildAppBar(context),
-      backgroundColor: AppColors.bgLightColor,
-      body: BlocConsumer<CurrentTourCubit, CurrentTourState>(
-        listener: (context, state) {
-          if (cubit.state is LoadCurrentTourFailedState) {
-            var errorMsg = (cubit.state as LoadCurrentTourFailedState).message;
-            showErrorPopup(context, content: errorMsg);
-          }
-        },
-        builder: (context, state) {
-          if (cubit.state is LoadingCurrentTourState) {
-            return const Center(
-              child: CircularProgressIndicator(),
+    return BlocProvider(
+      create: (context) => CurrentTourCubit()..refresh(),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: _buildAppBar(context),
+        backgroundColor: AppColors.bgLightColor,
+        body: BlocConsumer<CurrentTourCubit, CurrentTourState>(
+          listener: (context, state) {
+            // if (cubit.state is LoadCurrentTourFailedState) {
+            //   var errorMsg = (cubit.state as LoadCurrentTourFailedState).message;
+            //   showErrorPopup(context, content: errorMsg);
+            // }
+          },
+          builder: (context, state) {
+            return LoadableWidget(
+              status: state.status,
+              errorText: state.message,
+              failureOnPress: () {},
+              childNoData: Center(
+                child: Image.asset(Resource.imagesTourNotFound),
+              ),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  cubit.refresh();
+                },
+                child: CustomScrollView(
+                  slivers: [
+                    SliverPersistentHeader(
+                      delegate: CustomSliverAppBarDelegate(
+                        state: state,
+                        expandedHeight: 250,
+                      ),
+                      pinned: true,
+                    ),
+                    SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          Gap.kSection.height,
+                          Partner(state: state),
+                          Gap.k16.height,
+                          // TrackingSchedule(state: state)
+                        ],
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      // child: TrackingSchedule(state: state),
+                      child: BlocProvider<TourDetailCubit>(
+                        create: (context) => TourDetailCubit(tourId: state.group.trip!.tourId),
+                        child: Builder(builder: (context) => TrackingSchedule(state: state)),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          Gap.k16.height,
+                          WeatherSchedules(state: state),
+                          // TrackingSchedule(state: state)
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             );
-          }
-
-          if (cubit.state is LoadCurrentTourFailedState) {
-            return Center(
-              child: Image.asset(Resource.imagesTourNotFound),
-            );
-          }
-
-          if (cubit.state is LoadCurrentTourNotFoundState) {
-            return Center(
-              child: Image.asset(Resource.imagesTourNotFound),
-            );
-          }
-
-          var state = cubit.state as LoadCurrentTourSuccessState;
-
-          return RefreshIndicator(
-            onRefresh: () async {
-              cubit.refresh();
-            },
-            child: CustomScrollView(
-              slivers: [
-                SliverPersistentHeader(
-                  delegate: CustomSliverAppBarDelegate(
-                    state: state,
-                    expandedHeight: 250,
-                  ),
-                  pinned: true,
-                ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      Gap.kSection.height,
-                      Partner(state: state),
-                      Gap.k16.height,
-                      // TrackingSchedule(state: state)
-                    ],
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  // child: TrackingSchedule(state: state),
-                  child: BlocProvider<TourDetailCubit>(
-                    create: (context) =>
-                        TourDetailCubit(tourId: state.group.trip!.tourId),
-                    child: Builder(
-                        builder: (context) => TrackingSchedule(state: state)),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      Gap.k16.height,
-                      WeatherSchedules(state: state),
-                      // TrackingSchedule(state: state)
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+          },
+        ),
       ),
     );
   }

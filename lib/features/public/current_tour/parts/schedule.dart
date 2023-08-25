@@ -3,7 +3,7 @@ part of '../view.dart';
 const kTileHeight = 50.0;
 
 class TrackingSchedule extends StatefulWidget {
-  final LoadCurrentTourSuccessState state;
+  final CurrentTourState state;
 
   const TrackingSchedule({super.key, required this.state});
 
@@ -24,7 +24,8 @@ class _TrackingScheduleState extends State<TrackingSchedule> with TickerProvider
     List<MapEntry<int?, List<Slot>>> scheduleByDay0 = scheduleByDay.entries.toList();
 
     scheduleByDay0.sort((a, b) => a.key!.compareTo(b.key as num));
-    scheduleByDay0
+    if(scheduleByDay0.length > 2) {
+      scheduleByDay0
         .elementAt(2)
         .value
         .map((e) => e.sequence)
@@ -32,8 +33,16 @@ class _TrackingScheduleState extends State<TrackingSchedule> with TickerProvider
         .whereType<int>()
         .toList()
         .sort();
+    }
     var test = widget.state.schedule.map((e) => e.sequence).toSet().whereType<int>().toList();
     test.sort();
+
+    if(widget.state.group.trip == null) {
+      return const Center(
+          child: CircularProgressIndicator(),
+        );
+    }
+
     return BlocProvider(
       create: (context) => TourDetailCubit(tourId: widget.state.group.trip!.tourId),
       child: BlocBuilder<TourDetailCubit, TourDetailState>(builder: (context, state) {

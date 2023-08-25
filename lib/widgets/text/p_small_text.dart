@@ -6,6 +6,7 @@ class PSmallText extends StatelessWidget {
   final String? text;
   final double size;
   final double height;
+  final TextAlign? textAlign;
 
   const PSmallText(
     this.text, {
@@ -13,12 +14,14 @@ class PSmallText extends StatelessWidget {
     this.color = AppColors.textGreyColor,
     this.size = 14,
     this.height = 1.2,
+    this.textAlign,
   });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text ?? "",
+      textAlign: textAlign,
       style: TextStyle(
         fontFamily: 'Roboto',
         color: color,

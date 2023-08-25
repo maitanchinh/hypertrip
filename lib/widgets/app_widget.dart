@@ -6,6 +6,7 @@ class LoadableWidget extends StatelessWidget {
   final PageState status;
   final VoidCallback failureOnPress;
   final Widget child;
+  final Widget? childNoData;
   final String errorText;
   final bool loadingStack;
 
@@ -16,6 +17,7 @@ class LoadableWidget extends StatelessWidget {
     required this.failureOnPress,
     required this.errorText,
     this.loadingStack = false,
+    this.childNoData,
   }) : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class LoadableWidget extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
       case PageState.failure:
-        return NoDataWidget(content: "Error $errorText", onPressed: failureOnPress);
+        return childNoData ?? NoDataWidget(content: "Error $errorText", onPressed: failureOnPress);
       case PageState.success:
         return child;
       case PageState.loadingFull:
