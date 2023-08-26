@@ -40,8 +40,9 @@ class _LocationTrackingState extends State<LocationTracking> {
     // _latlng = _getCurrentLocation();
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
     _position = (cubit.state as LoadCurrentLocationSuccessState).location;
-    targetPlace = currentPlaceOnSchedule;
-    _currentPlaceOnSchedule();
+    targetPlace = _currentPlaceOnSchedule()!;
+    _currentLocationIndex = placeList.indexWhere((element) => element.id == targetPlace.id,);
+    // _currentPlaceOnSchedule();
     setCustomMarkerIcon();
     getPolypoints();
     getDirection();
@@ -54,7 +55,7 @@ class _LocationTrackingState extends State<LocationTracking> {
   //   });
   // }
 
-  void _currentPlaceOnSchedule(){
+  Slot? _currentPlaceOnSchedule(){
     final currentTourCubit = BlocProvider.of<CurrentTourCubit>(context);
 
     var currentScheduleId =
@@ -75,16 +76,19 @@ class _LocationTrackingState extends State<LocationTracking> {
 
         if (nearestSlot != null) {
           currentPlaceOnSchedule = nearestSlot;
-          List<Slot> tourSubList = widget.slots
-              .toList()
-              .sublist(1, widget.slots.toList().length - 1);
+          return nearestSlot;
+          // List<Slot> tourSubList = widget.slots
+          //     .toList()
+          //     .sublist(1, widget.slots.toList().length - 1);
               // _currentLocationIndex = tourSubList.indexWhere((element) => element.id == nearestSlot.id) + 1;
         }
       } else {
         currentPlaceOnSchedule = desiredSlot;
+        return desiredSlot;
       }
     }
     placeList.add(currentPlaceOnSchedule);
+    return null;
   }
 
   void _resetChildState() {
@@ -141,7 +145,6 @@ class _LocationTrackingState extends State<LocationTracking> {
   }
 
   void _moveCameraToCurrentSchedule() {
-    print(currentPlaceOnSchedule.description);
     getPolypoints();
     setState(() {
       _currentLocationIndex = placeList.indexWhere((element) => element.id == currentPlaceOnSchedule.id);
