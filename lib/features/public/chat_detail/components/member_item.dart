@@ -26,11 +26,12 @@ class MemberItem extends StatelessWidget {
         children: [
           Container(
               width: 56,
+              height: 56,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   border: Border.all(width: 2, color: AppColors.textGreyColor)),
               child: commonCachedNetworkImage(data.profilePhoto,
-                  type: 'avatar', radius: 100)),
+                  type: 'avatar', radius: 100, fit: BoxFit.cover)),
           // CircleAvatar(
           //   radius: 23,
           //   backgroundColor: Colors.white,

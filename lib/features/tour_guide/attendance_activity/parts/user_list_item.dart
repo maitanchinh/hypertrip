@@ -17,6 +17,8 @@ class UserListItem extends StatelessWidget {
         width: 50,
         height: 50,
         radius: 50,
+        type: 'avatar',
+        fit: BoxFit.cover
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(100),

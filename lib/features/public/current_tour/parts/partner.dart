@@ -26,16 +26,28 @@ class Partner extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        commonCachedNetworkImage(member.avatarUrl,
-            height: 46,
-            width: 46,
-            radius: 46,
-            fit: BoxFit.cover,
-            type: 'avatar'),
+        UserRole.Traveler.compareWithString(member.role)
+            ? commonCachedNetworkImage(member.avatarUrl,
+                height: 46,
+                width: 46,
+                radius: 46,
+                fit: BoxFit.cover,
+                type: 'avatar')
+            : Container(
+                decoration: BoxDecoration(border: Border.all(width: 2, color: AppColors.greenColor), borderRadius: BorderRadius.circular(100)),
+                child: commonCachedNetworkImage(member.avatarUrl,
+                    height: 46,
+                    width: 46,
+                    radius: 46,
+                    fit: BoxFit.cover,
+                    type: 'avatar'),
+              ),
         Gap.k8.height,
-        PSmallText(
+        PText(
           '${member.firstName} ${member.lastName}',
           color: AppColors.textColor,
+          size: 14,
+          weight: FontWeight.normal,
         ),
       ],
     );
