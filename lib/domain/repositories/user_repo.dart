@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/domain/models/user/user_profile.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/get_it.dart';
@@ -97,6 +98,18 @@ class UserRepo {
       return res.data;
     } on DioException catch (e) {
       return null;
+    }
+  }
+
+  Future<Member> getUserInfo(String userId) async {
+    try {
+      var res = await apiClient.get('/users/$userId');
+
+      Member.fromJson(res.data);
+
+      return Member.fromJson(res.data);
+    } on DioException catch (_) {
+      throw Exception(msg_server_error);
     }
   }
 

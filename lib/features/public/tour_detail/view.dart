@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/models/tour/carousel.dart';
 import 'package:hypertrip/domain/models/tour/tour_detail.dart';
@@ -19,6 +20,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:readmore/readmore.dart' as Readmore;
 import 'package:timeline_tile/timeline_tile.dart';
 
+import '../../../utils/app_assets.dart';
 import '../../../widgets/button/action_button.dart';
 import 'cubit.dart';
 

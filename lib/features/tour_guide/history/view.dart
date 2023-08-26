@@ -71,7 +71,9 @@ class _TourGuideHistoryState extends State<TourGuideHistory> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            PSmallText(state.tours[index].trip!.tour!.title, color: AppColors.textColor, size: 16,),
+                            SizedBox(
+                              width: 200,
+                              child: PText(state.tours[index].trip!.tour!.title, color: AppColors.textColor, size: 16,)),
                             Gap.k8.height,
                             Row(
                               children: [

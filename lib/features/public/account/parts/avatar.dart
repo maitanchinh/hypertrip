@@ -26,7 +26,7 @@ class AvatarProfile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                   // child: FadeInImage.assetNetwork(
                   //     placeholder: AppAssets.avatar_placeholder_png, image: url, fit: BoxFit.cover,),
-                  child: commonCachedNetworkImage(url, type: 'avatar'),
+                  child: commonCachedNetworkImage(url, type: 'avatar', fit: BoxFit.cover),
                 )),
           ),
           Positioned(

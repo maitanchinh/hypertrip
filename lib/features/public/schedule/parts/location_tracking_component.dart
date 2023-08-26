@@ -40,7 +40,7 @@ class _LocationTrackingState extends State<LocationTracking> {
     // _latlng = _getCurrentLocation();
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
     _position = (cubit.state as LoadCurrentLocationSuccessState).location;
-    targetPlace = _currentPlaceOnSchedule()!;
+    targetPlace = (_currentPlaceOnSchedule() ?? widget.slots.first);
     _currentLocationIndex = placeList.indexWhere((element) => element.id == targetPlace.id,);
     // _currentPlaceOnSchedule();
     setCustomMarkerIcon();
