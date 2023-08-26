@@ -150,7 +150,8 @@ class AccountPage extends StatelessWidget {
                     ),
                     60.height,
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        await clearSharedPref();
                         Navigator.of(context).pushNamedAndRemoveUntil(LoginByEmailPage.routeName,
                             (route) => false); // remove all previous routes
                       },

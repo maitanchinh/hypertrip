@@ -13,7 +13,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     final cubit = BlocProvider.of<CurrentTourCubit>(context);
-    slots = (cubit.state as LoadCurrentTourSuccessState)
+    slots = (cubit.state)
         .schedule
         .where((tour) => tour.latitude != null && tour.longitude != null)
         .toList()

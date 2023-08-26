@@ -16,7 +16,7 @@ import 'package:logger/logger.dart';
 
 final getIt = GetIt.instance;
 
-void initialGetIt() {
+Future<void> initialGetIt() async{
   /// base
   getIt.registerLazySingleton<Dio>(() => apiClient);
   getIt.registerLazySingleton<Dio>(() => fourSquareApiClient,
@@ -35,5 +35,5 @@ void initialGetIt() {
 
   getIt.registerLazySingleton(() => NotificationRepo());
   getIt.registerLazySingleton(() => WarningIncidentRepository());
-  registerManager();
+  await registerManager();
 }

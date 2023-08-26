@@ -1,7 +1,7 @@
 part of '../view.dart';
 
 class Partner extends StatelessWidget {
-  final LoadCurrentTourSuccessState state;
+  final CurrentTourState state;
 
   const Partner({super.key, required this.state});
 

@@ -14,6 +14,7 @@ class LoginByEmailCubit extends Cubit<LoginByEmailState> {
     try {
       emit(LoginByEmailLoadingState());
       await _userRepo.login(username: email, password: password);
+      await _userRepo.getProfile();
       emit(LoginByEmailSuccessState());
     } on Exception catch (e) {
       emit(LoginByEmailFailedState(message: e.toString()));

@@ -55,96 +55,116 @@ class _WarningIncidentPageState extends State<WarningIncidentPage> {
                 title: 'Weather Alert',
                 backgroundColor: AppColors.primaryLightColor),
             backgroundColor: AppColors.primaryLightColor,
-            body: PageView.builder(
-              controller: _pageController,
-              itemCount: state.dataWeatherTour.length,
-              onPageChanged: (value) {
-                context
-                    .read<WarningIncidentBloc>()
-                    .add(FetchDataWeather(value));
-              },
-              itemBuilder: (context, index) {
-                final weatherResponse = state.dataWeatherTour[index];
-                return LoadableWidget(
-                  failureOnPress: () {},
-                  errorText: '',
-                  status: state.pageState,
-                  loadingStack: true,
-                  child: ListView(
+            body: (state.alerts.isNotEmpty)
+                ? Container(
+                    margin: const EdgeInsets.only(top: 35, bottom: 20),
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    children: [
-                      (MediaQuery.of(context).padding.top).toInt().height,
-                      // 16.height,
-                      if (state.alerts.isNotEmpty)
-                        Container(
-                          margin: const EdgeInsets.only(top: 35, bottom: 20),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16))),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                16.height,
-                                Text(
-                                  'Disaster Forecast',
-                                  style: AppStyle.fontOpenSanSemiBold.copyWith(
-                                      color: AppColors.textColor, fontSize: 16),
-                                ),
-                                Gap.k8.height,
-                                ...state.alerts.map((e) {
-                                  return AlertItem(alert: e)
-                                      .paddingSymmetric(vertical: 10);
-                                }).toList()
-                              ]),
-                        )
-                      else
-                        const Center(child: Text("No Data")),
-                      12.height,
-                      BackgroundAvatar(weatherResponse: weatherResponse),
-                      32.height,
-                      if (weatherResponse!.forecast.forecastDay.isNotEmpty)
-                        WeatherDay(
-                          weatherForecastDay:
-                              weatherResponse.forecast.forecastDay,
-                          color: Colors.white,
-                          callback: () {
-                            Navigator.of(context).pushNamed(
-                              WeatherDetailPage.routeName,
-                              arguments: weatherResponse,
-                            );
-                          },
-                        ),
-                      // if (state.alerts.isNotEmpty)
-                      //   Container(
-                      //     margin: const EdgeInsets.only(top: 35, bottom: 20),
-                      //     padding: const EdgeInsets.symmetric(horizontal: 16),
-                      //     decoration: const BoxDecoration(
-                      //         color: Colors.white,
-                      //         borderRadius:
-                      //             BorderRadius.all(Radius.circular(16))),
-                      //     child: Column(
-                      //         crossAxisAlignment: CrossAxisAlignment.start,
-                      //         children: [
-                      //           16.height,
-                      //           Text(
-                      //             'Disaster Forecast',
-                      //             style: AppStyle.fontOpenSanSemiBold.copyWith(
-                      //                 color: AppColors.textColor, fontSize: 16),
-                      //           ),
-                      //           Gap.k8.height,
-                      //           ...state.alerts.map((e) {
-                      //             return AlertItem(alert: e)
-                      //                 .paddingSymmetric(vertical: 10);
-                      //           }).toList()
-                      //         ]),
-                      //   )
-                    ],
-                  ),
-                );
-              },
-            ),
+                    decoration: const BoxDecoration(
+                        color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16))),
+                    child: Column(mainAxisSize: MainAxisSize.min,crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      16.height,
+                      Text(
+                        'Disaster Forecast',
+                        style: AppStyle.fontOpenSanSemiBold
+                            .copyWith(color: AppColors.textColor, fontSize: 16),
+                      ),
+                      Gap.k8.height,
+                      ...state.alerts.map((e) {
+                        return AlertItem(alert: e).paddingSymmetric(vertical: 10);
+                      }).toList()
+                    ]),
+                  )
+                : const Center(child: Text("No Data")),
+            // body: PageView.builder(
+            //   controller: _pageController,
+            //   itemCount: state.dataWeatherTour.length,
+            //   onPageChanged: (value) {
+            //     context
+            //         .read<WarningIncidentBloc>()
+            //         .add(FetchDataWeather(value));
+            //   },
+            //   itemBuilder: (context, index) {
+            //     final weatherResponse = state.dataWeatherTour[index];
+            //     return LoadableWidget(
+            //       failureOnPress: () {},
+            //       errorText: '',
+            //       status: state.pageState,
+            //       loadingStack: true,
+            //       child: ListView(
+            //         padding: const EdgeInsets.symmetric(horizontal: 16),
+            //         children: [
+            //           (MediaQuery.of(context).padding.top).toInt().height,
+            //           // 16.height,
+            //           if (state.alerts.isNotEmpty)
+            //             Container(
+            //               margin: const EdgeInsets.only(top: 35, bottom: 20),
+            //               padding: const EdgeInsets.symmetric(horizontal: 16),
+            //               decoration: const BoxDecoration(
+            //                   color: Colors.white,
+            //                   borderRadius:
+            //                       BorderRadius.all(Radius.circular(16))),
+            //               child: Column(
+            //                   crossAxisAlignment: CrossAxisAlignment.start,
+            //                   children: [
+            //                     16.height,
+            //                     Text(
+            //                       'Disaster Forecast',
+            //                       style: AppStyle.fontOpenSanSemiBold.copyWith(
+            //                           color: AppColors.textColor, fontSize: 16),
+            //                     ),
+            //                     Gap.k8.height,
+            //                     ...state.alerts.map((e) {
+            //                       return AlertItem(alert: e)
+            //                           .paddingSymmetric(vertical: 10);
+            //                     }).toList()
+            //                   ]),
+            //             )
+            //           else
+            //             const Center(child: Text("No Data")),
+            //           12.height,
+            //           BackgroundAvatar(weatherResponse: weatherResponse),
+            //           32.height,
+            //           if (weatherResponse!.forecast.forecastDay.isNotEmpty)
+            //             WeatherDay(
+            //               weatherForecastDay:
+            //                   weatherResponse.forecast.forecastDay,
+            //               color: Colors.white,
+            //               callback: () {
+            //                 Navigator.of(context).pushNamed(
+            //                   WeatherDetailPage.routeName,
+            //                   arguments: weatherResponse,
+            //                 );
+            //               },
+            //             ),
+            //           // if (state.alerts.isNotEmpty)
+            //           //   Container(
+            //           //     margin: const EdgeInsets.only(top: 35, bottom: 20),
+            //           //     padding: const EdgeInsets.symmetric(horizontal: 16),
+            //           //     decoration: const BoxDecoration(
+            //           //         color: Colors.white,
+            //           //         borderRadius:
+            //           //             BorderRadius.all(Radius.circular(16))),
+            //           //     child: Column(
+            //           //         crossAxisAlignment: CrossAxisAlignment.start,
+            //           //         children: [
+            //           //           16.height,
+            //           //           Text(
+            //           //             'Disaster Forecast',
+            //           //             style: AppStyle.fontOpenSanSemiBold.copyWith(
+            //           //                 color: AppColors.textColor, fontSize: 16),
+            //           //           ),
+            //           //           Gap.k8.height,
+            //           //           ...state.alerts.map((e) {
+            //           //             return AlertItem(alert: e)
+            //           //                 .paddingSymmetric(vertical: 10);
+            //           //           }).toList()
+            //           //         ]),
+            //           //   )
+            //         ],
+            //       ),
+            //     );
+            //   },
+            // ),
           );
         },
       ),

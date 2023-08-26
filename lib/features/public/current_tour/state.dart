@@ -1,33 +1,29 @@
 import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 import 'package:hypertrip/domain/models/group/group.dart';
 import 'package:hypertrip/domain/models/incidents/weather_response.dart';
 import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/models/user/member.dart';
 import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
+import 'package:hypertrip/utils/page_states.dart';
 
-class CurrentTourState {}
-
-class LoadingCurrentTourState extends CurrentTourState {}
-
-class LoadCurrentTourFailedState extends CurrentTourState {
-  final String message;
-
-  LoadCurrentTourFailedState({required this.message});
-}
-
-class LoadCurrentTourSuccessState extends CurrentTourState {
-  List<Slot> schedule;
-  Group group;
-  List<Member> members;
+class CurrentTourState extends Equatable {
+  final List<Slot> schedule;
+  final Group group;
+  final List<Member> members;
   final Map<int, WeatherResponse> dataWeatherTour;
   final List<LocationTour> locationTour;
+  final String message;
+  final PageState status;
 
-  LoadCurrentTourSuccessState({
+  const CurrentTourState({
     required this.group,
     required this.members,
     required this.schedule,
     this.dataWeatherTour = const {},
     this.locationTour = const [],
+    this.message = '',
+    this.status = PageState.success,
   });
 
   List<int> getDays() {
@@ -42,24 +38,30 @@ class LoadCurrentTourSuccessState extends CurrentTourState {
     return schedule.groupListsBy((e) => e.dayNo);
   }
 
-  LoadCurrentTourSuccessState copyWith({
+  CurrentTourState copyWith({
     Group? group,
     List<Member>? members,
     List<Slot>? schedule,
     Map<int, WeatherResponse>? dataWeatherTour,
     List<LocationTour>? locationTour,
+    String? message,
+    PageState? status,
   }) {
-    return LoadCurrentTourSuccessState(
+    return CurrentTourState(
       group: group ?? this.group,
       members: members ?? this.members,
       schedule: schedule ?? this.schedule,
       dataWeatherTour: dataWeatherTour ?? this.dataWeatherTour,
       locationTour: locationTour ?? this.locationTour,
+      message: message ?? this.message,
+      status: status ?? this.status,
     );
   }
-}
 
-class LoadCurrentTourNotFoundState extends CurrentTourState {}
+  @override
+  List<Object> get props =>
+      [group, members, schedule, dataWeatherTour, locationTour, message, status];
+}
 
 //Current Group
 class CurrentGroupState {}

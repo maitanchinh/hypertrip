@@ -74,6 +74,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
       backgroundColor: AppColors.bgLightColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
@@ -87,6 +88,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
               color: AppColors.primaryLightColor,
               elevation: 0,
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   SvgPicture.asset(
                     AppAssets.icons_route_svg,
@@ -149,14 +151,6 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
                         height: 300,
                         width: context.width(),
                         fit: BoxFit.cover),
-                    // FadeInImage.assetNetwork(
-                    //   placeholder: AppAssets.placeholder_png,
-                    //   image:
-                    //       '${widget.place.photos![0].prefix}original${widget.place.photos![0].suffix}',
-                    //   height: 300,
-                    //   width: context.width(),
-                    //   fit: BoxFit.cover,
-                    // ),
                     Container(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(colors: [
@@ -184,7 +178,7 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
                             size: 16,
                           ),
                         ],
-                      ).expand(),
+                      ),
                     ),
                   ],
                 ),

@@ -2,7 +2,7 @@ part of '../view.dart';
 
 class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
-  final LoadCurrentTourSuccessState state;
+  final CurrentTourState state;
 
   const CustomSliverAppBarDelegate({
     required this.state,
@@ -10,8 +10,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   });
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     const size = 60;
     final top = expandedHeight - shrinkOffset - size / 2;
 
@@ -37,18 +36,20 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   Widget buildBackground(double shrinkOffset) => Opacity(
         opacity: disappear(shrinkOffset),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(0),
-              topRight: Radius.circular(0),
-              bottomLeft: Radius.circular(16),
-              bottomRight: Radius.circular(16)),
-          child: FadeInImage.assetNetwork(
-            placeholder: Resource.imagesPlaceholder,
-            image: state.group.trip?.tour!.thumbnailUrl as String,
-            fit: BoxFit.cover,
-          ),
-        ),
+        child: state.group.trip?.tour?.thumbnailUrl != null
+            ? ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(0),
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16)),
+                child: FadeInImage.assetNetwork(
+                  placeholder: Resource.imagesPlaceholder,
+                  image: state.group.trip?.tour!.thumbnailUrl as String,
+                  fit: BoxFit.cover,
+                ),
+              )
+            : const SizedBox.shrink(),
       );
 
   Widget buildFloating(BuildContext context, double shrinkOffset) => Opacity(
@@ -66,8 +67,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   backgroundColor: AppColors.yellowColor,
                 ),
                 onPressed: () {
-                  if (UserRole.Traveler.compareWithString(
-                      UserRepo.profile!.role)) {
+                  if (UserRole.Traveler.compareWithString(UserRepo.profile!.role)) {
                     Navigator.pushNamed(
                       context,
                       TravelerPage.Attendance.routeName,

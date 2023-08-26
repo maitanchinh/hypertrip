@@ -7,6 +7,7 @@ import 'package:hypertrip/domain/models/notification/firebase_message.dart';
 import 'package:hypertrip/domain/repositories/notification_repo.dart';
 import 'package:hypertrip/features/public/chat_detail/chat_detail_page.dart';
 import 'package:hypertrip/features/public/page.dart';
+import 'package:hypertrip/features/public/warning_incident/interactor/warning_incident_bloc.dart';
 import 'package:hypertrip/utils/constant.dart';
 import 'package:hypertrip/utils/page_command.dart';
 import 'package:hypertrip/utils/page_states.dart';
@@ -44,7 +45,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   FutureOr<void> _itemNotificationClick(
       ItemNotificationClick event, Emitter<NotificationState> emit) async {
     String page = '';
-    var argument;
+    WarningArgument? argument;
     switch (event.item.type) {
       case FirebaseMessageType.AttendanceActivity:
         //page = ;
@@ -54,8 +55,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
         // argument =
         break;
       case FirebaseMessageType.WeatherAlert:
-        // page = WarningIncidentPage.routeName;
-        // argument = WarningArgument(locationTour, tripId)
+        page = WarningIncidentPage.routeName;
+        argument = WarningArgument([], event.item.tripId);
         break;
     }
 
@@ -70,7 +71,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       emit(state.copyWith(
           notifications: notificationsClone,
           status: PageState.success,
-          pageCommand: PageCommandNavigatorPage(page: page, argument: '')));
+          pageCommand: PageCommandNavigatorPage(page: page, argument: argument)));
 
       // Read the notification
       final result = await _notificationRepo.readNotification(event.item.id);

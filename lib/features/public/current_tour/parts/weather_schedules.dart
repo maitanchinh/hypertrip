@@ -1,7 +1,7 @@
 part of '../view.dart';
 
 class WeatherSchedules extends StatefulWidget {
-  final LoadCurrentTourSuccessState state;
+  final CurrentTourState state;
 
   const WeatherSchedules({Key? key, required this.state}) : super(key: key);
 
