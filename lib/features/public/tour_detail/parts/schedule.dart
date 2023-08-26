@@ -48,11 +48,23 @@ class _ScheduleState extends State<Schedule> with TickerProviderStateMixin {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: scheduleByDay[e]?.length ?? 0,
                       itemBuilder: (context, index) => TimelineTile(
-                        indicatorStyle: const IndicatorStyle(
-                          width: 15,
-                          color: AppColors.primaryColor,
-                          padding: EdgeInsets.all(6),
-                        ),
+                        indicatorStyle: scheduleByDay[e]![index].latitude != null || scheduleByDay[e]![index].longitude != null ? IndicatorStyle(
+                                            indicator: SvgPicture.asset(
+                                              AppAssets.icons_location_dot_svg,
+                                              color: AppColors.primaryColor,
+                                            ),
+                                            width: 15,
+                                            padding: const EdgeInsets.all(6),
+                                          )
+                                        : IndicatorStyle(
+                                            indicator: SvgPicture.asset(
+                                              AppAssets
+                                                  .icons_person_walking_svg,
+                                              color: AppColors.primaryColor,
+                                            ),
+                                            width: 15,
+                                            padding: const EdgeInsets.all(6),
+                                          ),
                         beforeLineStyle: const LineStyle(
                             color: AppColors.primaryColor, thickness: 1),
                         isFirst: index == 0,

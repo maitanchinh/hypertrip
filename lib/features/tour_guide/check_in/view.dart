@@ -65,7 +65,6 @@ class _CheckInActivityScreenState extends State<CheckInActivityScreen> {
               );
             }
             if (state is LoadCurrentTourSuccessState) {
-              print(state.group.currentScheduleId);
               Map<int, List<Slot>> groupedSchedules = {};
               for (var schedule in state.schedule) {
                 if (!groupedSchedules.containsKey(schedule.dayNo)) {
@@ -125,101 +124,107 @@ class _CheckInActivityScreenState extends State<CheckInActivityScreen> {
                                   }
                                 }
     
-                                return ListTile(
-                                  title: PSmallText(
-                                    schedule.title ?? "",
-                                    size: 16,
-                                    color: AppColors.textColor,
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: white,
+                                    borderRadius: BorderRadius.circular(16)
                                   ),
-                                  subtitle: PSmallText(schedule.description),
-                                  trailing: state.group.currentScheduleId != null ? schedule.sequence! >
-                                          state.schedule
-                                              .firstWhere((element) =>
-                                                  element.id ==
-                                                  state.group.currentScheduleId)
-                                              .sequence!
-                                      ? CustomCheckbox(
-                                          value: isSelected,
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              // Update selected state for the current checkbox
-                                              selectedCheckboxes[dayNo]![
-                                                  scheduleIndex] = newValue!;
-    
-                                              // Update selected state for checkboxes after the current checkbox
-                                              if (isSelected) {
-                                                for (int i = scheduleIndex + 1;
-                                                    i < daySchedules.length;
-                                                    i++) {
-                                                  selectedCheckboxes[dayNo]![i] =
-                                                      false;
+                                  child: ListTile(
+                                    title: PSmallText(
+                                      schedule.title ?? "",
+                                      size: 16,
+                                      color: AppColors.textColor,
+                                    ),
+                                    subtitle: PSmallText(schedule.description),
+                                    trailing: state.group.currentScheduleId != null ? schedule.sequence! >
+                                            state.schedule
+                                                .firstWhere((element) =>
+                                                    element.id ==
+                                                    state.group.currentScheduleId)
+                                                .sequence!
+                                        ? CustomCheckbox(
+                                            value: isSelected,
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                // Update selected state for the current checkbox
+                                                selectedCheckboxes[dayNo]![
+                                                    scheduleIndex] = newValue;
+                                    
+                                                // Update selected state for checkboxes after the current checkbox
+                                                // if (isSelected) {
+                                                //   for (int i = scheduleIndex + 1;
+                                                //       i < daySchedules.length;
+                                                //       i++) {
+                                                //     selectedCheckboxes[dayNo]![i] =
+                                                //         false;
+                                                //   }
+                                                // } else {
+                                                //   for (int i = 0;
+                                                //       i < scheduleIndex;
+                                                //       i++) {
+                                                //     selectedCheckboxes[dayNo]![i] =
+                                                //         newValue;
+                                                //   }
+                                                // }
+                                    
+                                                if (newValue) {
+                                                  checkInScheduleId = schedule.id!;
+                                                  checkInScheduleTitle =
+                                                      schedule.title!;
                                                 }
-                                              } else {
-                                                for (int i = 0;
-                                                    i < scheduleIndex;
-                                                    i++) {
-                                                  selectedCheckboxes[dayNo]![i] =
-                                                      newValue;
+                                              });
+                                            },
+                                          )
+                                        : Container(
+                                            width: 30, // Adjust size as needed
+                                            height: 30, // Adjust size as needed
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.textGreyColor,
+                                              border: Border.all(
+                                                  color: AppColors.textGreyColor),
+                                            ),
+                                            child: Transform.scale(
+                                                scale: 0.7,
+                                                child: SvgPicture.asset(
+                                                  AppAssets.icons_check_svg,
+                                                  color: white,
+                                                )),
+                                          ) : CustomCheckbox(
+                                            value: isSelected,
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                // Update selected state for the current checkbox
+                                                selectedCheckboxes[dayNo]![
+                                                    scheduleIndex] = newValue;
+                                    
+                                                // Update selected state for checkboxes after the current checkbox
+                                                if (isSelected) {
+                                                  for (int i = scheduleIndex + 1;
+                                                      i < daySchedules.length;
+                                                      i++) {
+                                                    selectedCheckboxes[dayNo]![i] =
+                                                        false;
+                                                  }
+                                                } else {
+                                                  for (int i = 0;
+                                                      i < scheduleIndex;
+                                                      i++) {
+                                                    selectedCheckboxes[dayNo]![i] =
+                                                        newValue;
+                                                  }
                                                 }
-                                              }
-    
-                                              if (newValue) {
-                                                checkInScheduleId = schedule.id!;
-                                                checkInScheduleTitle =
-                                                    schedule.title!;
-                                              }
-                                            });
-                                          },
-                                        )
-                                      : Container(
-                                          width: 30, // Adjust size as needed
-                                          height: 30, // Adjust size as needed
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: AppColors.primaryColor,
-                                            border: Border.all(
-                                                color: AppColors.primaryColor),
+                                    
+                                                if (newValue) {
+                                                  checkInScheduleId = schedule.id!;
+                                                  checkInScheduleTitle =
+                                                      schedule.title!;
+                                                }
+                                              });
+                                            },
                                           ),
-                                          child: Transform.scale(
-                                              scale: 0.7,
-                                              child: SvgPicture.asset(
-                                                AppAssets.icons_check_svg,
-                                                color: white,
-                                              )),
-                                        ) : CustomCheckbox(
-                                          value: isSelected,
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              // Update selected state for the current checkbox
-                                              selectedCheckboxes[dayNo]![
-                                                  scheduleIndex] = newValue!;
-    
-                                              // Update selected state for checkboxes after the current checkbox
-                                              if (isSelected) {
-                                                for (int i = scheduleIndex + 1;
-                                                    i < daySchedules.length;
-                                                    i++) {
-                                                  selectedCheckboxes[dayNo]![i] =
-                                                      false;
-                                                }
-                                              } else {
-                                                for (int i = 0;
-                                                    i < scheduleIndex;
-                                                    i++) {
-                                                  selectedCheckboxes[dayNo]![i] =
-                                                      newValue;
-                                                }
-                                              }
-    
-                                              if (newValue) {
-                                                checkInScheduleId = schedule.id!;
-                                                checkInScheduleTitle =
-                                                    schedule.title!;
-                                              }
-                                            });
-                                          },
-                                        ),
-                                ).paddingLeft(8);
+                                  ).paddingLeft(8),
+                                );
                               },
                               separatorBuilder: (context, scheduleIndex) {
                                 return Gap.k8.height;

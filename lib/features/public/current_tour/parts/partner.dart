@@ -7,6 +7,16 @@ class Partner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var sortedList = state.members;
+    sortedList.sort((a, b) {
+      if (a.role == UserRole.TourGuide.name && b.role != UserRole.TourGuide.name) {
+        return -1; // a comes before b
+      } else if (a.role != UserRole.TourGuide.name && b.role == UserRole.TourGuide.name) {
+        return 1; // b comes before a
+      } else {
+        return 0; // maintain the original order
+      }
+    });
     return SafeSpace(
       child: CardSection(
         title: label_partner,
@@ -17,7 +27,7 @@ class Partner extends StatelessWidget {
             physics: const ClampingScrollPhysics(),
             scrollDirection: Axis.vertical,
             children:
-                state.members.map((member) => _buildMember(member)).toList()),
+                sortedList.map((member) => _buildMember(member)).toList()),
       ),
     );
   }
@@ -34,7 +44,9 @@ class Partner extends StatelessWidget {
                 fit: BoxFit.cover,
                 type: 'avatar')
             : Container(
-                decoration: BoxDecoration(border: Border.all(width: 2, color: AppColors.greenColor), borderRadius: BorderRadius.circular(100)),
+                decoration: BoxDecoration(
+                    border: Border.all(width: 3, color: AppColors.greenColor),
+                    borderRadius: BorderRadius.circular(100)),
                 child: commonCachedNetworkImage(member.avatarUrl,
                     height: 46,
                     width: 46,

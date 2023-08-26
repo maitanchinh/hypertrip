@@ -98,6 +98,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
     return BlocBuilder<CurrentTourCubit, CurrentTourState>(
         builder: (context, state) {
+          if (state is LoadingCurrentTourState) {
+            return Center(child: CircularProgressIndicator(),);
+          }
           if (state is LoadCurrentTourNotFoundState) {
             return Scaffold(
             extendBodyBehindAppBar: true,

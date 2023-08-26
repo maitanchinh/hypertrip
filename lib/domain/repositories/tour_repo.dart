@@ -27,7 +27,6 @@ class TourRepo {
 
     try {
       var res = await apiClient.get('/tours/$tourId/details');
-
       return TourDetail.fromJson(res.data);
     } on DioException catch (e) {
       if (e.response != null && e.response!.statusCode == 404) return null;

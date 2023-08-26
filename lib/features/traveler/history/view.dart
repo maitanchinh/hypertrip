@@ -31,7 +31,8 @@ class _TravelerHistoryState extends State<TravelerHistory> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => TravelerHistoryCubit(widget.travelerId),
-      child: BlocBuilder<TravelerHistoryCubit, TravelerHistoryState>(builder: (context, state) {
+      child: BlocBuilder<TravelerHistoryCubit, TravelerHistoryState>(
+          builder: (context, state) {
         if (state is LoadingTravelerHistoryState) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -68,7 +69,14 @@ class _TravelerHistoryState extends State<TravelerHistory> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            PSmallText(state.tours[index].trip!.tour!.title, color: AppColors.textColor, size: 16,),
+                            SizedBox(
+                              width: 200,
+                              child: PText(
+                                state.tours[index].trip!.tour!.title,
+                                color: AppColors.textColor,
+                                size: 16,
+                              ),
+                            ),
                             Gap.k8.height,
                             Row(
                               children: [
@@ -78,8 +86,9 @@ class _TravelerHistoryState extends State<TravelerHistory> {
                                   color: AppColors.greyColor,
                                 ),
                                 Gap.k8.width,
-                                PSmallText(color: AppColors.greyColor,
-                                    'Group ${state.tours[index].groupNo}')
+                                PSmallText(
+                                    color: AppColors.greyColor,
+                                    'Group ${state.tours[index].groupNo}'),
                               ],
                             ),
                             Gap.k8.height,
@@ -91,11 +100,9 @@ class _TravelerHistoryState extends State<TravelerHistory> {
                                   color: AppColors.greyColor,
                                 ),
                                 Gap.k8.width,
-                                PSmallText(color: AppColors.greyColor,'${DateFormat('dd-MM-yyyy').format(
-                                        DateTime.parse(state
-                                            .tours[index].trip!.startTime!))} - ${DateFormat('dd-MM-yyyy').format(
-                                        DateTime.parse(
-                                            state.tours[index].trip!.endTime!))}'),
+                                PSmallText(
+                                    color: AppColors.greyColor,
+                                    '${DateFormat('dd-MM-yyyy').format(DateTime.parse(state.tours[index].trip!.startTime!))} - ${DateFormat('dd-MM-yyyy').format(DateTime.parse(state.tours[index].trip!.endTime!))}'),
                               ],
                             ),
                             Gap.k8.height,
@@ -107,16 +114,21 @@ class _TravelerHistoryState extends State<TravelerHistory> {
                                   color: AppColors.greyColor,
                                 ),
                                 Gap.k8.width,
-                                PSmallText(color: AppColors.greyColor,state.tours[index].trip!.tour!.duration),
+                                PSmallText(
+                                    color: AppColors.greyColor,
+                                    state.tours[index].trip!.tour!.duration),
                               ],
                             ),
-                            
                           ],
                         )
                       ],
                     ),
-                  ).onTap((){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => TourDetailPage(tourId: state.tours[index].trip!.tourId)));
+                  ).onTap(() {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TourDetailPage(
+                                tourId: state.tours[index].trip!.tourId)));
                   });
                 },
                 separatorBuilder: (context, index) {

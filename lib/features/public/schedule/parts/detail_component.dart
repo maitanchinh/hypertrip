@@ -61,13 +61,17 @@ class _PlaceDetailComponentState extends State<PlaceDetailComponent> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                PSmallText(
-                                  widget.place.location!.address != null
-                                      ? '${widget.place.location!.address}'
-                                      : '',
-                                  color: AppColors.textColor,
-                                ),
-                                8.height,
+                                widget.place.location!.address != null
+                                          ? Column(
+                                  children: [
+                                    PSmallText(
+                                       '${widget.place.location!.address}'
+                                          ,
+                                      color: AppColors.textColor,
+                                    ),
+                                    8.height,
+                                  ],
+                                ) : const SizedBox.shrink(),
                                 PSmallText(
                                   widget.place.distance! > 100
                                       ? '${(widget.place.distance! / 1000).toStringAsFixed(2)} km away'

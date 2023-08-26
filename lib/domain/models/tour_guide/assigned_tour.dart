@@ -102,7 +102,7 @@ class Tour {
   String? destination;
   String? duration;
   String? description;
-  Null? guide;
+  String? guide;
   String? thumbnailUrl;
   String? createdAt;
   String? type;

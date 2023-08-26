@@ -11,7 +11,8 @@ class TrackingSchedule extends StatefulWidget {
   State<TrackingSchedule> createState() => _TrackingScheduleState();
 }
 
-class _TrackingScheduleState extends State<TrackingSchedule> with TickerProviderStateMixin {
+class _TrackingScheduleState extends State<TrackingSchedule>
+    with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -21,31 +22,38 @@ class _TrackingScheduleState extends State<TrackingSchedule> with TickerProvider
   Widget build(BuildContext context) {
     var days = widget.state.getDays();
     var scheduleByDay = widget.state.getScheduleByDay();
-    List<MapEntry<int?, List<Slot>>> scheduleByDay0 = scheduleByDay.entries.toList();
+    List<MapEntry<int?, List<Slot>>> scheduleByDay0 =
+        scheduleByDay.entries.toList();
 
     scheduleByDay0.sort((a, b) => a.key!.compareTo(b.key as num));
-    if(scheduleByDay0.length > 2) {
+    if (scheduleByDay0.length > 2) {
       scheduleByDay0
-        .elementAt(2)
-        .value
+          .elementAt(2)
+          .value
+          .map((e) => e.sequence)
+          .toSet()
+          .whereType<int>()
+          .toList()
+          .sort();
+    }
+    var test = widget.state.schedule
         .map((e) => e.sequence)
         .toSet()
         .whereType<int>()
-        .toList()
-        .sort();
-    }
-    var test = widget.state.schedule.map((e) => e.sequence).toSet().whereType<int>().toList();
+        .toList();
     test.sort();
 
-    if(widget.state.group.trip == null) {
+    if (widget.state.group.trip == null) {
       return const Center(
-          child: CircularProgressIndicator(),
-        );
+        child: CircularProgressIndicator(),
+      );
     }
 
     return BlocProvider(
-      create: (context) => TourDetailCubit(tourId: widget.state.group.trip!.tourId),
-      child: BlocBuilder<TourDetailCubit, TourDetailState>(builder: (context, state) {
+      create: (context) =>
+          TourDetailCubit(tourId: widget.state.group.trip!.tourId),
+      child: BlocBuilder<TourDetailCubit, TourDetailState>(
+          builder: (context, state) {
         if (state is LoadingTourDetailState) {
           return const SizedBox.shrink();
         }
@@ -54,13 +62,18 @@ class _TrackingScheduleState extends State<TrackingSchedule> with TickerProvider
             child: CardSection(
               child: DefaultTabController(
                 length: days.length,
-                initialIndex: state.tour.schedules!
-                        .firstWhereOrNull(
-                            (schedule) => schedule.id == widget.state.group.currentScheduleId) != null ?
-                        state.tour.schedules!
-                        .firstWhereOrNull(
-                            (schedule) => schedule.id == widget.state.group.currentScheduleId)!.dayNo! -
-                    1 : 0,
+                initialIndex: state.tour.schedules!.firstWhereOrNull(
+                            (schedule) =>
+                                schedule.id ==
+                                widget.state.group.currentScheduleId) !=
+                        null
+                    ? state.tour.schedules!
+                            .firstWhereOrNull((schedule) =>
+                                schedule.id ==
+                                widget.state.group.currentScheduleId)!
+                            .dayNo! -
+                        1
+                    : 0,
                 child: Column(
                   children: [
                     // WeatherSchedules(state: widget.state),
@@ -95,48 +108,118 @@ class _TrackingScheduleState extends State<TrackingSchedule> with TickerProvider
                                         padding: EdgeInsets.all(6),
                                       ),
                                       beforeLineStyle: const LineStyle(
-                                          color: AppColors.textGreyColor, thickness: 1),
+                                          color: AppColors.textGreyColor,
+                                          thickness: 1),
                                       isFirst: index == 0,
-                                      isLast: index == scheduleByDay[e]!.length - 1,
-                                      endChild:
-                                          buildSlotTile(Map.fromEntries(scheduleByDay0), e, index),
+                                      isLast:
+                                          index == scheduleByDay[e]!.length - 1,
+                                      endChild: buildSlotTile(
+                                          Map.fromEntries(scheduleByDay0),
+                                          e,
+                                          index),
                                     );
                                   }
-                                  var sortedSchedule = scheduleByDay[e]?.toSet().toList();
-                                  sortedSchedule!
-                                      .sort((a, b) => a.sequence!.compareTo(b.sequence as num));
+                                  var sortedSchedule =
+                                      scheduleByDay[e]?.toSet().toList();
+                                  sortedSchedule!.sort((a, b) =>
+                                      a.sequence!.compareTo(b.sequence as num));
                                   return TimelineTile(
-                                    indicatorStyle: IndicatorStyle(
-                                      width: 15,
-                                      color: state.tour.schedules!
-                                                  .firstWhereOrNull((schedule) =>
-                                                      schedule.id ==
-                                                      widget.state.group.currentScheduleId) != null ?
-                                                  (state.tour.schedules!
-                                                  .firstWhereOrNull((schedule) =>
-                                                      schedule.id ==
-                                                      widget.state.group.currentScheduleId)!.sequence! >=
-                                              sortedSchedule[index].sequence!
-                                          ? AppColors.primaryColor
-                                          : AppColors.textGreyColor) : AppColors.textGreyColor,
-                                      padding: const EdgeInsets.all(6),
-                                    ),
+                                    indicatorStyle: scheduleByDay[e]![index]
+                                                    .latitude !=
+                                                null ||
+                                            scheduleByDay[e]![index]
+                                                    .longitude !=
+                                                null
+                                        ? IndicatorStyle(
+                                            indicator: SvgPicture.asset(
+                                              AppAssets.icons_location_dot_svg,
+                                              color: state.tour.schedules!
+                                                          .firstWhereOrNull(
+                                                              (schedule) =>
+                                                                  schedule.id ==
+                                                                  widget
+                                                                      .state
+                                                                      .group
+                                                                      .currentScheduleId) !=
+                                                      null
+                                                  ? (state.tour.schedules!
+                                                              .firstWhereOrNull(
+                                                                  (schedule) =>
+                                                                      schedule
+                                                                          .id ==
+                                                                      widget
+                                                                          .state
+                                                                          .group
+                                                                          .currentScheduleId)!
+                                                              .sequence! >=
+                                                          sortedSchedule[index]
+                                                              .sequence!
+                                                      ? AppColors.primaryColor
+                                                      : AppColors.textGreyColor)
+                                                  : AppColors.textGreyColor,
+                                            ),
+                                            width: 15,
+                                            padding: const EdgeInsets.all(6),
+                                          )
+                                        : IndicatorStyle(
+                                            indicator: SvgPicture.asset(
+                                              AppAssets
+                                                  .icons_person_walking_svg,
+                                              color: state.tour.schedules!
+                                                          .firstWhereOrNull(
+                                                              (schedule) =>
+                                                                  schedule.id ==
+                                                                  widget
+                                                                      .state
+                                                                      .group
+                                                                      .currentScheduleId) !=
+                                                      null
+                                                  ? (state.tour.schedules!
+                                                              .firstWhereOrNull(
+                                                                  (schedule) =>
+                                                                      schedule
+                                                                          .id ==
+                                                                      widget
+                                                                          .state
+                                                                          .group
+                                                                          .currentScheduleId)!
+                                                              .sequence! >=
+                                                          sortedSchedule[index]
+                                                              .sequence!
+                                                      ? AppColors.primaryColor
+                                                      : AppColors.textGreyColor)
+                                                  : AppColors.textGreyColor,
+                                            ),
+                                            width: 15,
+                                            padding: const EdgeInsets.all(6),
+                                          ),
                                     beforeLineStyle: LineStyle(
                                         color: state.tour.schedules!
-                                                  .firstWhereOrNull((schedule) =>
-                                                      schedule.id ==
-                                                      widget.state.group.currentScheduleId) != null ?
-                                                  (state.tour.schedules!
-                                                  .firstWhereOrNull((schedule) =>
-                                                      schedule.id ==
-                                                      widget.state.group.currentScheduleId)!.sequence! >=
-                                              sortedSchedule[index].sequence!
-                                          ? AppColors.primaryColor
-                                          : AppColors.textGreyColor) : AppColors.textGreyColor,
+                                                    .firstWhereOrNull((schedule) =>
+                                                        schedule.id ==
+                                                        widget.state.group
+                                                            .currentScheduleId) !=
+                                                null
+                                            ? (state.tour.schedules!
+                                                        .firstWhereOrNull(
+                                                            (schedule) =>
+                                                                schedule.id ==
+                                                                widget
+                                                                    .state
+                                                                    .group
+                                                                    .currentScheduleId)!
+                                                        .sequence! >=
+                                                    sortedSchedule[index]
+                                                        .sequence!
+                                                ? AppColors.primaryColor
+                                                : AppColors.textGreyColor)
+                                            : AppColors.textGreyColor,
                                         thickness: 1),
                                     isFirst: index == 0,
-                                    isLast: index == scheduleByDay[e]!.length - 1,
-                                    endChild: buildSlotTile(scheduleByDay, e, index),
+                                    isLast:
+                                        index == scheduleByDay[e]!.length - 1,
+                                    endChild:
+                                        buildSlotTile(scheduleByDay, e, index),
                                   );
                                 },
                               );
@@ -156,7 +239,8 @@ class _TrackingScheduleState extends State<TrackingSchedule> with TickerProvider
     );
   }
 
-  Container buildSlotTile(Map<int?, List<Slot>> scheduleByDay, int e, int index) {
+  Container buildSlotTile(
+      Map<int?, List<Slot>> scheduleByDay, int e, int index) {
     var sortedSchedule = scheduleByDay[e]?.toSet().toList();
     sortedSchedule!.sort((a, b) => a.sequence!.compareTo(b.sequence as num));
     return Container(

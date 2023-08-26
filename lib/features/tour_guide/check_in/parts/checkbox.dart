@@ -53,7 +53,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: _isChecked ? AppColors.primaryColor : Colors.transparent,
-          border: Border.all(color: _isChecked ? AppColors.primaryColor : Colors.grey, width: 2),
+          border: Border.all(color: _isChecked ? AppColors.primaryColor : Colors.grey, width: 1),
         ),
         duration: const Duration(milliseconds: 300),
         child: _isChecked

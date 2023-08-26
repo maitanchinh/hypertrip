@@ -8,15 +8,13 @@ import 'package:hypertrip/domain/repositories/tour_repo.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/features/public/edit_profile/edit_profile_bloc.dart';
 import 'package:hypertrip/features/public/edit_profile/parts/contact_info.dart';
-import 'package:hypertrip/features/public/edit_profile/parts/urgent_mess.dart';
 import 'package:hypertrip/theme/color.dart';
-import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/utils/page_command.dart';
 import 'package:hypertrip/widgets/app_bar.dart';
+import 'package:hypertrip/widgets/image/image.dart';
 import 'package:hypertrip/widgets/p_text_form_field.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
-import 'package:nb_utils/nb_utils.dart';
 
 import '../../../widgets/text/p_text.dart';
 import 'parts/picker_photo_dialog.dart';
@@ -37,10 +35,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _textLastNameController = TextEditingController();
   final TextEditingController _textAddressController = TextEditingController();
   final TextEditingController _textGenderController = TextEditingController();
-  final FocusNode _firstNameFocusNode = FocusNode();
-  final FocusNode _lastNameFocusNode = FocusNode();
-  final FocusNode _addressFocusNode = FocusNode();
-  final FocusNode _genderFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -118,6 +112,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       children: [
                         state.fileNewUrl != null
                             ? CircleAvatar(
+
                                 radius: 50,
                                 backgroundImage: FileImage(state.fileNewUrl!),
                                 backgroundColor: Colors.transparent,
@@ -134,60 +129,72 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   ),
                                 ),
                               )
-                            : CachedNetworkImage(
-                                imageUrl: state.userProfile.avatarUrl ?? '',
+                            : Container(
                                 width: 100,
                                 height: 100,
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                      color: AppColors.grey2Color,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: imageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                placeholder: (context, url) => Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                      color: AppColors.grey2Color,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) => Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                      color: AppColors.grey2Color,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.error,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                decoration:
+                                    BoxDecoration(shape: BoxShape.circle),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: commonCachedNetworkImage(
+                                      state.userProfile.avatarUrl,
+                                      type: 'avatar',
+                                      fit: BoxFit.cover),
+                                )),
+                        // : CachedNetworkImage(
+                        //     imageUrl: state.userProfile.avatarUrl ?? '',
+                        //     width: 100,
+                        //     height: 100,
+                        //     imageBuilder: (context, imageProvider) =>
+                        //         Container(
+                        //       width: 100,
+                        //       height: 100,
+                        //       decoration: BoxDecoration(
+                        //         border: Border.all(
+                        //           width: 2,
+                        //           color: AppColors.grey2Color,
+                        //         ),
+                        //         shape: BoxShape.circle,
+                        //         image: DecorationImage(
+                        //           image: imageProvider,
+                        //           fit: BoxFit.cover,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     placeholder: (context, url) => Container(
+                        //       width: 100,
+                        //       height: 100,
+                        //       decoration: BoxDecoration(
+                        //         border: Border.all(
+                        //           width: 2,
+                        //           color: AppColors.grey2Color,
+                        //         ),
+                        //         shape: BoxShape.circle,
+                        //         color: Colors.white,
+                        //       ),
+                        //       child: const Center(
+                        //         child: CircularProgressIndicator(),
+                        //       ),
+                        //     ),
+                        //     errorWidget: (context, url, error) => Container(
+                        //       width: 100,
+                        //       height: 100,
+                        //       decoration: BoxDecoration(
+                        //         border: Border.all(
+                        //           width: 2,
+                        //           color: AppColors.grey2Color,
+                        //         ),
+                        //         shape: BoxShape.circle,
+                        //         color: Colors.white,
+                        //       ),
+                        //       child: const Center(
+                        //         child: Icon(
+                        //           Icons.error,
+                        //           color: Colors.red,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
                         Gap.k16.width,
                         const PText(
                           photoUpload,

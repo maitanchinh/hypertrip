@@ -58,12 +58,13 @@ class _PlacePhotoScreenState extends State<PlacePhotoScreen> {
                   return Center(
                       child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: FadeInImage.assetNetwork(
-                      fit: BoxFit.cover,
-                      placeholder: AppAssets.placeholder_png,
-                      image:
-                          '${widget.photos![index].prefix}original${widget.photos![index].suffix}',
-                    ),
+                    child: commonCachedNetworkImage('${widget.photos![index].prefix}original${widget.photos![index].suffix}', fit: BoxFit.cover)
+                    // FadeInImage.assetNetwork(
+                    //   fit: BoxFit.cover,
+                    //   placeholder: AppAssets.placeholder_png,
+                    //   image:
+                    //       '${widget.photos![index].prefix}original${widget.photos![index].suffix}',
+                    // ),
                   )).paddingSymmetric(horizontal: 16);
                 },
               ),

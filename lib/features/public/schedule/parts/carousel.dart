@@ -37,12 +37,14 @@ Widget _buildCarousel(NearbyResults place) {
             },
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: FadeInImage.assetNetwork(
-                  placeholder: AppAssets.placeholder_png,
-                  image:
-                      '${place.photos![index].prefix}100x100${place.photos![index].suffix}',
-                  fit: BoxFit.cover,
-                )),
+                child: commonCachedNetworkImage('${place.photos![index].prefix}100x100${place.photos![index].suffix}', fit: BoxFit.cover)
+                // FadeInImage.assetNetwork(
+                //   placeholder: AppAssets.placeholder_png,
+                //   image:
+                //       '${place.photos![index].prefix}100x100${place.photos![index].suffix}',
+                //   fit: BoxFit.cover,
+                // )
+                ),
           ),
 
           /// last item overlay
