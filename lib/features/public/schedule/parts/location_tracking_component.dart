@@ -39,7 +39,10 @@ class _LocationTrackingState extends State<LocationTracking> {
   void initState() {
     // _latlng = _getCurrentLocation();
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
-    _position = (cubit.state as LoadCurrentLocationSuccessState).location;
+    if(cubit.state is LoadCurrentLocationSuccessState) {
+      _position = (cubit.state as LoadCurrentLocationSuccessState).location;
+    }
+
     targetPlace = (_currentPlaceOnSchedule() ?? widget.slots.first);
     _currentLocationIndex = placeList.indexWhere((element) => element.id == targetPlace.id,);
     // _currentPlaceOnSchedule();

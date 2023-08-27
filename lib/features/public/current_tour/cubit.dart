@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hypertrip/domain/models/group/group.dart';
 import 'package:hypertrip/domain/models/incidents/weather_alerts.dart';
 import 'package:hypertrip/domain/models/incidents/weather_current.dart';
@@ -34,12 +35,13 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
 
   CurrentTourCubit()
       : super(
-    CurrentTourState(
-      group: Group(),
-      members: const [],
-      schedule: const [],
-    ),
-  ) {}
+          CurrentTourState(
+            status: PageState.success,
+            group: Group(),
+            members: const [],
+            schedule: const [],
+          ),
+        ) {}
 
   void init() {
     getCurrentTour();
@@ -105,7 +107,7 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
       }
 
       int index = locationTour.indexWhere(
-              (element) => element.lat == schedule?.latitude && element.lng == schedule?.longitude);
+          (element) => element.lat == schedule?.latitude && element.lng == schedule?.longitude);
 
       // If previous != 0 and currentIndex not found inside locationTour
       if (index != -1) {
@@ -118,7 +120,7 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
   Slot findSlotHaveLocation(CurrentTourState state) {
     int index = -1;
     final indexCurrent =
-    state.schedule.indexWhere((element) => element.id == state.group.currentScheduleId);
+        state.schedule.indexWhere((element) => element.id == state.group.currentScheduleId);
 
     int i = 1;
 
@@ -182,6 +184,16 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
   void _registerFCMToken() async {
     final user = await userRepo.getProfile();
     _firebaseMessagingManager.registerTokenFCM(user.id ?? '');
+  }
+
+  FutureOr<void> onClickEndTour(String? id) async {
+    final result = await _groupRepo.endCurrentTourGroup(id ?? '');
+    if (result) {
+      toast("End tour success");
+      emit(state.copyWith(status: PageState.failure,group: Group()));
+    } else {
+      toast("Can't end tour, please contact Support!");
+    }
   }
 }
 

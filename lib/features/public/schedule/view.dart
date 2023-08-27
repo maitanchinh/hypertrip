@@ -88,18 +88,18 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     return BlocProvider<CurrentTourCubit>(
       create: (context) => CurrentTourCubit(),
       child: BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
-        builder: (context, state) => _buildPage(context, state as LoadCurrentLocationSuccessState),
+        builder: (context, state) => _buildPage(context, state),
       ),
     );
   }
 
-  Widget _buildPage(BuildContext context, LoadCurrentLocationSuccessState locationState) {
+  Widget _buildPage(BuildContext context, dynamic locationState) {
     final cubit = BlocProvider.of<CurrentLocationCubit>(context);
 
     return BlocBuilder<CurrentTourCubit, CurrentTourState>(
         builder: (context, state) {
           if (state is LoadingCurrentTourState) {
-            return Center(child: CircularProgressIndicator(),);
+            return const Center(child: CircularProgressIndicator(),);
           }
           if (state is LoadCurrentTourNotFoundState) {
             return Scaffold(
