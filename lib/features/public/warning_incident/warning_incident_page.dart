@@ -12,8 +12,11 @@ import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/widgets/app_bar.dart';
 import 'package:hypertrip/widgets/app_widget.dart';
+import 'package:hypertrip/widgets/safe_space.dart';
 import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import '../../../widgets/text/p_text.dart';
 
 class WarningIncidentPage extends StatefulWidget {
   static const String routeName = '/warning-incident';
@@ -56,25 +59,32 @@ class _WarningIncidentPageState extends State<WarningIncidentPage> {
                 backgroundColor: AppColors.primaryLightColor),
             backgroundColor: AppColors.primaryLightColor,
             body: (state.alerts.isNotEmpty)
-                ? Container(
-                    margin: const EdgeInsets.only(top: 35, bottom: 20),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: const BoxDecoration(
-                        color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16))),
-                    child: Column(mainAxisSize: MainAxisSize.min,crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      16.height,
-                      Text(
-                        'Disaster Forecast',
-                        style: AppStyle.fontOpenSanSemiBold
-                            .copyWith(color: AppColors.textColor, fontSize: 16),
-                      ),
-                      Gap.k8.height,
-                      ...state.alerts.map((e) {
-                        return AlertItem(alert: e).paddingSymmetric(vertical: 10);
-                      }).toList()
-                    ]),
+                ? SafeSpace(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 35, bottom: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(16))),
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // 16.height,
+                            // PText(
+                            //   'Disaster Forecast',
+                            //   // style: AppStyle.fontOpenSanSemiBold
+                            //   //     .copyWith(color: AppColors.textColor, fontSize: 16),
+                            // ),
+                            // Gap.k8.height,
+                            ...state.alerts.map((e) {
+                              return AlertItem(alert: e)
+                                  .paddingSymmetric(vertical: 10);
+                            }).toList()
+                          ]),
+                    ),
                   )
-                : const Center(child: Text("No Data")),
+                : const Center(child: PText("No Data")),
             // body: PageView.builder(
             //   controller: _pageController,
             //   itemCount: state.dataWeatherTour.length,

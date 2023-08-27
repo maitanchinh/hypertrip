@@ -9,9 +9,9 @@ class Form extends StatefulWidget {
 
 class _FormState extends State<Form> {
   final TextEditingController _emailController =
-      TextEditingController(text: "guide@gmail.com");
+      TextEditingController();
   final TextEditingController _passwordController =
-      TextEditingController(text: "123123");
+      TextEditingController();
 
   @override
   void initState() {
