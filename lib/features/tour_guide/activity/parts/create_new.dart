@@ -1,6 +1,34 @@
 part of '../view.dart';
 
 Widget _buildCreateNew(BuildContext context, {required Function onReload}) {
+  void onCreateAttendance(BuildContext context) {
+    showAppModalBottomSheet(
+        context: context, builder: (context) => const AttendanceActivity());
+  }
+
+  void onCreateIncurredCosts(BuildContext context) {
+    Navigator.of(context)
+        .pushNamed(IncurredCostsActivity.routeName)
+        .then((value) => onReload());
+  }
+
+  void onCreateCheckIn(BuildContext context) {
+    showAppModalBottomSheet(
+        context: context,
+        builder: (context) => BlocProvider(
+              create: (context) => CheckInActivityCubit(),
+              child: const CheckInActivityScreen(),
+            ));
+  }
+
+  void action(BuildContext context, {required ActivityType type}) {
+    Navigator.of(context).pop();
+    if (type == ActivityType.All) return;
+    if (type == ActivityType.Attendance) return onCreateAttendance(context);
+    if (type == ActivityType.CheckIn) return onCreateCheckIn(context);
+    if (type == ActivityType.IncurredCost)
+      return onCreateIncurredCosts(context);
+  }
 
   return Row(
     children: [
@@ -30,7 +58,7 @@ Widget _buildCreateNew(BuildContext context, {required Function onReload}) {
                     title: const Text("Select new activity type"),
                     actions: items
                         .map((e) => CupertinoActionSheetAction(
-                              onPressed: () => _action(context, type: e.type),
+                              onPressed: () => action(context, type: e.type),
                               child: Text(e.label),
                             ))
                         .toList(),
@@ -68,25 +96,4 @@ Widget _buildCreateNew(BuildContext context, {required Function onReload}) {
       ),
     ],
   );
-}
-
-void _action(BuildContext context, {required ActivityType type}) {
-  Navigator.of(context).pop();
-  if (type == ActivityType.All) return;
-  if (type == ActivityType.Attendance) return _onCreateAttendance(context);
-  if (type == ActivityType.CheckIn) return _onCreateCheckIn(context);
-  if (type == ActivityType.IncurredCost) return _onCreateIncurredCosts(context);
-}
-
-void _onCreateAttendance(BuildContext context) {
-  showAppModalBottomSheet(
-      context: context, builder: (context) => const AttendanceActivity());
-}
-
-void _onCreateIncurredCosts(BuildContext context) {
-  Navigator.of(context).pushNamed(IncurredCostsActivity.routeName);
-}
-
-void _onCreateCheckIn(BuildContext context) {
-  showAppModalBottomSheet(context: context, builder: (context) =>  BlocProvider(create: (context) =>  CheckInActivityCubit(), child: const CheckInActivityScreen(),));
 }
