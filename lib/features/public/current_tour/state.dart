@@ -23,7 +23,7 @@ class CurrentTourState extends Equatable {
     this.dataWeatherTour = const {},
     this.locationTour = const [],
     this.message = '',
-    this.status = PageState.success,
+    required this.status,
   });
 
   List<int> getDays() {
@@ -47,7 +47,7 @@ class CurrentTourState extends Equatable {
     String? message,
     PageState? status,
   }) {
-    return CurrentTourState(
+    final state = CurrentTourState(
       group: group ?? this.group,
       members: members ?? this.members,
       schedule: schedule ?? this.schedule,
@@ -56,6 +56,7 @@ class CurrentTourState extends Equatable {
       message: message ?? this.message,
       status: status ?? this.status,
     );
+    return state;
   }
 
   @override

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_routes/google_maps_routes.dart';
 import 'package:hypertrip/domain/enums/user_role.dart';
@@ -38,6 +40,7 @@ import 'package:hypertrip/theme/theme.dart';
 import 'package:hypertrip/utils/app_assets.dart';
 import 'package:hypertrip/utils/app_shared.dart';
 import 'package:hypertrip/utils/constant.dart';
+import 'package:hypertrip/utils/date_time_utils.dart';
 import 'package:hypertrip/utils/message.dart';
 import 'package:hypertrip/widgets/app_widget.dart';
 import 'package:hypertrip/widgets/button/action_button.dart';
@@ -81,16 +84,10 @@ class CurrentTourPage extends StatelessWidget {
   }
 
   Widget _buildPage(BuildContext context) {
-    final cubit = BlocProvider.of<CurrentTourCubit>(context);
+    final cubit = GetIt.I.get<CurrentTourCubit>();
     return BlocProvider(
-      create: (context) => CurrentTourCubit()..refresh(),
-      child: BlocConsumer<CurrentTourCubit, CurrentTourState>(
-        listener: (context, state) {
-          // if (cubit.state is LoadCurrentTourFailedState) {
-          //   var errorMsg = (cubit.state as LoadCurrentTourFailedState).message;
-          //   showErrorPopup(context, content: errorMsg);
-          // }
-        },
+      create: (context) => cubit..refresh(),
+      child: BlocBuilder<CurrentTourCubit, CurrentTourState>(
         builder: (context, state) {
           return Scaffold(
             extendBodyBehindAppBar: true,
@@ -120,6 +117,24 @@ class CurrentTourPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Gap.kSection.height,
+                          Container(
+                            height: 45,
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            width: MediaQuery.of(context).size.width,
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(Radius.circular(8))),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                PText(
+                                    "Start Date: ${DateTimeUtils.convertDateTimeString(state.group.trip?.startTime, format: 'MM-dd')} - "),
+                                PText(
+                                    "End Date: ${DateTimeUtils.convertDateTimeString(state.group.trip?.endTime, format: 'MM-dd')}"),
+                              ],
+                            ).paddingSymmetric(horizontal: 16),
+                          ),
+                          Gap.k16.height,
                           Partner(state: state),
                           Gap.k16.height,
                           // TrackingSchedule(state: state)
@@ -146,8 +161,52 @@ class CurrentTourPage extends StatelessWidget {
                 ),
               ),
             ),
+            floatingActionButton: UserRepo.profile?.role != 'Traveler' && state.group.id != null
+                ? InkWell(
+                    onTap: () {},
+                    child: Container(
+                      width: 80,
+                      height: 56,
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: IconButton(
+                        onPressed: () => showDialogEndTour(context, cubit, state.group.id ?? ''),
+                        icon: const Column(
+                          children: [
+                            Icon(Icons.pin_end),
+                            Text("End tour"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
           );
         },
+      ),
+    );
+  }
+
+  Future<void> showDialogEndTour(BuildContext context, CurrentTourCubit cubit, String id) async {
+    await showCupertinoDialog(
+      context: context,
+      builder: (dialogContext) => CupertinoAlertDialog(
+        title: const Text('End Tour'),
+        content: const Text('Do you want to end current tour?'),
+        actions: [
+          CupertinoDialogAction(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text("No"),
+          ),
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            isDefaultAction: true,
+            onPressed: () {
+              Navigator.of(dialogContext).pop();
+              cubit.onClickEndTour(id);
+            },
+            child: const Text("Yes"),
+          )
+        ],
       ),
     );
   }
