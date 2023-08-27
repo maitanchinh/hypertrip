@@ -4,7 +4,11 @@ import 'package:hypertrip/theme/color.dart';
 import 'package:hypertrip/utils/app_style.dart';
 import 'package:hypertrip/utils/date_time_utils.dart';
 import 'package:hypertrip/widgets/app_bar.dart';
+import 'package:hypertrip/widgets/space/gap.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import '../../../widgets/text/p_small_text.dart';
+import '../../../widgets/text/p_text.dart';
 
 class AlertDetail extends StatelessWidget {
   static const String routeName = '/alert-detail';
@@ -16,7 +20,7 @@ class AlertDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryLightColor,
-      appBar: MainAppBar(
+      appBar: const MainAppBar(
           title: 'Disaster Information',
           implyLeading: true,
           backgroundColor: AppColors.primaryLightColor),
@@ -25,48 +29,59 @@ class AlertDetail extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Overview',
-                style: AppStyle.fontOpenSanBold.copyWith(color: AppColors.textColor, fontSize: 24)),
-            Text(alert.description,
-                style:
-                    AppStyle.fontOpenSanRegular.copyWith(color: AppColors.greyColor, fontSize: 16)),
-            32.height,
-            Text('Detail',
-                style: AppStyle.fontOpenSanBold.copyWith(color: AppColors.textColor, fontSize: 24)),
+            const PText(
+              'Overview',
+              size: 24,
+            ),
+            Gap.k16.height,
+            PSmallText(
+              alert.description,
+              size: 16,
+              color: AppColors.greyColor,
+            ),
+            Gap.kSection.height,
+            const PText(
+              'Detail',
+              size: 24,
+            ),
+            Gap.k16.height,
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                10.width,
+                Gap.k16.width,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _detailWidget('Area', alert.areas),
-                    10.height,
+                    Gap.k8.height,
                     _detailWidget('Urgency', alert.event),
-                    10.height,
-                    _detailWidget(
-                        'Effective', DateTimeUtils.convertDateTimeString(alert.effective)),
+                    Gap.k8.height,
+                    _detailWidget('Effective',
+                        DateTimeUtils.convertDateTimeString(alert.effective)),
                   ],
                 ),
-                (MediaQuery.of(context).size.width~/3.5).width,
+                (MediaQuery.of(context).size.width ~/ 3.5).width,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _detailWidget('Severity', alert.severity),
-                    10.height,
+                    Gap.k8.height,
                     _detailWidget('Certainty', alert.certainty),
-                    10.height,
-                    _detailWidget('Expired', DateTimeUtils.convertDateTimeString(alert.expires))
+                    Gap.k8.height,
+                    _detailWidget('Expired',
+                        DateTimeUtils.convertDateTimeString(alert.expires))
                   ],
                 )
               ],
             ),
             32.height,
-            Text('Instruction',
-                style: AppStyle.fontOpenSanBold.copyWith(color: AppColors.textColor, fontSize: 24)),
-            Text(alert.instruction,
-                style:
-                    AppStyle.fontOpenSanRegular.copyWith(color: AppColors.greyColor, fontSize: 16)),
+            const PText('Instruction', size: 24),
+            Gap.k16.height,
+            PSmallText(
+              alert.instruction,
+              size: 16,
+              color: AppColors.greyColor,
+            ),
           ],
         ),
       ),
@@ -79,10 +94,12 @@ class AlertDetail extends StatelessWidget {
       text: TextSpan(children: [
         TextSpan(
             text: '$title\n',
-            style: AppStyle.fontOpenSanSemiBold.copyWith(color: AppColors.textColor, fontSize: 16,height: 1.3)),
+            style: AppStyle.fontOpenSanSemiBold.copyWith(
+                color: AppColors.textColor, fontSize: 16, height: 1.3)),
         TextSpan(
             text: content,
-            style: AppStyle.fontOpenSanRegular.copyWith(color: AppColors.greyColor, fontSize: 16,height: 1.3))
+            style: AppStyle.fontOpenSanRegular.copyWith(
+                color: AppColors.greyColor, fontSize: 16, height: 1.3))
       ]),
     );
   }
