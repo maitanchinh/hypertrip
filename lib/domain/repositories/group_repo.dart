@@ -74,4 +74,13 @@ class GroupRepo {
       return false;
     }
   }
+
+  Future<dynamic> endCurrentTourGroup(String id) async {
+    try {
+      final response = await apiClient.put('/tour-groups/$id/end');
+      return true;
+    } catch (ex) {
+      return false;
+    }
+  }
 }

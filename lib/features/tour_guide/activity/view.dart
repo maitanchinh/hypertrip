@@ -10,7 +10,6 @@ import 'package:hypertrip/domain/enums/activity_type.dart';
 import 'package:hypertrip/domain/models/activity/activity.dart';
 import 'package:hypertrip/domain/models/activity/attendance_activity.dart';
 import 'package:hypertrip/domain/models/activity/incurred_cost_activity.dart';
-import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/extensions/datetime.dart';
 import 'package:hypertrip/extensions/enum.dart';
 import 'package:hypertrip/features/public/current_tour/cubit.dart';
@@ -86,73 +85,73 @@ class _ActivityPageState extends State<ActivityPage> {
     return BlocProvider(
       create: (context) => CurrentTourCubit(),
       child: BlocBuilder<CurrentTourCubit, CurrentTourState>(
-        builder: (context, state) {
-          return Scaffold(
-            backgroundColor: AppColors.bgLightColor,
-            appBar: const MainAppBar(
-              title: 'Activity',
-              implyLeading: false,
-            ),
-            bottomNavigationBar: _buildCreateNew(context, onReload: fetchData),
-            body: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  16.height,
-                  const Search(),
-                  Expanded(
-                    flex: 1,
-                    child: RefreshIndicator(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: RootGuard(
-                          errorWidget: const ActivityError(),
-                          child: BlocConsumer<ActivityCubit, ActivityState>(
-                            listener: (context, state) {
-                              if (state is ActivityErrorState) {
-                                showErrorPopup(context, content: state.message);
-                                return;
-                              }
-                            },
-                            builder: (context, state) {
-                              // Loading
-                              if (state is ActivityLoadingState) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
+          builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColors.bgLightColor,
+          appBar: const MainAppBar(
+            title: 'Activity',
+            implyLeading: false,
+          ),
+          bottomNavigationBar: _buildCreateNew(context, onReload: fetchData),
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                16.height,
+                const Search(),
+                Expanded(
+                  flex: 1,
+                  child: RefreshIndicator(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: RootGuard(
+                        errorWidget: const ActivityError(),
+                        child: BlocConsumer<ActivityCubit, ActivityState>(
+                          listener: (context, state) {
+                            if (state is ActivityErrorState) {
+                              showErrorPopup(context, content: state.message);
+                              return;
+                            }
+                          },
+                          builder: (context, state) {
+                            // Loading
+                            if (state is ActivityLoadingState) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
 
-                              // Error
-                              if (state is ActivityErrorState) {
-                                return const ActivityEmpty();
-                              }
-
-                              // Success
-                              if (state is ActivitySuccessState) {
-                                return Column(
-                                  children: [
-                                    const DayPicker(),
-                                    16.height,
-                                    Expanded(
-                                      child: ListActivity(onReload: fetchData),
-                                    ),
-                                  ],
-                                );
-                              }
-
+                            // Error
+                            if (state is ActivityErrorState) {
                               return const ActivityEmpty();
-                            },
-                          ),
+                            }
+
+                            // Success
+                            if (state is ActivitySuccessState) {
+                              return Column(
+                                children: [
+                                  const DayPicker(),
+                                  16.height,
+                                  Expanded(
+                                    child: ListActivity(
+                                        onReload: () => fetchData()),
+                                  ),
+                                ],
+                              );
+                            }
+
+                            return const ActivityEmpty();
+                          },
                         ),
                       ),
-                      onRefresh: () async => await fetchData(),
                     ),
+                    onRefresh: () async => await fetchData(),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        }
-      ),
+          ),
+        );
+      }),
     );
   }
 }

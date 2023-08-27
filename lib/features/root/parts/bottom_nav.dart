@@ -75,7 +75,7 @@ class _BottomNavState extends State<BottomNav> {
                 color: AppColors.primaryColor,
               ),
               label: "Chat"),
-          BottomNavigationBarItem(
+          if(UserRepo.profile?.role != 'Traveler')BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 Resource.iconsPersionWalking,
                 height: 20,

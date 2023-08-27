@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hypertrip/domain/models/group/group.dart';
 import 'package:hypertrip/domain/models/incidents/weather_alerts.dart';
 import 'package:hypertrip/domain/models/incidents/weather_current.dart';
 import 'package:hypertrip/domain/models/incidents/weather_forecast.dart';
 import 'package:hypertrip/domain/models/incidents/weather_location.dart';
 import 'package:hypertrip/domain/models/incidents/weather_response.dart';
+import 'package:hypertrip/domain/models/schedule/slot.dart';
 import 'package:hypertrip/domain/repositories/group_repo.dart';
 import 'package:hypertrip/domain/repositories/notification_repo.dart';
 import 'package:hypertrip/domain/repositories/tour_repo.dart';
@@ -34,15 +36,14 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
   CurrentTourCubit()
       : super(
           CurrentTourState(
+            status: PageState.success,
             group: Group(),
             members: const [],
             schedule: const [],
           ),
-        ) {
+        ) {}
 
-  }
-
-  void init(){
+  void init() {
     getCurrentTour();
     _registerFCMToken();
     _countNotification();
@@ -59,15 +60,14 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
       var members = await _groupRepo.getMembers(group.id);
       var schedule = await _tourRepo.getSchedule(group.trip?.tourId);
 
-      emit(state.copyWith(group: group, members: members, schedule: schedule,status: PageState.success));
+      emit(state.copyWith(
+          group: group, members: members, schedule: schedule, status: PageState.success));
 
       _fetchAllLocationTour();
     } on Exception catch (_) {
       emit(state.copyWith(status: PageState.failure, message: msg_server_error));
     }
   }
-
-  int _previousIndex = 0;
 
   FutureOr<void> _fetchAllLocationTour() {
     final loadCurrentTourSuccessState = state;
@@ -98,18 +98,46 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
       // If lat,lng = 0 return index = 0
 
       final currentScheduleId = loadCurrentTourSuccessState.group.currentScheduleId;
-      final schedule = loadCurrentTourSuccessState.schedule
+      Slot? schedule = loadCurrentTourSuccessState.schedule
           .firstWhereOrNull((element) => element.id == currentScheduleId);
+
+      int previousIndex = 0;
+      if (schedule?.latitude == null || schedule?.longitude == null) {
+        schedule = findSlotHaveLocation(loadCurrentTourSuccessState);
+      }
 
       int index = locationTour.indexWhere(
           (element) => element.lat == schedule?.latitude && element.lng == schedule?.longitude);
 
       // If previous != 0 and currentIndex not found inside locationTour
       if (index != -1) {
-        _previousIndex = index;
+        previousIndex = index;
       }
-      fetchDataWeather(_previousIndex);
+      fetchDataWeather(previousIndex);
     }
+  }
+
+  Slot findSlotHaveLocation(CurrentTourState state) {
+    int index = -1;
+    final indexCurrent =
+        state.schedule.indexWhere((element) => element.id == state.group.currentScheduleId);
+
+    int i = 1;
+
+    while (index == -1) {
+      final previousIndex = indexCurrent - i;
+      if (previousIndex < 0) {
+        index = 0;
+        break;
+      }
+      final slot = state.schedule[previousIndex];
+      if (slot.latitude != null && slot.longitude != null) {
+        index = previousIndex;
+      }
+      i++;
+    }
+
+    return state.schedule[index];
   }
 
   FutureOr<Map<int, WeatherResponse>> fetchDataWeather(int index) async {
@@ -123,15 +151,15 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
       );
 
       final updatedDataWeatherTour = loadCurrentTourSuccessState.dataWeatherTour.map((key, value) {
-        if (key == index) {
-          return MapEntry(
-              key,
-              value.copyWith(
-                  forecast: result.forecast,
-                  current: result.current,
-                  alerts: result.alerts,
-                  location: result.location));
-        }
+        // if (key == index) {
+        return MapEntry(
+            key,
+            value.copyWith(
+                forecast: result.forecast,
+                current: result.current,
+                alerts: result.alerts,
+                location: result.location));
+        // }
         return MapEntry(key, value);
       });
 
@@ -156,6 +184,16 @@ class CurrentTourCubit extends Cubit<CurrentTourState> {
   void _registerFCMToken() async {
     final user = await userRepo.getProfile();
     _firebaseMessagingManager.registerTokenFCM(user.id ?? '');
+  }
+
+  FutureOr<void> onClickEndTour(String? id) async {
+    final result = await _groupRepo.endCurrentTourGroup(id ?? '');
+    if (result) {
+      toast("End tour success");
+      emit(state.copyWith(status: PageState.failure,group: Group()));
+    } else {
+      toast("Can't end tour, please contact Support!");
+    }
   }
 }
 

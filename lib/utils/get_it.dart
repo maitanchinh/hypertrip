@@ -10,6 +10,7 @@ import 'package:hypertrip/domain/repositories/tour_repo.dart';
 import 'package:hypertrip/domain/repositories/traveler_repo.dart';
 import 'package:hypertrip/domain/repositories/user_repo.dart';
 import 'package:hypertrip/domain/repositories/warning_incident_repository.dart';
+import 'package:hypertrip/features/public/current_tour/cubit.dart';
 import 'package:hypertrip/managers/firebase_manager.dart';
 import 'package:hypertrip/utils/dio.dart';
 import 'package:logger/logger.dart';
@@ -36,4 +37,6 @@ Future<void> initialGetIt() async{
   getIt.registerLazySingleton(() => NotificationRepo());
   getIt.registerLazySingleton(() => WarningIncidentRepository());
   await registerManager();
+
+  getIt.registerFactory(() => CurrentTourCubit());
 }
