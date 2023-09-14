@@ -15,5 +15,4 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-flutter pub run assets_gen build
 ![Alt text](6F9006CA-D544-4631-95F4-AFC5CF219BEA.GIF)
